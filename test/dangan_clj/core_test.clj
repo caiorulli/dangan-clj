@@ -1,28 +1,25 @@
 (ns dangan-clj.core-test
-  (:use midje.sweet)
-  (:require [dangan-clj.core :refer :all]))
+  (:require [midje.sweet :refer [fact facts =>]]
+            [dangan-clj.core :refer [make-player
+                                     make-poi
+                                     interact]]))
 
-(defn make-class-trial []
-  {})
+(def clue-1 {:id 1})
 
-(defn make-player []
-  {:clues #{}})
+(defn make-test-poi []
+  (make-poi "a bloody knife" clue-1))
 
-(defn find-clue [player clue]
-  (assoc player :clues (conj (:clues player) clue)))
-
-
-(fact "about life. Should always be true, no matter what"
-  (+ 2 2) => 4)
-
-(facts "about class trials!"
-       (fact "this test will be erased one day."
-             (make-class-trial) => {}))
-
-(facts "about the player."
+(facts "about the player interactiom"
        (fact "player should start clueless"
-             (make-player) => {:clues #{}})
-       (fact "along the game, the player should be able to get a clue"
+             (:clues (make-player)) => #{})
+
+       (fact "player should add clues by interacting with scene"
              (let [player (make-player)
-                   clue {}]
-               (find-clue player clue) => {:clues #{clue}})))
+                   poi (make-test-poi)]
+               (interact player poi) => {:clues #{clue-1}}))
+
+       (fact "player should not be able to add same clue twice"
+             (let [player (make-player)
+                   poi (make-test-poi)
+                   player-with-clue (interact player poi)]
+               (interact player-with-clue poi) => {:clues #{clue-1}})))
