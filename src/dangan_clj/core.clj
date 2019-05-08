@@ -11,6 +11,12 @@
   (assoc player :clues
          (conj (:clues player) (:clue poi))))
 
+(defn interact-with [poi-name player scene]
+  (interact player
+            (first (clojure.set/select
+                    #(= (:name %) poi-name)
+                    (:pois scene)))))
+
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]

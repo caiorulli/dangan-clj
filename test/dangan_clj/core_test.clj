@@ -2,24 +2,25 @@
   (:require [midje.sweet :refer [fact facts =>]]
             [dangan-clj.core :refer [make-player
                                      make-poi
+                                     interact-with
                                      interact]]))
 
 (def clue-1 {:id 1})
 
-(defn make-test-poi []
-  (make-poi "a bloody knife" clue-1))
+(def knife (make-poi "knife" clue-1))
 
-(facts "about the player interactiom"
+(def test-scene
+  {:pois #{knife}})
+
+(facts "about the player interaction"
        (fact "player should start clueless"
              (:clues (make-player)) => #{})
 
-       (fact "player should add clues by interacting with scene"
-             (let [player (make-player)
-                   poi (make-test-poi)]
-               (interact player poi) => {:clues #{clue-1}}))
-
        (fact "player should not be able to add same clue twice"
              (let [player (make-player)
-                   poi (make-test-poi)
-                   player-with-clue (interact player poi)]
-               (interact player-with-clue poi) => {:clues #{clue-1}})))
+                   player-with-clue (interact player knife)]
+               (:clues (interact player-with-clue knife)) => #{clue-1}))
+
+       (fact "player should add clues by interacting with poi"
+             (let [player (make-player)]
+               (:clues (interact-with "knife" player test-scene)) => #{clue-1})))
