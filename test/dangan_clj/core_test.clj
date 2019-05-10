@@ -6,7 +6,8 @@
 
 (def clue-1 {:id 1})
 
-(def knife (make-poi "knife" clue-1))
+(def knife (make-poi "knife" clue-1
+                     "That's a scary knife"))
 
 (def test-scene
   {:pois #{knife}})
@@ -37,4 +38,7 @@
 (facts
  "about dialog mode"
  (fact "interaction should trigger dialog mode"
-       (:mode (interact-with "knife" initial-state)) => :dialog))
+       (:mode (interact-with "knife" initial-state)) => :dialog)
+
+ (fact "interaction should trigger text for interaction"
+       (:text (interact-with "knife" initial-state)) => "That's a scary knife"))

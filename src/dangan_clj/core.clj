@@ -4,8 +4,8 @@
 (defn- make-player []
   {:clues #{}})
 
-(defn make-poi [name clue]
-  {:name name :clue clue})
+(defn make-poi [name clue text]
+  {:name name :clue clue :text text})
 
 (defn make-initial-state [scene]
   {:player (make-player)
@@ -26,7 +26,8 @@
       state
       (merge state
              {:player (interact (:player state) poi)
-              :mode :dialog}))))
+              :mode :dialog
+              :text (:text poi)}))))
 
 (defn -main
   "I don't do a whole lot ... yet."
