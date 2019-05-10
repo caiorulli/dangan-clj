@@ -11,18 +11,22 @@
   {:player (make-player)
    :scene scene})
 
+(defn- find-poi [poi-name state]
+  (first (clojure.set/select
+          #(= (:name %) poi-name)
+          (:pois (:scene state)))))
+
 (defn- interact [player poi]
-  (if (nil? poi)
-    player
-    (assoc player :clues
-           (conj (:clues player) (:clue poi)))))
+  (assoc player :clues
+         (conj (:clues player) (:clue poi))))
 
 (defn interact-with [poi-name state]
-  (assoc state :player
-         (interact (:player state)
-                   (first (clojure.set/select
-                           #(= (:name %) poi-name)
-                           (:pois (:scene state)))))))
+  (let [poi (find-poi poi-name state)]
+    (if (nil? poi)
+      state
+      (merge state
+             {:player (interact (:player state) poi)
+              :mode :dialog}))))
 
 (defn -main
   "I don't do a whole lot ... yet."

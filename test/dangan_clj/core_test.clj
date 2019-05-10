@@ -35,4 +35,6 @@
        (interact-with "balloon" initial-state) => initial-state))
 
 (facts
- "about dialog mode")
+ "about dialog mode"
+ (fact "interaction should trigger dialog mode"
+       (:mode (interact-with "knife" initial-state)) => :dialog))
