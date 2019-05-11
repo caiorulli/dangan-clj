@@ -4,19 +4,20 @@
 (defn- make-player []
   {:clues #{}})
 
-(defn make-poi [name clue text]
-  {:name name :clue clue :text text})
+(defn make-poi [name clue dialog]
+  {:name name :clue clue :dialog dialog})
 
 (defn make-initial-state [scene]
   {:player (make-player)
-   :scene scene})
+   :scene scene
+   :mode :interact})
 
 (defn- find-poi [poi-name state]
   (first (clojure.set/select
           #(= (:name %) poi-name)
           (:pois (:scene state)))))
 
-(defn- interact [player poi]
+(defn- add-clue [player poi]
   (assoc player :clues
          (conj (:clues player) (:clue poi))))
 
@@ -25,9 +26,13 @@
     (if (nil? poi)
       state
       (merge state
-             {:player (interact (:player state) poi)
+             {:player (add-clue (:player state) poi)
               :mode :dialog
-              :text (:text poi)}))))
+              :text (:text (first (:dialog poi)))
+              :speaker (:speaker (first (:dialog poi)))}))))
+
+(defn advance-dialog [state]
+  (assoc state :mode :interact))
 
 (defn -main
   "I don't do a whole lot ... yet."

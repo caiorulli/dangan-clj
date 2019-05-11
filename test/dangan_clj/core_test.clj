@@ -2,17 +2,29 @@
   (:require [midje.sweet :refer [fact facts =>]]
             [dangan-clj.core :refer [make-poi
                                      interact-with
-                                     make-initial-state]]))
+                                     make-initial-state
+                                     advance-dialog]]))
 
 (def clue-1 {:id 1})
 
-(def knife (make-poi "knife" clue-1
-                     "That's a scary knife"))
+(def knife-dialog [{:speaker "Giba Marçon"
+                    :text "That's the knife I used to cut tomatoes."}])
+
+(def knife (make-poi "knife"
+                     clue-1
+                     knife-dialog))
 
 (def test-scene
   {:pois #{knife}})
 
 (def initial-state (make-initial-state test-scene))
+
+(facts
+ "about initial state"
+ (fact "should have correct initial configuration"
+       (:mode initial-state) => :interact
+       (:text initial-state) => nil
+       (:speaker initial-state) => nil))
 
 (facts
  "about the player interaction"
@@ -38,7 +50,11 @@
 (facts
  "about dialog mode"
  (fact "interaction should trigger dialog mode"
-       (:mode (interact-with "knife" initial-state)) => :dialog)
+       (let [dialog-mode-state (interact-with "knife" initial-state)]
+         (:mode dialog-mode-state) => :dialog
+         (:speaker dialog-mode-state) => "Giba Marçon"
+         (:text dialog-mode-state) => "That's the knife I used to cut tomatoes."))
 
- (fact "interaction should trigger text for interaction"
-       (:text (interact-with "knife" initial-state)) => "That's a scary knife"))
+ (fact "after dialog is complete, 'advance-dialog' command should go back to interact mode"
+       (let [dialog-mode-state (interact-with "knife" initial-state)]
+         (:mode (advance-dialog dialog-mode-state)) => :interact)))
