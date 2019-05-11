@@ -81,4 +81,6 @@
          (:speaker schredder-line-one) => "Thiago Feliciano"
          (:text    schredder-line-one) => "What's that big weird machine?"
 
-         (:mode    schredder-line-two) => :dialog)))
+         (:mode    schredder-line-two) => :dialog
+         (:speaker schredder-line-two) => "Giba Marçon"
+         (:text    schredder-line-two) => "It's a paper schredder.")))

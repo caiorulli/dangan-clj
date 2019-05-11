@@ -28,14 +28,22 @@
       (merge state
              {:player (add-clue (:player state) poi)
               :mode :dialog
+              :dialog (:dialog poi)
               :text (:text (first (:dialog poi)))
-              :speaker (:speaker (first (:dialog poi)))}))))
+              :speaker (:speaker (first (:dialog poi)))
+              :line 0}))))
 
 (defn advance-dialog [state]
-  (merge state
-         {:mode :interact
-          :speaker nil
-          :text nil}))
+  (let [next-line (inc (:line state))
+        dialog (:dialog state)]
+    (if (= next-line (count dialog))
+      (merge state
+             {:mode :interact
+              :speaker nil
+              :text nil})
+      (merge state
+             {:speaker (:speaker (dialog next-line))
+              :text    (:text    (dialog next-line))}))))
 
 (defn -main
   "I don't do a whole lot ... yet."
