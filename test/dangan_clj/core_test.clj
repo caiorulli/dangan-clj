@@ -73,7 +73,7 @@
          (:text    dialog-finished-state) => nil))
 
  (fact "'advance-dialog' command should trigger next line if dialog has more than one line"
-       (let [schredder-line-one (interact-with "schredder" initial-state)
+       (let [schredder-line-one   (interact-with "schredder" initial-state)
              schredder-line-two   (advance-dialog schredder-line-one)
              schredder-line-three (advance-dialog schredder-line-two)
              schredder-dialog-end (advance-dialog schredder-line-three)]
@@ -83,4 +83,12 @@
 
          (:mode    schredder-line-two) => :dialog
          (:speaker schredder-line-two) => "Giba Marçon"
-         (:text    schredder-line-two) => "It's a paper schredder.")))
+         (:text    schredder-line-two) => "It's a paper schredder."
+
+         (:mode    schredder-line-three) => :dialog
+         (:speaker schredder-line-three) => "Thiago Feliciano"
+         (:text    schredder-line-three) => "Why do you even have that here?"
+
+         (:mode    schredder-dialog-end) => :interact
+         (:speaker schredder-dialog-end) => nil
+         (:text    schredder-dialog-end) => nil)))

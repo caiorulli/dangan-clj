@@ -43,7 +43,8 @@
               :text nil})
       (merge state
              {:speaker (:speaker (dialog next-line))
-              :text    (:text    (dialog next-line))}))))
+              :text    (:text    (dialog next-line))
+              :line    next-line}))))
 
 (defn -main
   "I don't do a whole lot ... yet."

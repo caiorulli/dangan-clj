@@ -1,6 +1,6 @@
 # dangan-clj
 
-FIXME: description
+Investigative game framework
 
 ## Installation
 
