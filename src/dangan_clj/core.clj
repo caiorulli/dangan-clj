@@ -32,7 +32,10 @@
               :speaker (:speaker (first (:dialog poi)))}))))
 
 (defn advance-dialog [state]
-  (assoc state :mode :interact))
+  (merge state
+         {:mode :interact
+          :speaker nil
+          :text nil}))
 
 (defn -main
   "I don't do a whole lot ... yet."
