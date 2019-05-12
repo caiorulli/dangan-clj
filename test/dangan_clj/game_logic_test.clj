@@ -1,31 +1,10 @@
 (ns dangan-clj.game-logic-test
   (:require [midje.sweet :refer [fact facts =>]]
-            [dangan-clj.game-logic :refer [make-poi
-                                           interact-with
+            [dangan-clj.game-logic :refer [interact-with
                                            make-initial-state
-                                           advance-dialog]]))
-
-(def clue-1 {:id 1})
-
-(def knife
-  (make-poi "knife"
-            clue-1
-            [{:speaker "Giba Marçon"
-              :text    "That's the knife I used to cut tomatoes."}]))
-
-(def schredder
-  (make-poi "schredder"
-            clue-1
-            [{:speaker "Thiago Feliciano"
-              :text    "What's that big weird machine?"}
-             {:speaker "Giba Marçon"
-              :text    "It's a paper schredder."}
-             {:speaker "Thiago Feliciano"
-              :text    "Why do you even have that here?"}]))
-
-(def test-scene
-  {:pois #{knife
-            schredder}})
+                                           advance-dialog]]
+            [dangan-clj.game.example :refer [test-scene
+                                             clue-1]]))
 
 (def initial-state (make-initial-state test-scene))
 

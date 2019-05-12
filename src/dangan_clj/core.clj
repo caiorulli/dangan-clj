@@ -2,7 +2,8 @@
   (:require [dangan-clj.game-logic :refer [make-initial-state]]
             [dangan-clj.cli        :refer [make-prompt
                                            evaluate-command
-                                           present-state]])
+                                           present-state]]
+            [dangan-clj.game.example :refer [test-scene]])
   (:gen-class))
 
 (defn- game-loop [state]
@@ -16,6 +17,6 @@
 (defn -main
   [& args]
   (println "Hello, World!")
-  (let [state (make-initial-state {})]
+  (let [state (make-initial-state test-scene)]
     (present-state state)
     (game-loop state)))
