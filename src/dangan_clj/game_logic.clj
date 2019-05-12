@@ -1,4 +1,5 @@
-(ns dangan-clj.game-logic)
+(ns dangan-clj.game-logic
+  (:require [clojure.set :refer [select]]))
 
 (defn- make-player []
   {:clues #{}})
@@ -12,9 +13,8 @@
    :mode :interact})
 
 (defn- find-poi [poi-name state]
-  (first (clojure.set/select
-          #(= (:name %) poi-name)
-          (:pois (:scene state)))))
+  (first (select #(= (:name %) poi-name)
+                 (:pois (:scene state)))))
 
 (defn- add-clue [player poi]
   (assoc player :clues
