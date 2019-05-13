@@ -21,5 +21,8 @@
 
 (def test-scene
   {:name "Giba's House"
+   :description (str "We're in Giba's appartment for the first time. "
+                     "It seems very organized and clean. "
+                     "There is a distinctive, disturbing feel to it, though.")
    :pois #{knife
             schredder}})
