@@ -1,6 +1,7 @@
 (ns dangan-clj.cli
-  (:require [dangan-clj.game-logic :refer [interact-with
-                                           advance-dialog]]))
+  (:require [clojure.string :refer [split]]
+            [dangan-clj.game-logic :refer [interact-with
+                                              advance-dialog]]))
 
 (defn make-prompt [state]
   (if (= (:mode state) :interact)
@@ -11,10 +12,10 @@
 
 (defn evaluate-command [state command]
   (if (= (:mode state) :interact)
-    (interact-with command state)
+    (interact-with  state (last (split command #" ")))
     (advance-dialog state)))
 
-(defn present-state [state]
+(defn present-state [state command]
   (if (= (:mode state) :interact)
     (:description (:scene state))
     (str (:speaker state) ": "

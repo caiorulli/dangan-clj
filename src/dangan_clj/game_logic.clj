@@ -12,7 +12,7 @@
    :scene scene
    :mode :interact})
 
-(defn- find-poi [poi-name state]
+(defn- find-poi [state poi-name]
   (first (select #(= (:name %) poi-name)
                  (:pois (:scene state)))))
 
@@ -20,8 +20,8 @@
   (assoc player :clues
          (conj (:clues player) (:clue poi))))
 
-(defn interact-with [poi-name state]
-  (let [poi (find-poi poi-name state)]
+(defn interact-with [state poi-name]
+  (let [poi (find-poi state poi-name)]
     (if (nil? poi)
       state
       (merge state

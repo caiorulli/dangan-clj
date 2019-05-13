@@ -11,12 +11,12 @@
   (flush)
   (let [command (read-line)
         next-state (evaluate-command state command)]
-    (println (present-state next-state))
+    (println (present-state next-state command))
     (recur next-state)))
 
 (defn -main
   [& args]
   (println "Hello, World!")
   (let [state (make-initial-state test-scene)]
-    (present-state state)
+    (present-state state "")
     (game-loop state)))
