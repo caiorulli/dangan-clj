@@ -20,8 +20,7 @@
 
 (defn present-state [state command]
   (if (= (:mode state) :interact)
-    (if (= command "look")
-      (present-look state)
-      (:description (:scene state)))
+    (when (= command "look")
+      (present-look state))
     (str (:speaker state) ": "
          (:text    state))))

@@ -30,7 +30,7 @@
 (facts
  "about presenting state"
  (fact "on interactive mode, returns scene description"
-       (present-state states/initial "") => example-utils/scene-description)
+       (present-state states/initial "") => nil)
 
  (fact "on dialog mode, returns the current speaker and text"
        (present-state states/knife-dialog "interact knife")

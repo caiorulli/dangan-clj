@@ -10,8 +10,10 @@
   (print (make-prompt state))
   (flush)
   (let [command (read-line)
-        next-state (evaluate-command state command)]
-    (println (present-state next-state command))
+        next-state (evaluate-command state command)
+        command-output (present-state next-state command)]
+    (when command-output
+      (println command-output))
     (recur next-state)))
 
 (defn -main
