@@ -17,8 +17,8 @@
                  (:pois (:scene state)))))
 
 (defn- add-clue [player poi]
-  (assoc player :clues
-         (conj (:clues player) (:clue poi))))
+  (update-in player [:clues]
+         (conj (:clue poi))))
 
 (defn interact-with [state poi-name]
   (let [poi (find-poi state poi-name)]
