@@ -6,40 +6,36 @@
             [dangan-clj.cli :refer [make-prompt
                                     evaluate-command
                                     present-state]]
-            [dangan-clj.game.example :refer [test-scene]]))
-
-(def initial-state (make-initial-state test-scene))
+            [dangan-clj.game.example :refer [test-scene]]
+            [dangan-clj.game.example-utils :as example-utils]))
 
 (facts
  "about prompt generation"
  (fact "returns scene name prompt"
-       (make-prompt initial-state) => "(Giba's House) > ")
+       (make-prompt example-utils/initial-state) => "(Giba's House) > ")
 
  (fact "on dialog mode, should display three dots"
-       (let [knife-dialog-state (interact-with initial-state "knife")]
-         (make-prompt knife-dialog-state) => "...")))
+       (make-prompt example-utils/knife-dialog-state) => "..."))
 
 (facts
  "about evaluating commands"
  (fact "should yield same result from interact-with"
-       (let [knife-dialog-state (interact-with initial-state "knife")]
-         (evaluate-command initial-state "interact knife") => knife-dialog-state))
+       (evaluate-command example-utils/initial-state "interact knife") => example-utils/knife-dialog-state)
 
  (fact "on dialog mode, any command should trigger dialog advance"
-       (let [knife-dialog-state (interact-with initial-state "knife")
-             after-dialog-state (advance-dialog knife-dialog-state)]
-         (evaluate-command knife-dialog-state "") => after-dialog-state)))
+       (let [after-dialog-state (advance-dialog example-utils/knife-dialog-state)]
+         (evaluate-command example-utils/knife-dialog-state "") => after-dialog-state)))
 
 (facts
  "about presenting state"
  (fact "on interactive mode, returns scene description"
-       (present-state initial-state "interact knife") => (str "We're in Giba's appartment for the first time. "
-                                                              "It seems very organized and clean. "
-                                                              "There is a distinctive, disturbing feel to it, though."))
+       (present-state example-utils/initial-state "") => example-utils/scene-description)
 
  (fact "on dialog mode, returns the current speaker and text"
-       (let [knife-dialog-state (interact-with initial-state "knife")]
-         (present-state knife-dialog-state "interact knife")
-         =>
-         (str "Giba Marçon: "
-              "That's the knife I used to cut tomatoes."))))
+       (present-state example-utils/knife-dialog-state "interact knife")
+       =>
+       (str "Giba Marçon: "
+            "That's the knife I used to cut tomatoes."))
+
+ (fact "look command should output all pois of scene"
+       (present-state example-utils/initial-state "look") => "knife schredder"))
