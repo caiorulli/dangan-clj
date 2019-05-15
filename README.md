@@ -1,5 +1,11 @@
 # dangan-clj
 
+> "Once you eliminate the impossible...
+> Whatever remains must be the truth.
+> 
+> ...No matter how improbable it may seem."
+> - Prosecutor Godot
+
 Investigative game framework
 
 ## Installation
