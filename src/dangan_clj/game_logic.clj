@@ -19,7 +19,7 @@
 (defn- add-clue [player poi]
   (assoc player :clues (conj (:clues player) (:clue poi))))
 
-(defn interact-with [state poi-name]
+(defn examine [state poi-name]
   (let [poi (find-poi state poi-name)]
     (if (nil? poi)
       state
