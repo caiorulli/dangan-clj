@@ -33,5 +33,6 @@
     (cond
       (= command "describe") (present-look state)
       (= command "help") help-text)
-    (str (:speaker state) ": "
-         (:text    state))))
+    (let [line ((:dialog state) (:line state))]
+      (str (:speaker line) ": "
+           (:text    line)))))

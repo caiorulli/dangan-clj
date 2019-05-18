@@ -9,9 +9,7 @@
 (facts
  "about initial state"
  (fact "should have correct initial configuration"
-       (:mode initial-state) => :interact
-       (:text initial-state) => nil
-       (:speaker initial-state) => nil))
+       (:mode initial-state) => :interact))
 
 (facts
  "about the player interaction"
@@ -38,16 +36,13 @@
  "about dialog mode"
  (fact "interaction should trigger dialog mode"
        (let [dialog-mode-state (logic/examine initial-state "knife")]
-         (:mode    dialog-mode-state) => :dialog
-         (:speaker dialog-mode-state) => "Giba"
-         (:text    dialog-mode-state) => "That's the knife I used to cut tomatoes."))
+         (:mode dialog-mode-state) => :dialog
+         (:line dialog-mode-state) => 0))
 
  (fact "after dialog is complete, 'advance-dialog' command should go back to interact mode"
        (let [dialog-mode-state (logic/examine initial-state "knife")
              dialog-finished-state (logic/advance-dialog dialog-mode-state)]
-         (:mode    dialog-finished-state) => :interact
-         (:speaker dialog-finished-state) => nil
-         (:text    dialog-finished-state) => nil))
+         (:mode    dialog-finished-state) => :interact))
 
  (fact "'advance-dialog' command should trigger next line if dialog has more than one line"
        (let [schredder-line-one   (logic/examine initial-state "schredder")
@@ -55,17 +50,12 @@
              schredder-line-three (logic/advance-dialog schredder-line-two)
              schredder-dialog-end (logic/advance-dialog schredder-line-three)]
          (:mode    schredder-line-one) => :dialog
-         (:speaker schredder-line-one) => "Thiago"
-         (:text    schredder-line-one) => "What's that big weird machine?"
+         (:line schredder-line-one) => 0
 
          (:mode    schredder-line-two) => :dialog
-         (:speaker schredder-line-two) => "Giba"
-         (:text    schredder-line-two) => "It's a paper schredder."
+         (:line schredder-line-two) => 1
 
          (:mode    schredder-line-three) => :dialog
-         (:speaker schredder-line-three) => "Thiago"
-         (:text    schredder-line-three) => "Why do you even have that here?"
+         (:line schredder-line-three) => 2
 
-         (:mode    schredder-dialog-end) => :interact
-         (:speaker schredder-dialog-end) => nil
-         (:text    schredder-dialog-end) => nil)))
+         (:mode    schredder-dialog-end) => :interact)))

@@ -27,19 +27,11 @@
              {:player (add-clue (:player state) poi)
               :mode :dialog
               :dialog (:dialog poi)
-              :text (:text (first (:dialog poi)))
-              :speaker (:speaker (first (:dialog poi)))
               :line 0}))))
 
 (defn advance-dialog [state]
   (let [next-line (inc (:line state))
         dialog (:dialog state)]
     (if (= next-line (count dialog))
-      (merge state
-             {:mode :interact
-              :speaker nil
-              :text nil})
-      (merge state
-             {:speaker (:speaker (dialog next-line))
-              :text    (:text    (dialog next-line))
-              :line    next-line}))))
+      (assoc state :mode :interact)
+      (assoc state :line next-line))))
