@@ -3,4 +3,4 @@
             [dangan-clj.game-logic   :as logic]))
 
 (def initial (logic/make-initial-state game/test-scene))
-(def knife-dialog (logic/examine initial "knife"))
+(def dialog-start (logic/examine initial "knife"))

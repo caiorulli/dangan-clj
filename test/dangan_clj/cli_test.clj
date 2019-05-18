@@ -16,16 +16,16 @@
        (make-prompt states/initial) => "(Giba's House) > ")
 
  (fact "on dialog mode, should display three dots"
-       (make-prompt states/knife-dialog) => "..."))
+       (make-prompt states/dialog-start) => "..."))
 
 (facts
  "about evaluating commands"
  (fact "should yield same result from interact-with"
-       (evaluate-command states/initial "examine knife") => states/knife-dialog)
+       (evaluate-command states/initial "examine knife") => states/dialog-start)
 
  (fact "on dialog mode, any command should trigger dialog advance"
-       (let [after-dialog-state (advance-dialog states/knife-dialog)]
-         (evaluate-command states/knife-dialog "") => after-dialog-state))
+       (let [after-dialog-state (advance-dialog states/dialog-start)]
+         (evaluate-command states/dialog-start "") => after-dialog-state))
 
  (fact "certain commands should not trigger state changes in interact mode"
        (let [evaluate #(evaluate-command states/initial %)]
@@ -40,7 +40,7 @@
        (present-state states/initial "") => nil)
 
  (fact "on dialog mode, returns the current speaker and text"
-       (present-state states/knife-dialog "examine knife")
+       (present-state states/dialog-start "examine knife")
        =>
        (str "Giba: "
             "That's the knife I used to cut tomatoes."))
