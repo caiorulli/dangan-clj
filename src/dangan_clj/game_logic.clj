@@ -4,9 +4,6 @@
 (defn- make-player []
   {:clues #{}})
 
-(defn make-poi [name clue dialog]
-  {:name name :clue clue :dialog dialog})
-
 (defn make-initial-state [scene]
   {:player (make-player)
    :scene scene

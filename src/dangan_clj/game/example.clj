@@ -1,25 +1,23 @@
-(ns dangan-clj.game.example
-  (:require [dangan-clj.game-logic :refer [make-poi]]))
+(ns dangan-clj.game.example)
 
 (def clue-1 {:id 1})
 
 (def knife
-  (make-poi "knife"
-            clue-1
-            [{:speaker "Giba"
-              :text    "That's the knife I used to cut tomatoes."}]))
+  {:name "knife"
+   :clue clue-1
+   :dialog [{:speaker "Giba"
+             :text    "That's the knife I used to cut tomatoes."}]})
 
 (def schredder
-  (make-poi "schredder"
-            clue-1
-            [{:speaker "Thiago"
+  {:name "schredder"
+   :dialog [{:speaker "Thiago"
               :text    "What's that big weird machine?"}
              {:speaker "Giba"
               :text    "It's a paper schredder."}
              {:speaker "Thiago"
-              :text    "Why do you even have that here?"}]))
+              :text    "Why do you even have that here?"}]})
 
-(def test-scene
+(def test-scenes
   {:name "Giba's House"
    :description (str "We're in Giba's appartment for the first time.\n"
                      "It seems very organized and clean.\n"
