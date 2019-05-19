@@ -1,11 +1,12 @@
 (ns dangan-clj.game-logic-test
-  (:require [midje.sweet :refer [fact facts =>]]
+  (:require [dangan-clj.game
+             [consts :as consts]
+             [example :refer [clue-1]]
+             [states :as states]]
             [dangan-clj.game-logic :as logic]
-            [dangan-clj.game.example :refer [test-scene
-                                             clue-1]]
-            [dangan-clj.game.consts :as consts]))
+            [midje.sweet :refer [=> fact facts]]))
 
-(def initial-state (logic/make-initial-state test-scene))
+(def initial-state states/initial)
 
 (facts
  "about initial state"
@@ -40,7 +41,8 @@
          (:mode dialog-mode-state) => :dialog
          (:line dialog-mode-state) => 0))
 
- (fact "after dialog is complete, 'advance-dialog' command should go back to interact mode"
+ (fact "after dialog is complete, 'advance-dial
+og' command should go back to interact mode"
        (let [dialog-mode-state (logic/examine initial-state consts/single-line-poi)
              dialog-finished-state (logic/advance-dialog dialog-mode-state)]
          (:mode dialog-finished-state) => :interact))

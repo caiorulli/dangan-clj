@@ -1,14 +1,11 @@
 (ns dangan-clj.cli-test
-  (:require [midje.sweet :refer [fact facts =>]]
-            [dangan-clj.game-logic :refer [make-initial-state
-                                           advance-dialog]]
-            [dangan-clj.cli :refer [make-prompt
-                                    evaluate-command
-                                    present-state
-                                    help-text]]
-            [dangan-clj.game.example :refer [test-scene]]
-            [dangan-clj.game.consts :as consts]
-            [dangan-clj.game.states :as states]))
+  (:require [dangan-clj
+             [cli :refer [evaluate-command help-text make-prompt present-state]]
+             [game-logic :refer [advance-dialog]]]
+            [dangan-clj.game
+             [consts :as consts]
+             [states :as states]]
+            [midje.sweet :refer [=> fact facts]]))
 
 (facts
  "about prompt generation"
@@ -40,10 +37,8 @@
        (present-state states/initial "") => nil)
 
  (fact "on dialog mode, returns the current speaker and text"
-       (present-state states/dialog-start consts/start-dialog-command)
-       =>
-       (str "Giba: "
-            "That's the knife I used to cut tomatoes."))
+       (present-state states/dialog-start
+                      consts/start-dialog-command) => consts/formatted-dialog-line)
 
  (fact "look command should output scene description"
        (present-state states/initial "describe") => consts/scene-description)
