@@ -20,7 +20,7 @@
               :text    "Why do you even have that here?"}]})
 
 (def test-scene
-  (assoc game/test-scene :pois #{knife
+  (assoc game/rodrigos-room :pois #{knife
                                   schredder}))
 
 (def initial (logic/make-initial-state test-scene))

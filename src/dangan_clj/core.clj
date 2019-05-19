@@ -3,7 +3,7 @@
             [dangan-clj.cli        :refer [make-prompt
                                            evaluate-command
                                            present-state]]
-            [dangan-clj.game.example :refer [test-scene]])
+            [dangan-clj.game.example :refer [rodrigos-room]])
   (:gen-class))
 
 (def welcome-text
@@ -23,6 +23,6 @@
 (defn -main
   [& args]
   (println welcome-text)
-  (let [state (make-initial-state test-scene)]
+  (let [state (make-initial-state rodrigos-room)]
     (present-state state "")
     (game-loop state)))

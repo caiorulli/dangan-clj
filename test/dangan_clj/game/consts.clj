@@ -1,7 +1,7 @@
 (ns dangan-clj.game.consts
   (:require [dangan-clj.game.example :as game]))
 
-(def scene-description (:description game/test-scene))
+(def scene-description (:description game/rodrigos-room))
 (def scene-prompt "(Rodrigo's Room) > ")
 (def start-dialog-command "examine knife")
 (def formatted-dialog-line "Giba: That's the knife I used to cut tomatoes.")
