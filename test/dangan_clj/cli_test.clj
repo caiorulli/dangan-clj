@@ -7,13 +7,13 @@
                                     present-state
                                     help-text]]
             [dangan-clj.game.example :refer [test-scene]]
-            [dangan-clj.game.example-utils :as example-utils]
+            [dangan-clj.game.consts :as consts]
             [dangan-clj.game.states :as states]))
 
 (facts
  "about prompt generation"
  (fact "returns scene name prompt"
-       (make-prompt states/initial) => "(Giba's House) > ")
+       (make-prompt states/initial) => consts/scene-prompt)
 
  (fact "on dialog mode, should display three dots"
        (make-prompt states/dialog-start) => "..."))
@@ -21,7 +21,7 @@
 (facts
  "about evaluating commands"
  (fact "should yield same result from interact-with"
-       (evaluate-command states/initial "examine knife") => states/dialog-start)
+       (evaluate-command states/initial consts/start-dialog-command) => states/dialog-start)
 
  (fact "on dialog mode, any command should trigger dialog advance"
        (let [after-dialog-state (advance-dialog states/dialog-start)]
@@ -40,13 +40,13 @@
        (present-state states/initial "") => nil)
 
  (fact "on dialog mode, returns the current speaker and text"
-       (present-state states/dialog-start "examine knife")
+       (present-state states/dialog-start consts/start-dialog-command)
        =>
        (str "Giba: "
             "That's the knife I used to cut tomatoes."))
 
  (fact "look command should output scene description"
-       (present-state states/initial "describe") => example-utils/scene-description)
+       (present-state states/initial "describe") => consts/scene-description)
 
  (fact "help command should output help text"
        (present-state states/initial "help") => help-text))

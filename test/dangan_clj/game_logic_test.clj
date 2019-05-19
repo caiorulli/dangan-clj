@@ -2,7 +2,8 @@
   (:require [midje.sweet :refer [fact facts =>]]
             [dangan-clj.game-logic :as logic]
             [dangan-clj.game.example :refer [test-scene
-                                             clue-1]]))
+                                             clue-1]]
+            [dangan-clj.game.consts :as consts]))
 
 (def initial-state (logic/make-initial-state test-scene))
 
@@ -19,13 +20,13 @@
            :clues) => #{})
 
  (fact "player should not be able to add same clue twice"
-       (let [already-interacted-state (logic/examine initial-state "knife")]
-         (-> (logic/examine already-interacted-state "knife")
+       (let [already-interacted-state (logic/examine initial-state consts/single-line-poi)]
+         (-> (logic/examine already-interacted-state consts/single-line-poi)
              :player
              :clues) => #{clue-1}))
 
  (fact "player should add clues by interacting with poi"
-       (-> (logic/examine initial-state "knife")
+       (-> (logic/examine initial-state consts/single-line-poi)
            :player
            :clues) => #{clue-1})
 
@@ -35,27 +36,27 @@
 (facts
  "about dialog mode"
  (fact "interaction should trigger dialog mode"
-       (let [dialog-mode-state (logic/examine initial-state "knife")]
+       (let [dialog-mode-state (logic/examine initial-state consts/single-line-poi)]
          (:mode dialog-mode-state) => :dialog
          (:line dialog-mode-state) => 0))
 
  (fact "after dialog is complete, 'advance-dialog' command should go back to interact mode"
-       (let [dialog-mode-state (logic/examine initial-state "knife")
+       (let [dialog-mode-state (logic/examine initial-state consts/single-line-poi)
              dialog-finished-state (logic/advance-dialog dialog-mode-state)]
-         (:mode    dialog-finished-state) => :interact))
+         (:mode dialog-finished-state) => :interact))
 
  (fact "'advance-dialog' command should trigger next line if dialog has more than one line"
-       (let [schredder-line-one   (logic/examine initial-state "schredder")
-             schredder-line-two   (logic/advance-dialog schredder-line-one)
-             schredder-line-three (logic/advance-dialog schredder-line-two)
-             schredder-dialog-end (logic/advance-dialog schredder-line-three)]
-         (:mode    schredder-line-one) => :dialog
-         (:line schredder-line-one) => 0
+       (let [line-one   (logic/examine initial-state consts/multi-line-poi)
+             line-two   (logic/advance-dialog line-one)
+             line-three (logic/advance-dialog line-two)
+             dialog-end (logic/advance-dialog line-three)]
+         (:mode line-one) => :dialog
+         (:line line-one) => 0
 
-         (:mode    schredder-line-two) => :dialog
-         (:line schredder-line-two) => 1
+         (:mode line-two) => :dialog
+         (:line line-two) => 1
 
-         (:mode    schredder-line-three) => :dialog
-         (:line schredder-line-three) => 2
+         (:mode line-three) => :dialog
+         (:line line-three) => 2
 
-         (:mode    schredder-dialog-end) => :interact)))
+         (:mode dialog-end) => :interact)))
