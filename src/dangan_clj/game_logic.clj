@@ -4,14 +4,20 @@
 (defn- make-player []
   {:clues #{}})
 
-(defn make-initial-state [scene]
-  {:player (make-player)
-   :scene scene
-   :mode :interact})
+(defn make-initial-state [game]
+  {:player        (make-player)
+   :game          game
+   :mode          :interact
+   :current-scene (:first-scene game)})
+
+(defn get-current-scene [state]
+  (let [scenes (:scenes (:game state))
+        current-scene-id (:current-scene state)]
+    (first (select #(= (:id %) current-scene-id) scenes))))
 
 (defn- find-poi [state poi-name]
   (first (select #(= (:name %) poi-name)
-                 (:pois (:scene state)))))
+                 (:pois (get-current-scene state)))))
 
 (defn- add-clue [player poi]
   (assoc player :clues (conj (:clues player) (:clue poi))))

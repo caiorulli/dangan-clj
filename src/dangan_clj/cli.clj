@@ -11,7 +11,7 @@
 (defn make-prompt [state]
   (if (= (:mode state) :interact)
     (str "("
-         (:name (:scene state))
+         (:name (logic/get-current-scene state))
          ") > ")
     "..."))
 
@@ -26,7 +26,7 @@
     (logic/advance-dialog state)))
 
 (defn- present-look [state]
-  (-> state :scene :description))
+  (-> state logic/get-current-scene :description))
 
 (defn present-state [state command]
   (if (= (:mode state) :interact)

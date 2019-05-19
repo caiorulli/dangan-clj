@@ -21,7 +21,11 @@
 
 (def test-scene
   (assoc game/rodrigos-room :pois #{knife
-                                  schredder}))
+                                    schredder}))
 
-(def initial (logic/make-initial-state test-scene))
+(def test-game (assoc game/arandu-game
+                      :scenes
+                      #{test-scene}))
+
+(def initial (logic/make-initial-state test-game))
 (def dialog-start (logic/examine initial "knife"))

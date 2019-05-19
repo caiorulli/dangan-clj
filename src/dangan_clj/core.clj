@@ -1,10 +1,9 @@
 (ns dangan-clj.core
-  (:require [dangan-clj.game-logic :refer [make-initial-state]]
-            [dangan-clj.cli        :refer [make-prompt
-                                           evaluate-command
-                                           present-state]]
-            [dangan-clj.game.example :refer [rodrigos-room]])
-  (:gen-class))
+  (:gen-class)
+  (:require [dangan-clj
+             [cli :refer [evaluate-command make-prompt present-state]]
+             [game-logic :refer [make-initial-state]]]
+            [dangan-clj.game.example :as example]))
 
 (def welcome-text
   (str "\nWelcome to the demo game for dangan-clj.\n"
@@ -23,6 +22,6 @@
 (defn -main
   [& args]
   (println welcome-text)
-  (let [state (make-initial-state rodrigos-room)]
+  (let [state (make-initial-state example/arandu-game)]
     (present-state state "")
     (game-loop state)))
