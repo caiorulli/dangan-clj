@@ -1,7 +1,6 @@
 (ns dangan-clj.game-logic-test
   (:require [dangan-clj.game
              [consts :as consts]
-             [example :refer [clue-1]]
              [states :as states]]
             [dangan-clj.game-logic :as logic]
             [midje.sweet :refer [=> fact facts]]))
@@ -24,12 +23,12 @@
        (let [already-interacted-state (logic/examine initial-state consts/single-line-poi)]
          (-> (logic/examine already-interacted-state consts/single-line-poi)
              :player
-             :clues) => #{clue-1}))
+             :clues) => #{states/clue-1}))
 
  (fact "player should add clues by interacting with poi"
        (-> (logic/examine initial-state consts/single-line-poi)
            :player
-           :clues) => #{clue-1})
+           :clues) => #{states/clue-1})
 
  (fact "player examining non-existing poi should not return different player"
        (logic/examine initial-state "balloon") => initial-state))
