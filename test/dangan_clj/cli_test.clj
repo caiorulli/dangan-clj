@@ -1,7 +1,5 @@
 (ns dangan-clj.cli-test
-  (:require [dangan-clj
-             [cli :refer [evaluate-command help-text make-prompt present-state]]
-             [game-logic :refer [advance-dialog]]]
+  (:require [dangan-clj.cli :refer [help-text make-prompt present-state]]
             [dangan-clj.game
              [consts :as consts]
              [states :as states]]
@@ -14,22 +12,6 @@
 
  (fact "on dialog mode, should display three dots"
        (make-prompt states/dialog-start) => "..."))
-
-(facts
- "about evaluating commands"
- (fact "should yield same result from interact-with"
-       (evaluate-command states/initial consts/start-dialog-command) => states/dialog-start)
-
- (fact "on dialog mode, any command should trigger dialog advance"
-       (let [after-dialog-state (advance-dialog states/dialog-start)]
-         (evaluate-command states/dialog-start "") => after-dialog-state))
-
- (fact "certain commands should not trigger state changes in interact mode"
-       (let [evaluate #(evaluate-command states/initial %)]
-         (evaluate "describe") => states/initial
-         (evaluate "help") => states/initial
-         (evaluate "knife") => states/initial
-         (evaluate "") => states/initial)))
 
 (facts
  "about presenting state"

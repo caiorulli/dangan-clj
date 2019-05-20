@@ -1,6 +1,7 @@
 (ns dangan-clj.game.states
-  (:require [dangan-clj.game.example :as game ]
-            [dangan-clj.game-logic   :as logic]))
+  (:require [dangan-clj.game-logic :as logic]
+            [dangan-clj.game.example :as game]
+            [dangan-clj.logic.navigation :as nav]))
 
 (def clue-1 {:id 1})
 
@@ -25,7 +26,9 @@
 
 (def test-game (assoc game/arandu-game
                       :scenes
-                      #{test-scene}))
+                      #{test-scene
+                        game/pool}))
 
 (def initial (logic/make-initial-state test-game))
 (def dialog-start (logic/examine initial "knife"))
+(def entered-scene-two (nav/go-to initial :pool))

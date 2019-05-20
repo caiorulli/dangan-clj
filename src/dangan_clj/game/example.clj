@@ -34,6 +34,13 @@
    :pois        #{rodrigo
                   phone}})
 
+(def pool
+  {:id          :pool
+   :name        "Pool"
+   :description "We're next to the pool, nice"
+   :pois        #{}})
+
 (def arandu-game
   {:first-scene (:id rodrigos-room)
-   :scenes      #{rodrigos-room}})
+   :scenes      #{rodrigos-room
+                  pool}})
