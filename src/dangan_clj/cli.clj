@@ -36,3 +36,6 @@
     (let [line ((:dialog state) (:line state))]
       (str (:speaker line) ": "
            (:text    line)))))
+
+(defn interpret [command-string]
+  nil)
