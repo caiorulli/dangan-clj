@@ -1,7 +1,7 @@
 (ns dangan-clj.core
   (:gen-class)
   (:require [dangan-clj
-             [cli :refer [evaluate-command make-prompt present-state]]
+             [cli :as cli]
              [game-logic :refer [make-initial-state]]]
             [dangan-clj.game.example :as example]))
 
@@ -10,11 +10,12 @@
        "In case of need, type \"help\".\n"))
 
 (defn- game-loop [state]
-  (print (make-prompt state))
+  (print (cli/make-prompt state))
   (flush)
-  (let [command (read-line)
-        next-state (evaluate-command state command)
-        command-output (present-state next-state command)]
+  (let [command-string (read-line)
+        command (cli/interpret command-string)
+        next-state (cli/evaluate-command state command)
+        command-output (cli/present-state next-state command)]
     (when command-output
       (println command-output))
     (recur next-state)))
@@ -23,5 +24,5 @@
   [& args]
   (println welcome-text)
   (let [state (make-initial-state example/arandu-game)]
-    (present-state state "")
+    (cli/present-state state "")
     (game-loop state)))

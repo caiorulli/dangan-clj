@@ -8,14 +8,16 @@
 (facts
  "about presenting state"
  (fact "on interactive mode, returns nothing"
-       (present-state states/initial "") => nil)
+       (present-state states/initial "") => nil
+       (present-state states/initial nil) => nil
+       (present-state states/initial {}) => nil)
 
  (fact "on dialog mode, returns the current speaker and text"
        (present-state states/dialog-start
                       consts/start-dialog-command) => consts/formatted-dialog-line)
 
  (fact "look command should output scene description"
-       (present-state states/initial "describe") => consts/scene-description)
+       (present-state states/initial {:type :describe}) => consts/scene-description)
 
  (fact "help command should output help text"
-       (present-state states/initial "help") => help-text))
+       (present-state states/initial {:type :help}) => help-text))

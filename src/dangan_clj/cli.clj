@@ -17,11 +17,10 @@
 
 (defn evaluate-command [state command]
   (if (= (:mode state) :interact)
-    (let [command-words (string/split command #" ")
-          verb          (first command-words)
-          predicate     (last command-words)]
-      (if (= verb "examine")
-        (logic/examine state predicate)
+    (if (nil? command)
+      state
+      (if (= (:type command) :examine)
+        (logic/examine state (:target command))
         state))
     (logic/advance-dialog state)))
 
@@ -31,8 +30,8 @@
 (defn present-state [state command]
   (if (= (:mode state) :interact)
     (cond
-      (= command "describe") (present-look state)
-      (= command "help") help-text)
+      (= (:type command) :describe) (present-look state)
+      (= (:type command) :help) help-text)
     (let [line ((:dialog state) (:line state))]
       (str (:speaker line) ": "
            (:text    line)))))
