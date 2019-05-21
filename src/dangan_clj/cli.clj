@@ -38,4 +38,11 @@
            (:text    line)))))
 
 (defn interpret [command-string]
-  nil)
+  (let [command-words (string/split command-string #" ")
+        first-word    (first command-words)
+        last-word     (last  command-words)]
+    (cond
+      (= command-string "describe") {:type :describe}
+      (= command-string "help")     {:type :help}
+      (= first-word "examine")      {:type :examine
+                                     :target last-word})))
