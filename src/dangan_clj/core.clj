@@ -13,7 +13,7 @@
   (print (cli/make-prompt state))
   (flush)
   (let [command-string (read-line)
-        command (cli/interpret command-string)
+        command (cli/interpret state command-string)
         next-state (cli/evaluate-command state command)
         command-output (cli/present-state next-state command)]
     (when command-output

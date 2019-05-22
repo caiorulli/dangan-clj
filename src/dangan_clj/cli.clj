@@ -1,6 +1,8 @@
 (ns dangan-clj.cli
   (:require [clojure.string :as string]
-            [dangan-clj.game-logic :as logic]))
+            [dangan-clj.game-logic :as logic]
+            [dangan-clj.logic.navigation :as nav]
+            [clojure.set :refer [select]]))
 
 (def help-text
   (str "Command list:\n\n"
@@ -15,13 +17,21 @@
          ") > ")
     "..."))
 
+(defn- get-scene [state scene-string]
+  (let [scenes (:scenes (:game state))
+        target-scene (first (select #(= (:name %) scene-string) scenes))]
+    (when target-scene
+      (:id target-scene)
+      )))
+
 (defn evaluate-command [state command]
   (if (= (:mode state) :interact)
     (if (nil? command)
       state
-      (if (= (:type command) :examine)
-        (logic/examine state (:target command))
-        state))
+      (cond
+        (= (:type command) :examine) (logic/examine state (:target command))
+        (= (:type command) :navigate) (nav/go-to state (:target command))
+        :else state))
     (logic/advance-dialog state)))
 
 (defn- present-look [state]
@@ -36,7 +46,7 @@
       (str (:speaker line) ": "
            (:text    line)))))
 
-(defn interpret [command-string]
+(defn interpret [state command-string]
   (let [command-words (string/split command-string #" ")
         first-word    (first command-words)
         last-word     (last  command-words)]
@@ -44,4 +54,6 @@
       (= command-string "describe") {:type :describe}
       (= command-string "help")     {:type :help}
       (= first-word "examine")      {:type :examine
-                                     :target last-word})))
+                                     :target last-word}
+      (= first-word "enter")        {:type :navigate
+                                     :target (get-scene state last-word)})))

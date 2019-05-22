@@ -31,4 +31,6 @@
  "word enter should trigger navigation"
  (let [evaluate #(evaluate-command states/initial %)]
    (evaluate "") => states/initial
-   (evaluate "enter") => states/initial))
+   (evaluate "enter") => states/initial
+   (evaluate {:type :navigate
+              :target :pool}) => states/entered-scene-two))
