@@ -15,15 +15,15 @@
         current-scene-id (:current-scene state)]
     (first (select #(= (:id %) current-scene-id) scenes))))
 
-(defn- find-poi [state poi-name]
-  (first (select #(= (:name %) poi-name)
+(defn- find-poi [state poi-id]
+  (first (select #(= (:id %) poi-id)
                  (:pois (get-current-scene state)))))
 
 (defn- add-clue [player poi]
   (assoc player :clues (conj (:clues player) (:clue poi))))
 
-(defn examine [state poi-name]
-  (let [poi (find-poi state poi-name)]
+(defn examine [state poi-id]
+  (let [poi (find-poi state poi-id)]
     (if (nil? poi)
       state
       (merge state

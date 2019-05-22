@@ -19,9 +19,9 @@
 (fact
  "examine synonims should be interpreted as examine commands"
  (cli/interpret states/initial "examine rodrigo") => {:type   :examine
-                                       :target "rodrigo"})
+                                                      :target :rodrigo})
 
 (fact
  "enter synonims should be interpreted as navigate commands"
  (cli/interpret states/initial "enter Pool") => {:type :navigate
-                                  :target :pool})
+                                                 :target :pool})

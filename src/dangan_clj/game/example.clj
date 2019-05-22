@@ -1,7 +1,8 @@
 (ns dangan-clj.game.example)
 
 (def rodrigo
-  {:name "rodrigo"
+  {:id :rodrigo
+   :name "rodrigo"
    :dialog [{:speaker "Giba"
              :text    "What the hell? Rodrigo's dead?"}
             {:speaker "Me"
@@ -15,7 +16,8 @@
                            "      I guess we're stuck in Cesar's farmhouse.")}]})
 
 (def phone
-  {:name "phone"
+  {:id :phone
+   :name "phone"
    :dialog [{:speaker "Me"
              :text    (str "The phone still has its screen unlocked.\n"
                            "    What could be so damn important that he would still hold on after dying...?")}

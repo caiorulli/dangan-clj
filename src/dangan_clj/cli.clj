@@ -17,13 +17,6 @@
          ") > ")
     "..."))
 
-(defn- get-scene [state scene-string]
-  (let [scenes (:scenes (:game state))
-        target-scene (first (select #(= (:name %) scene-string) scenes))]
-    (when target-scene
-      (:id target-scene)
-      )))
-
 (defn evaluate-command [state command]
   (if (= (:mode state) :interact)
     (if (nil? command)
@@ -46,6 +39,20 @@
       (str (:speaker line) ": "
            (:text    line)))))
 
+(defn- get-scene [state scene-string]
+  (let [scenes (:scenes (:game state))
+        target-scene (first (select #(= (:name %) scene-string) scenes))]
+    (when target-scene
+      (:id target-scene)
+      )))
+
+(defn- get-poi [state poi-string]
+  (let [current-scene (logic/get-current-scene state)
+        pois (:pois current-scene)
+        target-poi (first (select #(= (:name %) poi-string) pois))]
+    (when target-poi
+      (:id target-poi))))
+
 (defn interpret [state command-string]
   (let [command-words (string/split command-string #" ")
         first-word    (first command-words)
@@ -54,6 +61,6 @@
       (= command-string "describe") {:type :describe}
       (= command-string "help")     {:type :help}
       (= first-word "examine")      {:type :examine
-                                     :target last-word}
+                                     :target (get-poi state last-word)}
       (= first-word "enter")        {:type :navigate
                                      :target (get-scene state last-word)})))

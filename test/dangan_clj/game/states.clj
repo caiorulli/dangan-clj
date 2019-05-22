@@ -6,13 +6,15 @@
 (def clue-1 {:id 1})
 
 (def knife
-  {:name "knife"
+  {:id :knife
+   :name "knife"
    :clue clue-1
    :dialog [{:speaker "Giba"
              :text    "That's the knife I used to cut tomatoes."}]})
 
 (def schredder
-  {:name "schredder"
+  {:id :schredder
+   :name "schredder"
    :dialog [{:speaker "Thiago"
               :text    "What's that big weird machine?"}
              {:speaker "Giba"
@@ -22,7 +24,8 @@
 
 (def test-scene
   (assoc game/rodrigos-room :pois #{knife
-                                    schredder}))
+                                    schredder
+                                    game/rodrigo}))
 
 (def test-game (assoc game/arandu-game
                       :scenes
@@ -30,5 +33,5 @@
                         game/pool}))
 
 (def initial (logic/make-initial-state test-game))
-(def dialog-start (logic/examine initial "knife"))
+(def dialog-start (logic/examine initial :knife))
 (def entered-scene-two (nav/go-to initial :pool))
