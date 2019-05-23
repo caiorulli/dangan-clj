@@ -7,14 +7,14 @@
 
 (def knife
   {:id :knife
-   :name "knife"
+   :synonyms #{"knife" "bloody knife"}
    :clue clue-1
    :dialog [{:speaker "Giba"
              :text    "That's the knife I used to cut tomatoes."}]})
 
 (def schredder
   {:id :schredder
-   :name "schredder"
+   :synonyms #{"schredder" "black box" "box"}
    :dialog [{:speaker "Thiago"
               :text    "What's that big weird machine?"}
              {:speaker "Giba"

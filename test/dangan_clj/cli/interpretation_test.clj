@@ -20,8 +20,12 @@
 
  (fact
   "examine synonims should be interpreted as examine commands"
-  (cli/interpret states/initial "examine rodrigo") => {:type   :examine
-                                                       :target :rodrigo})
+  (let [interpret #(cli/interpret states/initial %)
+        examine-rodrigo-command {:type :examine
+                                 :target :rodrigo}]
+    (interpret "examine rodrigo") => examine-rodrigo-command
+    (interpret "examine batata")  => examine-rodrigo-command
+    (interpret "examine RodRigO") => examine-rodrigo-command))
 
  (fact
   "enter synonims should be interpreted as navigate commands"
