@@ -41,10 +41,9 @@
 
 (defn- get-scene [state scene-string]
   (let [scenes (:scenes (:game state))
-        target-scene (first (select #(= (string/lower-case (:name %)) scene-string) scenes))]
+        target-scene (first (select #(contains? (:synonyms %) scene-string) scenes))]
     (when target-scene
-      (:id target-scene)
-      )))
+      (:id target-scene))))
 
 (defn- get-poi [state poi-string]
   (let [current-scene (logic/get-current-scene state)
@@ -57,11 +56,11 @@
   (let [lowered-command-string (string/lower-case command-string)
         command-words (string/split lowered-command-string #" ")
         first-word    (first command-words)
-        last-word     (string/join " " (rest command-words))]
+        predicate     (string/join " " (rest command-words))]
     (cond
       (= command-string "describe") {:type :describe}
       (= command-string "help")     {:type :help}
       (= first-word "examine")      {:type :examine
-                                     :target (get-poi state last-word)}
+                                     :target (get-poi state predicate)}
       (= first-word "enter")        {:type :navigate
-                                     :target (get-scene state last-word)})))
+                                     :target (get-scene state predicate)})))
