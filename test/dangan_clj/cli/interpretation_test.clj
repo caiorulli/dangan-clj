@@ -25,7 +25,10 @@
 
  (fact
   "enter synonims should be interpreted as navigate commands"
-  (cli/interpret states/initial "enter Pool") => {:type :navigate
-                                                  :target :pool}
-  (cli/interpret states/entered-scene-two "enter Rodrigo's Room") => {:type :navigate
-                                                                      :target :rodrigos-room}))
+  (let [interpret #(cli/interpret states/initial %)]
+    (interpret "enter Pool") => {:type :navigate
+                                 :target :pool}
+    (interpret "enter pool") => {:type :navigate
+                                 :target :pool}
+    (interpret "enter Rodrigo's Room") => {:type :navigate
+                                           :target :rodrigos-room})))

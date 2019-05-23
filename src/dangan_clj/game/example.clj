@@ -27,20 +27,24 @@
              :text    "So, whatever happened, might have happened while he was watching it?"}]})
 
 (def rodrigos-room
-  {:id          :rodrigos-room
-   :name        "Rodrigo's Room"
-   :description (str "Rodrigo laid dead on his bed, pale and cold.\n"
+  {:id           :rodrigos-room
+   :display-name "Rodrigo's Room"
+   :name         "Rodrigo's Room"
+   :synonyms     ["rodrigo's room" "room"]
+   :description  (str "Rodrigo laid dead on his bed, pale and cold.\n"
                      "No visible wound. He's still holding his phone.\n"
                      "Me, Thiago and Giba stood around him, breathless, with no clue of how this came to happen.\n"
                      "The others were still asleep, elsewhere.\n")
-   :pois        #{rodrigo
+   :pois         #{rodrigo
                   phone}})
 
 (def pool
-  {:id          :pool
-   :name        "Pool"
-   :description "We're next to the pool, nice"
-   :pois        #{}})
+  {:id           :pool
+   :display-name "Pool"
+   :name         "Pool"
+   :synonyms     ["pool" "pool area"]
+   :description  "We're next to the pool, nice"
+   :pois         #{}})
 
 (def arandu-game
   {:first-scene (:id rodrigos-room)

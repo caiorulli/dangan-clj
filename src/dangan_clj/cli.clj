@@ -13,7 +13,7 @@
 (defn make-prompt [state]
   (if (= (:mode state) :interact)
     (str "("
-         (:name (logic/get-current-scene state))
+         (:display-name (logic/get-current-scene state))
          ") > ")
     "..."))
 
@@ -41,7 +41,7 @@
 
 (defn- get-scene [state scene-string]
   (let [scenes (:scenes (:game state))
-        target-scene (first (select #(= (:name %) scene-string) scenes))]
+        target-scene (first (select #(= (string/lower-case (:name %)) scene-string) scenes))]
     (when target-scene
       (:id target-scene)
       )))
@@ -49,12 +49,13 @@
 (defn- get-poi [state poi-string]
   (let [current-scene (logic/get-current-scene state)
         pois (:pois current-scene)
-        target-poi (first (select #(= (:name %) poi-string) pois))]
+        target-poi (first (select #(= (string/lower-case (:name %)) poi-string) pois))]
     (when target-poi
       (:id target-poi))))
 
 (defn interpret [state command-string]
-  (let [command-words (string/split command-string #" ")
+  (let [lowered-command-string (string/lower-case command-string)
+        command-words (string/split lowered-command-string #" ")
         first-word    (first command-words)
         last-word     (string/join " " (rest command-words))]
     (cond
