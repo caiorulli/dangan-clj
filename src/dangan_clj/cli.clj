@@ -56,7 +56,7 @@
 (defn interpret [state command-string]
   (let [command-words (string/split command-string #" ")
         first-word    (first command-words)
-        last-word     (last  command-words)]
+        last-word     (string/join " " (rest command-words))]
     (cond
       (= command-string "describe") {:type :describe}
       (= command-string "help")     {:type :help}

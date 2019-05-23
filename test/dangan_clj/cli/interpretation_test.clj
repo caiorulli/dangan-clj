@@ -1,27 +1,31 @@
 (ns dangan-clj.cli.interpretation-test
-  (:require [midje.sweet :refer [fact =>]]
+  (:require [midje.sweet :refer [fact => facts]]
             [dangan-clj.cli :as cli]
             [dangan-clj.game.states :as states]))
 
-(fact
- "empty or invalid commands should be interpreted to nil"
- (cli/interpret states/initial "") => nil
- (cli/interpret states/initial "lalala") => nil)
+(facts
+ "about interpretation"
+ (fact
+  "empty or invalid commands should be interpreted to nil"
+  (cli/interpret states/initial "") => nil
+  (cli/interpret states/initial "lalala") => nil)
 
-(fact
- "describe synonims should be interpreted as describe commands"
- (cli/interpret states/initial "describe") => {:type :describe})
+ (fact
+  "describe synonims should be interpreted as describe commands"
+  (cli/interpret states/initial "describe") => {:type :describe})
 
-(fact
- "help synonims should be interpreted as help commands"
- (cli/interpret states/initial "help") => {:type :help})
+ (fact
+  "help synonims should be interpreted as help commands"
+  (cli/interpret states/initial "help") => {:type :help})
 
-(fact
- "examine synonims should be interpreted as examine commands"
- (cli/interpret states/initial "examine rodrigo") => {:type   :examine
-                                                      :target :rodrigo})
+ (fact
+  "examine synonims should be interpreted as examine commands"
+  (cli/interpret states/initial "examine rodrigo") => {:type   :examine
+                                                       :target :rodrigo})
 
-(fact
- "enter synonims should be interpreted as navigate commands"
- (cli/interpret states/initial "enter Pool") => {:type :navigate
-                                                 :target :pool})
+ (fact
+  "enter synonims should be interpreted as navigate commands"
+  (cli/interpret states/initial "enter Pool") => {:type :navigate
+                                                  :target :pool}
+  (cli/interpret states/entered-scene-two "enter Rodrigo's Room") => {:type :navigate
+                                                                      :target :rodrigos-room}))
