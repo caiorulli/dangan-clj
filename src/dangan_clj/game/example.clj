@@ -1,8 +1,7 @@
 (ns dangan-clj.game.example)
 
 (def rodrigo
-  {:id :rodrigo
-   :synonyms #{"rodrigo" "batata"}
+  {:synonyms #{"rodrigo" "batata"}
    :dialog [{:speaker "Giba"
              :text    "What the hell? Rodrigo's dead?"}
             {:speaker "Me"
@@ -16,8 +15,7 @@
                            "      I guess we're stuck in Cesar's farmhouse.")}]})
 
 (def phone
-  {:id :phone
-   :synonyms #{"phone" "cellphone" "cell"}
+  {:synonyms #{"phone" "cellphone" "cell"}
    :dialog [{:speaker "Me"
              :text    (str "The phone still has its screen unlocked.\n"
                            "    What could be so damn important that he would still hold on after dying...?")}
