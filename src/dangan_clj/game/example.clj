@@ -34,8 +34,8 @@
                      "No visible wound. He's still holding his phone.\n"
                      "Me, Thiago and Giba stood around him, breathless, with no clue of how this came to happen.\n"
                      "The others were still asleep, elsewhere.\n")
-   :pois         #{rodrigo
-                  phone}})
+   :pois         {:rodrigo rodrigo
+                  :phone   phone}})
 
 (def pool
   {:id           :pool

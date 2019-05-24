@@ -48,9 +48,10 @@
 (defn- get-poi [state poi-string]
   (let [current-scene (logic/get-current-scene state)
         pois (:pois current-scene)
-        target-poi (first (select #(contains? (:synonyms %) poi-string) pois))]
-    (when target-poi
-      (:id target-poi))))
+        poi-ids (keys pois)]
+    (first (filter #(some (partial = poi-string)
+                          (:synonyms (get pois %)))
+                   poi-ids))))
 
 (defn interpret [state command-string]
   (let [lowered-command-string (string/lower-case command-string)

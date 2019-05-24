@@ -16,8 +16,7 @@
     (first (select #(= (:id %) current-scene-id) scenes))))
 
 (defn- find-poi [state poi-id]
-  (first (select #(= (:id %) poi-id)
-                 (:pois (get-current-scene state)))))
+  (get (:pois (get-current-scene state)) poi-id))
 
 (defn- add-clue [player poi]
   (assoc player :clues (conj (:clues player) (:clue poi))))

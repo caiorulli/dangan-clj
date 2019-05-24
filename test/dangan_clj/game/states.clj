@@ -23,9 +23,10 @@
               :text    "Why do you even have that here?"}]})
 
 (def test-scene
-  (assoc game/rodrigos-room :pois #{knife
-                                    schredder
-                                    game/rodrigo}))
+  (assoc game/rodrigos-room :pois {:knife knife
+                                   :schredder schredder
+                                   :rodrigo game/rodrigo
+                                   :phone game/phone}))
 
 (def test-game (assoc game/arandu-game
                       :scenes
