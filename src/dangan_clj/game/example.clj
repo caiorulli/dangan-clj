@@ -25,8 +25,7 @@
              :text    "So, whatever happened, might have happened while he was watching it?"}]})
 
 (def rodrigos-room
-  {:id           :rodrigos-room
-   :display-name "Rodrigo's Room"
+  {:display-name "Rodrigo's Room"
    :synonyms     #{"rodrigo's room" "room"}
    :description  (str "Rodrigo laid dead on his bed, pale and cold.\n"
                      "No visible wound. He's still holding his phone.\n"
@@ -36,13 +35,12 @@
                   :phone   phone}})
 
 (def pool
-  {:id           :pool
-   :display-name "Pool"
+  {:display-name "Pool"
    :synonyms     #{"pool" "pool area"}
    :description  "We're next to the pool, nice"
    :pois         #{}})
 
 (def arandu-game
-  {:first-scene (:id rodrigos-room)
-   :scenes      #{rodrigos-room
-                  pool}})
+  {:first-scene :rodrigos-room
+   :scenes      {:rodrigos-room rodrigos-room
+                 :pool          pool}})

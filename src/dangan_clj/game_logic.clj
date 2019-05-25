@@ -13,7 +13,7 @@
 (defn get-current-scene [state]
   (let [scenes (:scenes (:game state))
         current-scene-id (:current-scene state)]
-    (first (select #(= (:id %) current-scene-id) scenes))))
+    (current-scene-id scenes)))
 
 (defn- find-poi [state poi-id]
   (get (:pois (get-current-scene state)) poi-id))

@@ -30,8 +30,8 @@
 
 (def test-game (assoc game/arandu-game
                       :scenes
-                      #{test-scene
-                        game/pool}))
+                      {:rodrigos-room test-scene
+                       :pool game/pool}))
 
 (def initial (logic/make-initial-state test-game))
 (def dialog-start (logic/examine initial :knife))

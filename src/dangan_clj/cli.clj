@@ -41,9 +41,10 @@
 
 (defn- get-scene [state scene-string]
   (let [scenes (:scenes (:game state))
-        target-scene (first (select #(contains? (:synonyms %) scene-string) scenes))]
-    (when target-scene
-      (:id target-scene))))
+        scene-ids (keys scenes)]
+    (first (filter #(some (partial = scene-string)
+                          (:synonyms (get scenes %)))
+                   scene-ids))))
 
 (defn- get-poi [state poi-string]
   (let [current-scene (logic/get-current-scene state)
