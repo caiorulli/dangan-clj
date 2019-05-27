@@ -3,7 +3,7 @@
   (:require [dangan-clj
              [cli :as cli]
              [game-logic :refer [make-initial-state]]]
-            [dangan-clj.game.example :as example]))
+            [dangan-clj.input.example :as example]))
 
 (def welcome-text
   (str "\nWelcome to the demo game for dangan-clj.\n"
@@ -21,8 +21,8 @@
     (recur next-state)))
 
 (defn -main
-  [& args]
+  [& _]
   (println welcome-text)
-  (let [state (make-initial-state example/arandu-game)]
+  (let [state (make-initial-state example/game example/cli-dict)]
     (cli/present-state state "")
     (game-loop state)))

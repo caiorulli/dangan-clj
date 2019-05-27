@@ -1,7 +1,7 @@
-(ns dangan-clj.game.consts
-  (:require [dangan-clj.game.example :as game]))
+(ns dangan-clj.input.consts
+  (:require [dangan-clj.input.example :as example]))
 
-(def scene-description (:description game/rodrigos-room))
+(def scene-description (:description example/rodrigos-room))
 (def scene-prompt "(Rodrigo's Room) > ")
 (def start-dialog-command {:type :examine
                            :target :knife})

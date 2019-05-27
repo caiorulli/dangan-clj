@@ -2,7 +2,7 @@
   (:require [dangan-clj
              [cli :refer [evaluate-command]]
              [game-logic :refer [advance-dialog]]]
-            [dangan-clj.game
+            [dangan-clj.input
              [consts :as consts]
              [states :as states]]
             [midje.sweet :refer [=> fact facts]]))

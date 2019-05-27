@@ -1,4 +1,4 @@
-(ns dangan-clj.game.example)
+(ns dangan-clj.input.example)
 
 (def rodrigo
   {:synonyms #{"rodrigo" "batata"}
@@ -40,7 +40,13 @@
    :description  "We're next to the pool, nice"
    :pois         #{}})
 
-(def arandu-game
+(def game
   {:first-scene :rodrigos-room
    :scenes      {:rodrigos-room rodrigos-room
                  :pool          pool}})
+
+(def cli-dict
+  {:rodrigos-room #{"rodrigo's room" "room"}
+   :pool          #{"pool" "pool area"}
+   :rodrigo       #{"rodrigo" "batata"}
+   :phone         #{"phone" "cell phone" "cell"}})

@@ -40,7 +40,8 @@
            (:text    line)))))
 
 (defn- get-scene [state scene-string]
-  (let [scenes (:scenes (:game state))
+  (let [game (:game state)
+        scenes (:scenes game)
         scene-ids (keys scenes)]
     (first (filter #(some (partial = scene-string)
                           (:synonyms (get scenes %)))

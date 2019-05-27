@@ -1,7 +1,7 @@
 (ns dangan-clj.cli.interpretation-test
   (:require [midje.sweet :refer [fact => facts]]
             [dangan-clj.cli :as cli]
-            [dangan-clj.game.states :as states]))
+            [dangan-clj.input.states :as states]))
 
 (facts
  "about interpretation"

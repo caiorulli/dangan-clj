@@ -1,5 +1,5 @@
 (ns dangan-clj.game-logic-test
-  (:require [dangan-clj.game
+  (:require [dangan-clj.input
              [consts :as consts]
              [states :as states]]
             [dangan-clj.game-logic :as logic]

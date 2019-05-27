@@ -1,19 +1,19 @@
 (ns dangan-clj.game-logic
-  (:require [clojure.set :refer [select]]))
+  (:require [dangan-clj.logic.game :as game]))
 
 (defn- make-player []
   {:clues #{}})
 
-(defn make-initial-state [game]
+(defn make-initial-state [game cli-dict]
   {:player        (make-player)
    :game          game
    :mode          :interact
-   :current-scene (:first-scene game)})
+   :current-scene (:first-scene game)
+   :cli-dict      cli-dict})
 
 (defn get-current-scene [state]
-  (let [scenes (:scenes (:game state))
-        current-scene-id (:current-scene state)]
-    (current-scene-id scenes)))
+  (let [{:keys [game current-scene]} state]
+    (game/get-scene game current-scene)))
 
 (defn- find-poi [state poi-id]
   (get (:pois (get-current-scene state)) poi-id))

@@ -1,6 +1,6 @@
 (ns dangan-clj.logic.navigation-test
   (:require [midje.sweet :refer [facts fact =>]]
-            [dangan-clj.game.states :as states]
+            [dangan-clj.input.states :as states]
             [dangan-clj.logic.navigation :as nav]))
 
 (facts

@@ -1,6 +1,6 @@
 (ns dangan-clj.cli.presentation-test
   (:require [dangan-clj.cli :refer [help-text present-state]]
-            [dangan-clj.game
+            [dangan-clj.input
              [consts :as consts]
              [states :as states]]
             [midje.sweet :refer [=> fact facts]]))
