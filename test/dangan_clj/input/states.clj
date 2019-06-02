@@ -6,14 +6,12 @@
 (def clue-1 {:id 1})
 
 (def knife
-  {:synonyms #{"knife" "bloody knife"}
-   :clue     clue-1
+  {:clue     clue-1
    :dialog   [{:speaker "Giba"
                :text    "That's the knife I used to cut tomatoes."}]})
 
 (def schredder
-  {:synonyms #{"schredder" "black box" "box"}
-   :dialog   [{:speaker "Thiago"
+  {:dialog   [{:speaker "Thiago"
                :text    "What's that big weird machine?"}
               {:speaker "Giba"
                :text    "It's a paper schredder."}

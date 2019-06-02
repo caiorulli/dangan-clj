@@ -1,8 +1,7 @@
 (ns dangan-clj.input.example)
 
 (def rodrigo
-  {:synonyms #{"rodrigo" "batata"}
-   :dialog [{:speaker "Giba"
+  {:dialog [{:speaker "Giba"
              :text    "What the hell? Rodrigo's dead?"}
             {:speaker "Me"
              :text    "Now what, we call the police?"}
@@ -15,8 +14,7 @@
                            "      I guess we're stuck in Cesar's farmhouse.")}]})
 
 (def phone
-  {:synonyms #{"phone" "cellphone" "cell"}
-   :dialog [{:speaker "Me"
+  {:dialog [{:speaker "Me"
              :text    (str "The phone still has its screen unlocked.\n"
                            "    What could be so damn important that he would still hold on after dying...?")}
             {:speaker "Giba"
@@ -26,7 +24,6 @@
 
 (def rodrigos-room
   {:display-name "Rodrigo's Room"
-   :synonyms     #{"rodrigo's room" "room"}
    :description  (str "Rodrigo laid dead on his bed, pale and cold.\n"
                      "No visible wound. He's still holding his phone.\n"
                      "Me, Thiago and Giba stood around him, breathless, with no clue of how this came to happen.\n"
@@ -36,7 +33,6 @@
 
 (def pool
   {:display-name "Pool"
-   :synonyms     #{"pool" "pool area"}
    :description  "We're next to the pool, nice"
    :pois         #{}})
 

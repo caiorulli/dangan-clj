@@ -33,21 +33,22 @@
       (str (:speaker line) ": "
            (:text    line)))))
 
+(defn- find-id-from-cli-dict
+  [cli-dict predicate possible-ids]
+  (first (filter #(some (partial = predicate)
+                          (get cli-dict %))
+                   possible-ids)))
+
 (defn- get-scene [state scene-string]
-  (let [game (:game state)
-        scenes (:scenes game)
-        scene-ids (keys scenes)]
-    (first (filter #(some (partial = scene-string)
-                          (:synonyms (get scenes %)))
-                   scene-ids))))
+  (let [cli-dict (:cli-dict state)
+        scene-ids (keys (:scenes (:game state)))]
+    (find-id-from-cli-dict cli-dict scene-string scene-ids)))
 
 (defn- get-poi [state poi-string]
   (let [current-scene (logic/get-current-scene state)
-        pois (:pois current-scene)
-        poi-ids (keys pois)]
-    (first (filter #(some (partial = poi-string)
-                          (:synonyms (get pois %)))
-                   poi-ids))))
+        cli-dict (:cli-dict state)
+        poi-ids (keys (:pois current-scene))]
+    (find-id-from-cli-dict cli-dict poi-string poi-ids)))
 
 (defn interpret [state command-string]
   (let [lowered-command-string (string/lower-case command-string)
