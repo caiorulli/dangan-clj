@@ -11,29 +11,32 @@
    :current-scene (:first-scene game)
    :cli-dict      cli-dict})
 
-(defn get-current-scene [state]
-  (let [{:keys [game current-scene]} state]
-    (game/get-scene game current-scene)))
+(defn get-current-scene [{:keys [current-scene]
+                          {:keys [scenes]} :game}]
+  (current-scene scenes))
 
-(defn- find-poi [state poi-id]
-  (get (:pois (get-current-scene state)) poi-id))
+(defn- find-poi [{:keys [pois]} poi-id]
+  (get pois poi-id))
 
-(defn- add-clue [player poi]
-  (assoc player :clues (conj (:clues player) (:clue poi))))
+(defn- add-clue [player clue]
+  (assoc player :clues (conj (:clues player) clue)))
 
-(defn examine [state poi-id]
-  (let [poi (find-poi state poi-id)]
+(defn examine [{:keys [player]
+                :as state} poi-id]
+  (let [current-scene (get-current-scene state)
+        poi (find-poi current-scene poi-id)
+        {:keys [clue dialog]} poi]
     (if (nil? poi)
       state
       (merge state
-             {:player (add-clue (:player state) poi)
+             {:player (add-clue player clue)
               :mode :dialog
-              :dialog (:dialog poi)
+              :dialog dialog
               :line 0}))))
 
-(defn advance-dialog [state]
-  (let [next-line (inc (:line state))
-        dialog (:dialog state)]
+(defn advance-dialog [{:keys [line dialog]
+                       :as state}]
+  (let [next-line (inc line)]
     (if (= next-line (count dialog))
       (assoc state :mode :interact)
       (assoc state :line next-line))))
