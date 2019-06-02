@@ -1,10 +1,8 @@
 (ns dangan-clj.cli.evaluation-test
-  (:require [dangan-clj
-             [cli :refer [evaluate-command]]
-             [game-logic :refer [advance-dialog]]]
-            [dangan-clj.input
-             [consts :as consts]
-             [states :as states]]
+  (:require [dangan-clj.cli.cli :refer [evaluate-command]]
+            [dangan-clj.game-logic :refer [advance-dialog]]
+            [dangan-clj.input.consts :as consts]
+            [dangan-clj.input.states :as states]
             [midje.sweet :refer [=> fact facts]]))
 
 (fact

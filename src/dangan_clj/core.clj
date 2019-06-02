@@ -1,13 +1,9 @@
 (ns dangan-clj.core
   (:gen-class)
-  (:require [dangan-clj
-             [cli :as cli]
-             [game-logic :refer [make-initial-state]]]
+  (:require [dangan-clj.cli.cli :as cli]
+            [dangan-clj.cli.messages :as messages]
+            [dangan-clj.game-logic :refer [make-initial-state]]
             [dangan-clj.input.example :as example]))
-
-(def welcome-text
-  (str "\nWelcome to the demo game for dangan-clj.\n"
-       "In case of need, type \"help\".\n"))
 
 (defn- game-loop [state]
   (print (cli/make-prompt state))
@@ -22,7 +18,7 @@
 
 (defn -main
   [& _]
-  (println welcome-text)
+  (println messages/welcome-text)
   (let [state (make-initial-state example/game example/cli-dict)]
     (cli/present-state state "")
     (game-loop state)))

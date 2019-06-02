@@ -1,14 +1,8 @@
-(ns dangan-clj.cli
+(ns dangan-clj.cli.cli
   (:require [clojure.string :as string]
             [dangan-clj.game-logic :as logic]
             [dangan-clj.logic.navigation :as nav]
-            [clojure.set :refer [select]]))
-
-(def help-text
-  (str "Command list:\n\n"
-       "help              Displays this text.\n"
-       "describe          Describes the current scene.\n"
-       "examine (object)  Triggers events related to examination of points of interest.\n"))
+            [dangan-clj.cli.messages :as messages]))
 
 (defn make-prompt [state]
   (if (= (:mode state) :interact)
@@ -34,7 +28,7 @@
   (if (= (:mode state) :interact)
     (cond
       (= (:type command) :describe) (present-look state)
-      (= (:type command) :help) help-text)
+      (= (:type command) :help) messages/help-text)
     (let [line ((:dialog state) (:line state))]
       (str (:speaker line) ": "
            (:text    line)))))

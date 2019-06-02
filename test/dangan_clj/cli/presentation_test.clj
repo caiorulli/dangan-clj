@@ -1,8 +1,8 @@
 (ns dangan-clj.cli.presentation-test
-  (:require [dangan-clj.cli :refer [help-text present-state]]
-            [dangan-clj.input
-             [consts :as consts]
-             [states :as states]]
+  (:require [dangan-clj.cli.cli :refer [present-state]]
+            [dangan-clj.cli.messages :refer [help-text]]
+            [dangan-clj.input.consts :as consts]
+            [dangan-clj.input.states :as states]
             [midje.sweet :refer [=> fact facts]]))
 
 (facts

@@ -1,8 +1,7 @@
 (ns dangan-clj.cli.prompt-test
-  (:require [dangan-clj.cli :refer [make-prompt]]
-            [dangan-clj.input
-             [consts :as consts]
-             [states :as states]]
+  (:require [dangan-clj.cli.cli :refer [make-prompt]]
+            [dangan-clj.input.consts :as consts]
+            [dangan-clj.input.states :as states]
             [midje.sweet :refer [=> fact facts]]))
 
 (facts
