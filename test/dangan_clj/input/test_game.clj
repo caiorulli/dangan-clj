@@ -1,6 +1,4 @@
-(ns dangan-clj.input.states
-  (:require [dangan-clj.game-logic :as logic]
-            [dangan-clj.logic.navigation :as nav]))
+(ns dangan-clj.input.test-game)
 
 (def clue-1 {:id 1})
 
@@ -36,7 +34,3 @@
    :laundry    #{"laundry" "laundry area"}
    :knife      #{"knife"}
    :schredder  #{"schredder" "black box" "box"}})
-
-(def initial (logic/make-initial-state test-game cli-dict))
-(def dialog-start (logic/examine initial :knife))
-(def entered-scene-two (nav/go-to initial :laundry))

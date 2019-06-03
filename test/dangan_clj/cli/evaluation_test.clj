@@ -2,33 +2,32 @@
   (:require [dangan-clj.cli.cli :refer [evaluate-command]]
             [dangan-clj.game-logic :refer [advance-dialog]]
             [dangan-clj.input.consts :as consts]
-            [dangan-clj.input.states :as states]
-            [midje.sweet :refer [=> fact facts]]))
+            [midje.sweet :refer [=> fact]]))
 
 (fact
  "examine command should yield same result from examine fn"
- (evaluate-command states/initial consts/start-dialog-command) => states/dialog-start)
+ (evaluate-command consts/initial consts/start-dialog-command) => consts/dialog-start)
 
 (fact
  "on dialog mode, anything should trigger dialog advance"
- (let [after-dialog-state (advance-dialog states/dialog-start)
-       evaluate #(evaluate-command states/dialog-start %)]
+ (let [after-dialog-state (advance-dialog consts/dialog-start)
+       evaluate #(evaluate-command consts/dialog-start %)]
    (evaluate "")  => after-dialog-state
    (evaluate nil) => after-dialog-state
    (evaluate {})  => after-dialog-state))
 
 (fact
  "certain commands should not trigger state changes in interact mode"
- (let [evaluate #(evaluate-command states/initial %)]
-   (evaluate nil) => states/initial
-   (evaluate "") => states/initial
-   (evaluate {:type :describe}) => states/initial
-   (evaluate {:type :help}) => states/initial))
+ (let [evaluate #(evaluate-command consts/initial %)]
+   (evaluate nil) => consts/initial
+   (evaluate "") => consts/initial
+   (evaluate {:type :describe}) => consts/initial
+   (evaluate {:type :help}) => consts/initial))
 
 (fact
  "word enter should trigger navigation"
- (let [evaluate #(evaluate-command states/initial %)]
-   (evaluate "") => states/initial
-   (evaluate "enter") => states/initial
+ (let [evaluate #(evaluate-command consts/initial %)]
+   (evaluate "") => consts/initial
+   (evaluate "enter") => consts/initial
    (evaluate {:type :navigate
-              :target :laundry}) => states/entered-scene-two))
+              :target :laundry}) => consts/entered-scene-two))
