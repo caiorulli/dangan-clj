@@ -1,7 +1,6 @@
 (ns dangan-clj.input.states
   (:require [dangan-clj.game-logic :as logic]
-            [dangan-clj.logic.navigation :as nav]
-            [dangan-clj.input.example :as example]))
+            [dangan-clj.logic.navigation :as nav]))
 
 (def clue-1 {:id 1})
 
@@ -18,17 +17,26 @@
               {:speaker "Thiago"
                :text    "Why do you even have that here?"}]})
 
-(def test-scene
-  (assoc example/rodrigos-room :pois {:knife     knife
-                                      :schredder schredder
-                                      :rodrigo   example/rodrigo
-                                      :phone     example/phone}))
+(def gibas-room
+  {:display-name "Giba's Room"
+   :description "Giba's hauntingly neat and organized room."
+   :pois {:knife     knife
+          :schredder schredder}})
 
-(def test-game (assoc example/game
-                 :scenes
-                 {:rodrigos-room test-scene
-                  :pool          example/pool}))
+(def laundry
+  {:pois {}})
 
-(def initial (logic/make-initial-state test-game example/cli-dict))
+(def test-game
+  {:scenes {:gibas-room gibas-room
+            :laundry    laundry}
+   :first-scene :gibas-room})
+
+(def cli-dict
+  {:gibas-room #{"room" "giba's room"}
+   :laundry    #{"laundry" "laundry area"}
+   :knife      #{"knife"}
+   :schredder  #{"schredder" "black box" "box"}})
+
+(def initial (logic/make-initial-state test-game cli-dict))
 (def dialog-start (logic/examine initial :knife))
-(def entered-scene-two (nav/go-to initial :pool))
+(def entered-scene-two (nav/go-to initial :laundry))

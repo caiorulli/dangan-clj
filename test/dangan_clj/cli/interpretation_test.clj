@@ -21,21 +21,21 @@
  (fact
   "examine synonims should be interpreted as examine commands"
   (let [interpret #(cli/interpret states/initial %)
-        examine-rodrigo-command {:type :examine
-                                 :target :rodrigo}]
-    (interpret "examine rodrigo") => examine-rodrigo-command
-    (interpret "examine batata")  => examine-rodrigo-command
-    (interpret "examine RodRigO") => examine-rodrigo-command))
+        examine-schredder-command {:type :examine
+                                 :target :schredder}]
+    (interpret "examine schredder") => examine-schredder-command
+    (interpret "examine black box")  => examine-schredder-command
+    (interpret "examine BOX") => examine-schredder-command))
 
  (fact
   "enter synonims should be interpreted as navigate commands"
   (let [interpret #(cli/interpret states/initial %)
-        enter-pool-command {:type :navigate
-                            :target :pool}
+        enter-laundry-command {:type :navigate
+                            :target :laundry}
         enter-room-command {:type :navigate
-                            :target :rodrigos-room}]
-    (interpret "enter Pool") => enter-pool-command
-    (interpret "enter pool") => enter-pool-command
-    (interpret "enter pool area") => enter-pool-command
-    (interpret "enter Rodrigo's Room") => enter-room-command
+                            :target :gibas-room}]
+    (interpret "enter Laundry") => enter-laundry-command
+    (interpret "enter laundry") => enter-laundry-command
+    (interpret "enter laundry area") => enter-laundry-command
+    (interpret "enter Giba's Room") => enter-room-command
     (interpret "enter room") => enter-room-command)))

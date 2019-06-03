@@ -31,4 +31,4 @@
    (evaluate "") => states/initial
    (evaluate "enter") => states/initial
    (evaluate {:type :navigate
-              :target :pool}) => states/entered-scene-two))
+              :target :laundry}) => states/entered-scene-two))

@@ -17,7 +17,7 @@
                       consts/start-dialog-command) => consts/formatted-dialog-line)
 
  (fact "look command should output scene description"
-       (present-state states/initial {:type :describe}) => consts/scene-description)
+   (present-state states/initial {:type :describe}) => consts/scene-description)
 
  (fact "help command should output help text"
        (present-state states/initial {:type :help}) => help-text))

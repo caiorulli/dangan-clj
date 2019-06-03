@@ -1,5 +1,4 @@
-(ns dangan-clj.game-logic
-  (:require [dangan-clj.logic.game :as game]))
+(ns dangan-clj.game-logic)
 
 (defn- make-player []
   {:clues #{}})

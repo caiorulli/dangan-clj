@@ -12,5 +12,5 @@
        (nav/go-to states/initial :rollercoaster) => states/initial)
 
  (fact "navigating to existing scene should change current scene"
-       (-> (nav/go-to states/initial :pool)
-           :current-scene) => :pool))
+       (-> (nav/go-to states/initial :laundry)
+           :current-scene) => :laundry))
