@@ -22,7 +22,9 @@
           :schredder schredder}})
 
 (def laundry
-  {:pois {}})
+  {:display-name "Laundry"
+   :description "So this is where Giba disposes of blood-soaked clothes..."
+   :pois {}})
 
 (def test-game
   {:scenes {:gibas-room gibas-room

@@ -28,5 +28,22 @@
   (fact "should have associated dialog"
     (s/valid? ::game/poi {}) => false)
 
+  (fact "pois can omit associated clue"
+    (s/valid? ::game/poi {:dialog []}) => true)
+
   (fact "knife poi should be valid"
     (s/valid? ::game/poi test-game/knife) => true))
+
+(facts "about wrapper fns"
+  (fact "valid? wraps clojure.spec valid? fn"
+    (let [wrapper-fn #(game/valid? %)
+          spec-fn #(s/valid? ::game/game %)]
+      (wrapper-fn nil) => (spec-fn nil)
+      (wrapper-fn test-game/test-game) => (spec-fn test-game/test-game)))
+
+  (fact "explain wraps clojure.spec explain-str fn"
+    (let [wrapper-fn #(game/explain %)
+          spec-fn #(s/explain-str ::game/game %)]
+      (wrapper-fn nil) => (spec-fn nil)
+      (wrapper-fn {}) => (spec-fn {}))))
+

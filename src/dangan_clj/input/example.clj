@@ -34,7 +34,7 @@
 (def pool
   {:display-name "Pool"
    :description  "We're next to the pool, nice"
-   :pois         #{}})
+   :pois         {}})
 
 (def game
   {:first-scene :rodrigos-room

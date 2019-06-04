@@ -3,13 +3,23 @@
 
 (s/def ::first-scene keyword?)
 
+(s/def ::dialog vector?)
+(s/def ::clue map?)
+(s/def ::poi (s/keys :req-un [::dialog]
+                     :opt-un [::clue]))
+(s/def ::poi-id keyword?)
+(s/def ::pois (s/map-of ::poi-id ::poi))
+
 (s/def ::display-name string?)
 (s/def ::description string?)
+(s/def ::scene (s/keys :req-un [::display-name ::description ::pois]))
+(s/def ::scene-id keyword?)
+(s/def ::scenes (s/map-of ::scene-id ::scene))
 
-(s/def ::dialog vector?)
+(s/def ::game (s/keys :req-un [::first-scene ::scenes]))
 
-(s/def ::poi (s/keys :req-un [::dialog]))
+(defn valid? [game]
+  (s/valid? ::game game))
 
-(s/def ::scene (s/keys :req-un [::display-name ::description]))
-
-(s/def ::game (s/keys :req-un [::first-scene]))
+(defn explain [game]
+  (s/explain-str ::game game))

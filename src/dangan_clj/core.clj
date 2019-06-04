@@ -3,7 +3,8 @@
   (:require [dangan-clj.cli.cli :as cli]
             [dangan-clj.cli.messages :as messages]
             [dangan-clj.game-logic :refer [make-initial-state]]
-            [dangan-clj.input.example :as example]))
+            [dangan-clj.input.example :as example]
+            [dangan-clj.logic.game :as game]))
 
 (defn- game-loop [state]
   (print (cli/make-prompt state))
@@ -18,7 +19,10 @@
 
 (defn -main
   [& _]
-  (println messages/welcome-text)
-  (let [state (make-initial-state example/game example/cli-dict)]
-    (cli/present-state state "")
-    (game-loop state)))
+  (let [game-valid? (game/valid? example/game)]
+    (if (not game-valid?)
+      (println (game/explain example/game))
+      (let [state (make-initial-state example/game example/cli-dict)]
+        (println messages/welcome-text)
+        (cli/present-state state "")
+        (game-loop state)))))
