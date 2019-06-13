@@ -45,9 +45,9 @@
     (find-id-from-cli-dict cli-dict scene-string scene-ids)))
 
 (defn- get-poi [state poi-string]
-  (let [current-scene (logic/get-current-scene state)
-        cli-dict (:cli-dict state)
-        poi-ids (keys (:pois current-scene))]
+  (let [cli-dict (:cli-dict state)
+        all-pois (:pois (:game state))
+        poi-ids (filter #(= (:current-scene state) (:scene-id (% all-pois))) (keys all-pois))]
     (find-id-from-cli-dict cli-dict poi-string poi-ids)))
 
 (defn interpret [state command-string]

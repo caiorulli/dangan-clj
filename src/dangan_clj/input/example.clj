@@ -11,7 +11,8 @@
             {:speaker "Giba"
              :text    (str "Yeah, even if we tried to get back to the city,\n"
                            "      the road's been blocked by falling trees.\n"
-                           "      I guess we're stuck in Cesar's farmhouse.")}]})
+                           "      I guess we're stuck in Cesar's farmhouse.")}]
+   :scene-id :rodrigos-room})
 
 (def phone
   {:dialog [{:speaker "Me"
@@ -20,26 +21,26 @@
             {:speaker "Giba"
              :text    "Oh, it's that series he's been watching, in which a woman goes back in time."}
             {:speaker "Me"
-             :text    "So, whatever happened, might have happened while he was watching it?"}]})
+             :text    "So, whatever happened, might have happened while he was watching it?"}]
+   :scene-id :rodrigos-room})
 
 (def rodrigos-room
   {:display-name "Rodrigo's Room"
    :description  (str "Rodrigo laid dead on his bed, pale and cold.\n"
                      "No visible wound. He's still holding his phone.\n"
                      "Me, Thiago and Giba stood around him, breathless, with no clue of how this came to happen.\n"
-                     "The others were still asleep, elsewhere.\n")
-   :pois         {:rodrigo rodrigo
-                  :phone   phone}})
+                     "The others were still asleep, elsewhere.\n")})
 
 (def pool
   {:display-name "Pool"
-   :description  "We're next to the pool, nice"
-   :pois         {}})
+   :description  "We're next to the pool, nice"})
 
 (def game
   {:first-scene :rodrigos-room
    :scenes      {:rodrigos-room rodrigos-room
-                 :pool          pool}})
+                 :pool          pool}
+   :pois {:rodrigo rodrigo
+          :phone   phone}})
 
 (def cli-dict
   {:rodrigos-room #{"rodrigo's room" "room"}

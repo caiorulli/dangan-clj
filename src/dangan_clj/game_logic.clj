@@ -23,7 +23,7 @@
 (defn examine [{:keys [player]
                 :as state} poi-id]
   (let [current-scene (get-current-scene state)
-        poi (find-poi current-scene poi-id)
+        poi (find-poi (:game state) poi-id)
         {:keys [clue dialog]} poi]
     (if (nil? poi)
       state

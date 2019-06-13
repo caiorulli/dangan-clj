@@ -28,6 +28,11 @@
     (interpret "examine BOX") => examine-schredder-command))
 
  (fact
+     "should not find poi if it doesn't belong in the scene"
+   (cli/interpret consts/initial "examine washing-machine") => {:type :examine 
+                                                                :target nil})
+
+ (fact
   "enter synonims should be interpreted as navigate commands"
   (let [interpret #(cli/interpret consts/initial %)
         enter-laundry-command {:type :navigate

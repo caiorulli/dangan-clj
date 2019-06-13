@@ -22,14 +22,18 @@
     (s/valid? ::game/scene {:display-name "lala"}) => false)
 
   (fact "giba's room scene should be valid"
-    (s/valid? ::game/scene test-game/gibas-room) => true))
+    (s/valid? ::game/scene test-game/gibas-room) => true
+    (s/valid? ::game/scene test-game/laundry) => true))
 
 (facts "about point-of-interest validity"
-  (fact "should have associated dialog"
-    (s/valid? ::game/poi {}) => false)
+  (fact "should have associated dialog and scene id"
+    (s/valid? ::game/poi {}) => false
+    (s/valid? ::game/poi {:dialog []}) => false
+    (s/valid? ::game/poi {:scene-id :lala}) => false)
 
   (fact "pois can omit associated clue"
-    (s/valid? ::game/poi {:dialog []}) => true)
+    (s/valid? ::game/poi {:dialog []
+                          :scene-id :lala}) => true)
 
   (fact "knife poi should be valid"
     (s/valid? ::game/poi test-game/knife) => true))
