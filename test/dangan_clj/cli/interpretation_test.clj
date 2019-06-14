@@ -22,21 +22,21 @@
   "examine synonims should be interpreted as examine commands"
   (let [interpret #(cli/interpret consts/initial %)
         examine-schredder-command {:type :examine
-                                 :target :schredder}]
+                                   :target :schredder}]
     (interpret "examine schredder") => examine-schredder-command
     (interpret "examine black box")  => examine-schredder-command
     (interpret "examine BOX") => examine-schredder-command))
 
  (fact
-     "should not find poi if it doesn't belong in the scene"
-   (cli/interpret consts/initial "examine washing-machine") => {:type :examine 
-                                                                :target nil})
+  "should not find poi if it doesn't belong in the scene"
+  (cli/interpret consts/initial "examine washing-machine") => {:type :examine
+                                                               :target nil})
 
  (fact
   "enter synonims should be interpreted as navigate commands"
   (let [interpret #(cli/interpret consts/initial %)
         enter-laundry-command {:type :navigate
-                            :target :laundry}
+                               :target :laundry}
         enter-room-command {:type :navigate
                             :target :gibas-room}]
     (interpret "enter Laundry") => enter-laundry-command

@@ -36,8 +36,8 @@
 (defn- find-id-from-cli-dict
   [cli-dict predicate possible-ids]
   (first (filter #(some (partial = predicate)
-                          (get cli-dict %))
-                   possible-ids)))
+                        (get cli-dict %))
+                 possible-ids)))
 
 (defn- get-scene [state scene-string]
   (let [cli-dict (:cli-dict state)

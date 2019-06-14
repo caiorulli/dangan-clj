@@ -29,11 +29,11 @@
 
 (def schredder-dialog
   [{:speaker "Thiago"
-               :text    "What's that big weird machine?"}
-              {:speaker "Giba"
-               :text    "It's a paper schredder."}
-              {:speaker "Thiago"
-               :text    "Why do you even have that here?"}])
+    :text    "What's that big weird machine?"}
+   {:speaker "Giba"
+    :text    "It's a paper schredder."}
+   {:speaker "Thiago"
+    :text    "Why do you even have that here?"}])
 
 (def washing-machine-dialog
   [{:speaker "Me"
