@@ -25,8 +25,8 @@
    [:thiago (str "We're still cut off from last night's storm.\n"
                  "        No phone signal, no internet.")]
    [:giba   (str "Yeah, even if we tried to get back to the city,\n"
-                  "      the road's been blocked by falling trees.\n"
-                  "      I guess we're stuck in Cesar's farmhouse.")]])
+                 "      the road's been blocked by falling trees.\n"
+                 "      I guess we're stuck in Cesar's farmhouse.")]])
 
 (def rodrigos-phone
   [[:caio (str "The phone still has its screen unlocked.\n"
