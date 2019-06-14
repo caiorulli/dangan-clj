@@ -24,7 +24,8 @@
                 :as state} poi-id]
   (let [current-scene (get-current-scene state)
         poi (find-poi (:game state) poi-id)
-        {:keys [clue dialog]} poi]
+        {:keys [clue dialog-id]} poi
+        dialog (get (:dialogs (:game state)) dialog-id)]
     (if (nil? poi)
       state
       (merge state

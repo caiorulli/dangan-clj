@@ -26,17 +26,26 @@
     (s/valid? ::game/scene test-game/laundry) => true))
 
 (facts "about point-of-interest validity"
-  (fact "should have associated dialog and scene id"
+  (fact "should have associated dialog id and scene id"
     (s/valid? ::game/poi {}) => false
-    (s/valid? ::game/poi {:dialog []}) => false
+    (s/valid? ::game/poi {:dialog-id []}) => false
     (s/valid? ::game/poi {:scene-id :lala}) => false)
 
   (fact "pois can omit associated clue"
-    (s/valid? ::game/poi {:dialog []
+    (s/valid? ::game/poi {:dialog-id :lalala
                           :scene-id :lala}) => true)
 
   (fact "knife poi should be valid"
     (s/valid? ::game/poi test-game/knife) => true))
+
+(facts "about dialogs"
+  (fact "should be collections of lines"
+    (s/valid? ::game/dialog []) => true
+    (s/valid? ::game/dialog nil) => false
+    (s/valid? ::game/dialog "") => false
+    (s/valid? ::game/dialog [{:speaker "lala"
+                              :text "lala"}]) => true
+    (s/valid? ::game/dialog [{"lala" :lala}]) => false))
 
 (facts "about wrapper fns"
   (fact "valid? wraps clojure.spec valid? fn"
