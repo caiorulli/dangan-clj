@@ -29,9 +29,11 @@
     (cond
       (= (:type command) :describe) (present-look state)
       (= (:type command) :help) messages/help-text)
-    (let [line ((:dialog state) (:line state))]
-      (str (:speaker line) ": "
-           (:text    line)))))
+    (let [line ((:dialog state) (:line state))
+          [speaker-id text] line
+          character (get (:characters (:game state)) speaker-id)
+          character-name (:display-name character)]
+      (str character-name ": " text))))
 
 (defn- find-id-from-cli-dict
   [cli-dict predicate possible-ids]

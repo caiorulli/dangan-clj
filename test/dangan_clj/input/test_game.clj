@@ -24,20 +24,15 @@
    :description "So this is where Giba disposes of blood-soaked clothes..."})
 
 (def knife-dialog
-  [{:speaker "Giba"
-    :text    "That's the knife I used to cut tomatoes."}])
+  [[:giba "That's the knife I used to cut tomatoes."]])
 
 (def schredder-dialog
-  [{:speaker "Thiago"
-    :text    "What's that big weird machine?"}
-   {:speaker "Giba"
-    :text    "It's a paper schredder."}
-   {:speaker "Thiago"
-    :text    "Why do you even have that here?"}])
+  [[:thiago "What's that big weird machine?"]
+   [:giba   "It's a paper schredder."]
+   [:thiago "Why do you even have that here?"]])
 
 (def washing-machine-dialog
-  [{:speaker "Me"
-    :text "So here's where you hide the bodies."}])
+  [[:thiago "So here's where you hide the bodies."]])
 
 (def test-game
   {:scenes {:gibas-room gibas-room

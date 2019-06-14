@@ -9,7 +9,7 @@
 (s/def ::character (s/keys :req-un [::display-name ::description]))
 (s/def ::characters (s/map-of ::character-id ::character))
 
-(s/def ::line (s/map-of keyword? string?))
+(s/def ::line (s/tuple ::character-id string?))
 (s/def ::dialog (s/coll-of ::line))
 (s/def ::dialog-id keyword?)
 (s/def ::dialogs (s/map-of ::dialog-id ::dialog))

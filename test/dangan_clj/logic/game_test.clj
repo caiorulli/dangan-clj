@@ -43,9 +43,8 @@
              (s/valid? ::game/dialog []) => true
              (s/valid? ::game/dialog nil) => false
              (s/valid? ::game/dialog "") => false
-             (s/valid? ::game/dialog [{:speaker "lala"
-                                       :text "lala"}]) => true
-             (s/valid? ::game/dialog [{"lala" :lala}]) => false))
+             (s/valid? ::game/dialog [[:speaker "lala"]]) => true
+             (s/valid? ::game/dialog [[]]) => false))
 
 (facts "about characters"
   (fact "should have display-name and description"

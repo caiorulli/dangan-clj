@@ -20,26 +20,19 @@
    :description  "We're next to the pool, nice"})
 
 (def rodrigos-dead
-  [{:speaker "Giba"
-    :text    "What the hell? Rodrigo's dead?"}
-   {:speaker "Me"
-    :text    "Now what, we call the police?"}
-   {:speaker "Thiago"
-    :text    (str "We're still cut off from last night's storm.\n"
-                  "        No phone signal, no internet.")}
-   {:speaker "Giba"
-    :text    (str "Yeah, even if we tried to get back to the city,\n"
+  [[:giba   "What the hell? Rodrigo's dead?"]
+   [:caio   "Now what, we call the police?"]
+   [:thiago (str "We're still cut off from last night's storm.\n"
+                 "        No phone signal, no internet.")]
+   [:giba   (str "Yeah, even if we tried to get back to the city,\n"
                   "      the road's been blocked by falling trees.\n"
-                  "      I guess we're stuck in Cesar's farmhouse.")}])
+                  "      I guess we're stuck in Cesar's farmhouse.")]])
 
 (def rodrigos-phone
-  [{:speaker "Me"
-    :text    (str "The phone still has its screen unlocked.\n"
-                  "    What could be so damn important that he would still hold on after dying...?")}
-   {:speaker "Giba"
-    :text    "Oh, it's that series he's been watching, in which a woman goes back in time."}
-   {:speaker "Me"
-    :text    "So, whatever happened, might have happened while he was watching it?"}])
+  [[:caio (str "The phone still has its screen unlocked.\n"
+               "    What could be so damn important that he would still hold on after dying...?")]
+   [:giba "Oh, it's that series he's been watching, in which a woman goes back in time."]
+   [:caio "So, whatever happened, might have happened while he was watching it?"]])
 
 (def game
   {:first-scene :rodrigos-room
@@ -52,7 +45,9 @@
    :characters {:giba {:display-name "Giba"
                        :description  "A friend from college. He works for a man called \"The Little Fish\"."}
                 :thiago {:display-name "Thiago"
-                         :description "Very tall guy. They say if you tell him that, he'll give you a card."}}})
+                         :description "Very tall guy. They say if you tell him that, he'll give you a card."}
+                :caio {:display-name "Me"
+                       :description "Ignore this for now"}}})
 
 (def cli-dict
   {:rodrigos-room #{"rodrigo's room" "room"}
