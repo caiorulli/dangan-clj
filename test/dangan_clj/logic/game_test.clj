@@ -47,6 +47,16 @@
                                        :text "lala"}]) => true
              (s/valid? ::game/dialog [{"lala" :lala}]) => false))
 
+(facts "about characters"
+  (fact "should have display-name and description"
+    (s/valid? ::game/character {:display-name "Dr. Gori"}) => false
+    (s/valid? ::game/character {:description "Meu objetivo é a conquista"}) => false
+    (s/valid? ::game/character {:display-name "Dr. Gori"
+                                :description "Meu objetivo é a conquista"}) => true
+    (s/valid? ::game/character nil) => false
+    (s/valid? ::game/character "Spectreman") => false
+    (s/valid? ::game/character {}) => false))
+
 (facts "about wrapper fns"
        (fact "valid? wraps clojure.spec valid? fn"
              (let [wrapper-fn #(game/valid? %)

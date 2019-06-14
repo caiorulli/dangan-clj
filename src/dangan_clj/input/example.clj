@@ -48,7 +48,11 @@
    :pois {:rodrigo rodrigo
           :phone   phone}
    :dialogs {:rodrigos-dead rodrigos-dead
-             :rodrigos-phone rodrigos-phone}})
+             :rodrigos-phone rodrigos-phone}
+   :characters {:giba {:display-name "Giba"
+                       :description  "A friend from college. He works for a man called \"The Little Fish\"."}
+                :thiago {:display-name "Thiago"
+                         :description "Very tall guy. They say if you tell him that, he'll give you a card."}}})
 
 (def cli-dict
   {:rodrigos-room #{"rodrigo's room" "room"}

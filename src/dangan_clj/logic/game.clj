@@ -2,6 +2,12 @@
   (:require [clojure.spec.alpha :as s]))
 
 (s/def ::first-scene keyword?)
+(s/def ::display-name string?)
+(s/def ::description string?)
+
+(s/def ::character-id keyword?)
+(s/def ::character (s/keys :req-un [::display-name ::description]))
+(s/def ::characters (s/map-of ::character-id ::character))
 
 (s/def ::line (s/map-of keyword? string?))
 (s/def ::dialog (s/coll-of ::line))
@@ -16,12 +22,14 @@
 (s/def ::poi-id keyword?)
 (s/def ::pois (s/map-of ::poi-id ::poi))
 
-(s/def ::display-name string?)
-(s/def ::description string?)
 (s/def ::scene (s/keys :req-un [::display-name ::description]))
 (s/def ::scenes (s/map-of ::scene-id ::scene))
 
-(s/def ::game (s/keys :req-un [::first-scene ::scenes ::pois ::dialogs]))
+(s/def ::game (s/keys :req-un [::first-scene
+                               ::scenes
+                               ::pois
+                               ::dialogs
+                               ::characters]))
 
 (defn valid? [game]
   (s/valid? ::game game))

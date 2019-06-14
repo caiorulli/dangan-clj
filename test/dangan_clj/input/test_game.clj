@@ -48,7 +48,11 @@
             :washing-machine washing-machine}
    :dialogs {:knife-dialog knife-dialog
              :schredder-dialog schredder-dialog
-             :washing-machine-dialog washing-machine-dialog}})
+             :washing-machine-dialog washing-machine-dialog}
+   :characters {:giba {:display-name "Giba"
+                       :description  "A respectable gentleman"}
+                :thiago {:display-name "Thiago"
+                         :description "A very tall gentleman"}}})
 
 (def cli-dict
   {:gibas-room #{"room" "giba's room"}
