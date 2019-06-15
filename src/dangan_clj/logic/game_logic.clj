@@ -1,4 +1,4 @@
-(ns dangan-clj.game-logic)
+(ns dangan-clj.logic.game-logic)
 
 (defn- make-player []
   {:clues #{}})

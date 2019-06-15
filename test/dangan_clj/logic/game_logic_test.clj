@@ -1,7 +1,7 @@
-(ns dangan-clj.game-logic-test
-  (:require [dangan-clj.game-logic :as logic]
-            [dangan-clj.input.consts :as consts]
+(ns dangan-clj.logic.game-logic-test
+  (:require [dangan-clj.input.consts :as consts]
             [dangan-clj.input.test-game :as test-game]
+            [dangan-clj.logic.game-logic :as logic]
             [midje.sweet :refer [=> fact facts]]))
 
 (facts

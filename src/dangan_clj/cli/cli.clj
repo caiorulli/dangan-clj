@@ -1,8 +1,8 @@
 (ns dangan-clj.cli.cli
   (:require [clojure.string :as string]
-            [dangan-clj.game-logic :as logic]
-            [dangan-clj.logic.navigation :as nav]
-            [dangan-clj.cli.messages :as messages]))
+            [dangan-clj.cli.messages :as messages]
+            [dangan-clj.logic.game-logic :as logic]
+            [dangan-clj.logic.navigation :as nav]))
 
 (defn make-prompt [state]
   (if (= (:mode state) :interact)

@@ -2,9 +2,9 @@
   (:gen-class)
   (:require [dangan-clj.cli.cli :as cli]
             [dangan-clj.cli.messages :as messages]
-            [dangan-clj.game-logic :refer [make-initial-state]]
             [dangan-clj.input.example :as example]
-            [dangan-clj.logic.game :as game]))
+            [dangan-clj.logic.game :as game]
+            [dangan-clj.logic.game-logic :refer [make-initial-state]]))
 
 (defn- game-loop [state]
   (print (cli/make-prompt state))

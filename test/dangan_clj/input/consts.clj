@@ -1,6 +1,6 @@
 (ns dangan-clj.input.consts
-  (:require [dangan-clj.game-logic :as logic]
-            [dangan-clj.input.test-game :as test-game]
+  (:require [dangan-clj.input.test-game :as test-game]
+            [dangan-clj.logic.game-logic :as logic]
             [dangan-clj.logic.navigation :as nav]))
 
 (def scene-description "Giba's hauntingly neat and organized room.")

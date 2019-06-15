@@ -1,7 +1,7 @@
 (ns dangan-clj.cli.evaluation-test
   (:require [dangan-clj.cli.cli :refer [evaluate-command]]
-            [dangan-clj.game-logic :refer [advance-dialog]]
             [dangan-clj.input.consts :as consts]
+            [dangan-clj.logic.game-logic :refer [advance-dialog]]
             [midje.sweet :refer [=> fact]]))
 
 (fact
