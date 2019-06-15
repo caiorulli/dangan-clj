@@ -29,9 +29,9 @@
     (cond
       (= (:type command) :describe) (present-look state)
       (= (:type command) :help) messages/help-text)
-    (let [dialog-id (:dialog state)
+    (let [dialog-id (:current-dialog state)
           dialog (get (:dialogs (:game state)) dialog-id)
-          line (dialog (:line state))
+          line (dialog (:current-line state))
           [speaker-id text] line
           character (get (:characters (:game state)) speaker-id)
           character-name (:display-name character)]

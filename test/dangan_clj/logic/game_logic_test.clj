@@ -35,7 +35,7 @@
  (fact "interaction should trigger dialog mode"
        (let [dialog-mode-state (logic/examine consts/initial consts/single-line-poi)]
          (:mode dialog-mode-state) => :dialog
-         (:line dialog-mode-state) => 0))
+         (:current-line dialog-mode-state) => 0))
 
  (fact "after dialog is complete, 'advance-dial
 og' command should go back to interact mode"
@@ -49,12 +49,12 @@ og' command should go back to interact mode"
              line-three (logic/advance-dialog line-two)
              dialog-end (logic/advance-dialog line-three)]
          (:mode line-one) => :dialog
-         (:line line-one) => 0
+         (:current-line line-one) => 0
 
          (:mode line-two) => :dialog
-         (:line line-two) => 1
+         (:current-line line-two) => 1
 
          (:mode line-three) => :dialog
-         (:line line-three) => 2
+         (:current-line line-three) => 2
 
          (:mode dialog-end) => :interact)))

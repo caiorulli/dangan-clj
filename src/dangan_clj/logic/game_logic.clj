@@ -22,13 +22,13 @@
       (merge state
              {:player (add-clue player clue)
               :mode :dialog
-              :dialog dialog-id
-              :line 0}))))
+              :current-dialog dialog-id
+              :current-line 0}))))
 
-(defn advance-dialog [{:keys [line dialog]
+(defn advance-dialog [{:keys [current-line current-dialog]
                        :as state}]
-  (let [next-line (inc line)
-        dialog-entity (get (:dialogs (:game state)) dialog)]
-    (if (= next-line (count dialog-entity))
+  (let [next-line (inc current-line)
+        dialog (get (:dialogs (:game state)) current-dialog)]
+    (if (= next-line (count dialog))
       (assoc state :mode :interact)
-      (assoc state :line next-line))))
+      (assoc state :current-line next-line))))
