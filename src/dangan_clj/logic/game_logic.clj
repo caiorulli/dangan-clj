@@ -8,7 +8,9 @@
   (get pois poi-id))
 
 (defn- add-clue [player clue]
-  (assoc player :clues (conj (:clues player) clue)))
+  (if (some (partial = clue) (:clues player))
+    player
+    (assoc player :clues (conj (:clues player) clue))))
 
 (defn examine [{:keys [player]
                 :as state} poi-id]

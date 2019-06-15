@@ -14,18 +14,18 @@
  (fact "player should start clueless"
        (-> consts/initial
            :player
-           :clues) => #{})
+           :clues) => [])
 
  (fact "player should not be able to add same clue twice"
        (let [already-interacted-state (logic/examine consts/initial consts/single-line-poi)]
          (-> (logic/examine already-interacted-state consts/single-line-poi)
              :player
-             :clues) => #{test-game/clue-1}))
+             :clues) => [test-game/clue-1]))
 
  (fact "player should add clues by interacting with poi"
        (-> (logic/examine consts/initial consts/single-line-poi)
            :player
-           :clues) => #{test-game/clue-1})
+           :clues) => [test-game/clue-1])
 
  (fact "player examining non-existing poi should not return different player"
        (logic/examine consts/initial "balloon") => consts/initial))
