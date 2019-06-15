@@ -24,19 +24,19 @@
                 :as state} poi-id]
   (let [current-scene (get-current-scene state)
         poi (find-poi (:game state) poi-id)
-        {:keys [clue dialog-id]} poi
-        dialog (get (:dialogs (:game state)) dialog-id)]
+        {:keys [clue dialog-id]} poi]
     (if (nil? poi)
       state
       (merge state
              {:player (add-clue player clue)
               :mode :dialog
-              :dialog dialog
+              :dialog dialog-id
               :line 0}))))
 
 (defn advance-dialog [{:keys [line dialog]
                        :as state}]
-  (let [next-line (inc line)]
-    (if (= next-line (count dialog))
+  (let [next-line (inc line)
+        dialog-entity (get (:dialogs (:game state)) dialog)]
+    (if (= next-line (count dialog-entity))
       (assoc state :mode :interact)
       (assoc state :line next-line))))
