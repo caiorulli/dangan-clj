@@ -1,6 +1,7 @@
 (ns dangan-clj.logic.state
   (:require [clojure.spec.alpha :as s]
-            [dangan-clj.logic.game :as game]))
+            [dangan-clj.logic.game :as game]
+            ))
 
 (s/def ::clues vector?)
 (s/def ::player (s/keys :req-un [::clues]))
@@ -19,3 +20,13 @@
                                 ::cli-dict]
                        :opt-un [::dialog
                                 ::line]))
+
+(defn- make-player []
+  {:clues #{}})
+
+(defn make-initial-state [game cli-dict]
+  {:player        (make-player)
+   :game          game
+   :mode          :interact
+   :current-scene (:first-scene game)
+   :cli-dict      cli-dict})

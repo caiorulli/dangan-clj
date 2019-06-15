@@ -1,15 +1,5 @@
 (ns dangan-clj.logic.game-logic)
 
-(defn- make-player []
-  {:clues #{}})
-
-(defn make-initial-state [game cli-dict]
-  {:player        (make-player)
-   :game          game
-   :mode          :interact
-   :current-scene (:first-scene game)
-   :cli-dict      cli-dict})
-
 (defn get-current-scene [{:keys [current-scene]
                           {:keys [scenes]} :game}]
   (current-scene scenes))

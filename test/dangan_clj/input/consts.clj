@@ -1,6 +1,7 @@
 (ns dangan-clj.input.consts
   (:require [dangan-clj.input.test-game :as test-game]
             [dangan-clj.logic.game-logic :as logic]
+            [dangan-clj.logic.state :as state]
             [dangan-clj.logic.navigation :as nav]))
 
 (def scene-description "Giba's hauntingly neat and organized room.")
@@ -11,7 +12,7 @@
 (def single-line-poi :knife)
 (def multi-line-poi :schredder)
 
-(def initial (logic/make-initial-state test-game/test-game test-game/cli-dict))
+(def initial (state/make-initial-state test-game/test-game test-game/cli-dict))
 
 (def dialog-start (logic/examine initial :knife))
 
