@@ -13,11 +13,13 @@
 
 (def gibas-room
   {:display-name "Giba's Room"
-   :dialog-id :describe-gibas-room})
+   :dialog-id :describe-gibas-room
+   :presences [[:giba :giba-talk]]})
 
 (def washing-machine
   {:dialog-id :washing-machine-dialog
-   :scene-id :laundry})
+   :scene-id :laundry
+   :presences []})
 
 (def laundry
   {:display-name "Laundry"
@@ -46,6 +48,12 @@
 (def describe-thiago
   [[:thought "A very tall gentleman"]])
 
+(def describe-rodrigo
+  [[:thought "A somewhat slow-paced gentleman"]])
+
+(def giba-talk
+  [[:giba "Have you ever watched Dragon Ball X???"]])
+
 (def test-game
   {:scenes {:gibas-room gibas-room
             :laundry    laundry}
@@ -59,11 +67,15 @@
              :describe-gibas-room describe-gibas-room
              :describe-laundry describe-laundry
              :describe-giba describe-giba
-             :describe-thiago describe-thiago}
+             :describe-thiago describe-thiago
+             :describe-rodrigo describe-rodrigo
+             :giba-talk giba-talk}
    :characters {:giba {:display-name "Giba"
                        :dialog-id :describe-giba}
                 :thiago {:display-name "Thiago"
-                         :dialog-id :describe-thiago}}})
+                         :dialog-id :describe-thiago}
+                :rodrigo {:display-name "Rodrigo"
+                          :dialog-id :describe-rodrigo}}})
 
 (def cli-dict
   {:gibas-room #{"room" "giba's room"}

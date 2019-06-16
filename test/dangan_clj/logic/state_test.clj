@@ -70,10 +70,10 @@
 
 (facts "about dialog mode"
   (fact "interaction with poi should trigger dialog mode"
-       (let [dialog-mode-state (state/examine consts/initial :knife)]
-         (:mode dialog-mode-state) => :dialog
-         (:current-dialog dialog-mode-state) => :knife-dialog
-         (:current-line dialog-mode-state) => 0))
+       (let [state (state/examine consts/initial :knife)]
+         (:mode state) => :dialog
+         (:current-dialog state) => :knife-dialog
+         (:current-line state) => 0))
 
   (fact "examining characters should trigger dialog mode with describe dialog"
     (let [state (state/examine consts/initial :giba)]
@@ -81,11 +81,35 @@
       (:current-dialog state) => :describe-giba
       (:current-line state) => 0))
 
+  (fact "examining characters should not trigger dialog mode if character is not there"
+    (let [state (state/examine consts/initial :rodrigo)]
+      (:mode state) => :interact
+      (:current-dialog state) => nil
+      (:current-line state) => nil))
+  
   (fact "describe should also trigger entering dialog mode"
     (let [state (state/describe consts/initial)]
       (:mode state) => :dialog
       (:current-dialog state) => :describe-gibas-room
       (:current-line state) => 0))
+
+  (fact "talk should also trigger dialog mode"
+    (let [state (state/talk-to consts/initial :giba)]
+      (:mode state) => :dialog
+      (:current-dialog state) => :giba-talk
+      (:current-line state) => 0))
+
+  (fact "talk should not trigger dialog mode if character does not exist"
+    (let [state (state/talk-to consts/initial :ricardo)]
+      (:mode state) => :interact
+      (:current-dialog state) => nil
+      (:current-line state) => nil))
+
+  (fact "talk should not trigger dialog mode if character is not there"
+    (let [state (state/talk-to consts/initial :rodrigo)]
+      (:mode state) => :interact
+      (:current-dialog state) => nil
+      (:current-line state) => nil))
 
  (fact "after dialog is complete, 'advance-dialog' command should go back to interact mode"
        (let [dialog-mode-state (state/examine consts/initial :knife)

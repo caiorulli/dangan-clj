@@ -22,7 +22,11 @@
 (s/def ::poi-id keyword?)
 (s/def ::pois (s/map-of ::poi-id ::poi))
 
-(s/def ::scene (s/keys :req-un [::display-name ::dialog-id]))
+(s/def ::presence (s/tuple ::character-id ::dialog-id))
+(s/def ::presences (s/coll-of ::presence))
+
+(s/def ::scene (s/keys :req-un [::display-name ::dialog-id]
+                       :opt-un [::presences]))
 (s/def ::scenes (s/map-of ::scene-id ::scene))
 
 (s/def ::game (s/keys :req-un [::first-scene

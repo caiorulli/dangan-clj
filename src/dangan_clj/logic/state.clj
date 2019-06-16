@@ -41,16 +41,21 @@
                 :current-dialog dialog-id
                 :current-line 0}))
 
+(defn- find-presence [state character-id]
+  (some #(when (= (first %) character-id) %)
+        (:presences (get-current-scene state))))
+
 (defn examine [{:keys [player]
                 :as state} element-id]
   (let [poi (get (:pois (:game state)) element-id)
-        character (get (:characters (:game state)) element-id)]
+        character (get (:characters (:game state)) element-id)
+        presence (find-presence state element-id)]
     (cond
       (not (nil? poi))
       (-> state
           (assoc :player (add-clue player (:clue poi)))
           (enter-dialog (:dialog-id poi)))
-      (not (nil? character))
+      (not (or (nil? character) (nil? presence)))
       (enter-dialog state (:dialog-id character))
       :else
       state)))
@@ -59,6 +64,12 @@
   (let [current-scene (get-current-scene state)
         dialog-id (:dialog-id current-scene)]
     (enter-dialog state dialog-id)))
+
+(defn talk-to [state character-id]
+  (let [target-presence (find-presence state character-id)]
+    (if-not (nil? target-presence)
+      (enter-dialog state (target-presence 1))
+      state)))
 
 (defn advance-dialog [{:keys [current-line current-dialog]
                        :as state}]
