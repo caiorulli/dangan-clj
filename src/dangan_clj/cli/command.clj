@@ -26,8 +26,10 @@
 
 (defmulti evaluate
   (fn [command state]
-    (and (s/valid? ::command command)
-         (:type command))))
+    (if (= (:mode state) :dialog)
+      :advance-dialog
+      (and (s/valid? ::command command)
+           (:type command)))))
 
 (defmethod evaluate :describe [command state]
   (state/describe state))
@@ -37,6 +39,9 @@
 
 (defmethod evaluate :examine [command state]
   (state/examine state (:target command)))
+
+(defmethod evaluate :advance-dialog [command state]
+  (state/advance-dialog state))
 
 (defmethod evaluate :default [command state]
   state)

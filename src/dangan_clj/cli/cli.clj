@@ -14,9 +14,7 @@
 
 (defn evaluate-command [state command]
   {:post [(s/valid? ::state/state %)]}
-  (if (= (:mode state) :interact)
-    (command/evaluate command state)
-    (state/advance-dialog state)))
+  (command/evaluate command state))
 
 (defn- present-look [state]
   (-> state state/get-current-scene :description))
