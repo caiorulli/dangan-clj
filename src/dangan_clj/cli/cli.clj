@@ -2,7 +2,8 @@
   (:require [clojure.spec.alpha :as s]
             [dangan-clj.cli.messages :as messages]
             [dangan-clj.logic.navigation :as nav]
-            [dangan-clj.logic.state :as state]))
+            [dangan-clj.logic.state :as state]
+            [dangan-clj.cli.command :as command]))
 
 (defn make-prompt [state]
   (if (= (:mode state) :interact)
@@ -14,13 +15,7 @@
 (defn evaluate-command [state command]
   {:post [(s/valid? ::state/state %)]}
   (if (= (:mode state) :interact)
-    (if (nil? command)
-      state
-      (cond
-        (= (:type command) :examine) (state/examine state (:target command))
-        (= (:type command) :describe) (state/describe state)
-        (= (:type command) :navigate) (nav/go-to state (:target command))
-        :else state))
+    (command/evaluate command state)
     (state/advance-dialog state)))
 
 (defn- present-look [state]

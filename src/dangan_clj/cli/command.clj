@@ -1,9 +1,11 @@
 (ns dangan-clj.cli.command
   (:require [clojure.spec.alpha :as s]
             [clojure.string :as string]
-            [dangan-clj.cli.dict :as dict]))
+            [dangan-clj.cli.dict :as dict]
+            [dangan-clj.logic.state :as state]
+            [dangan-clj.logic.navigation :as nav]))
 
-(s/def ::type #{:describe :examine :help})
+(s/def ::type #{:describe :examine :help :navigate})
 (s/def ::target keyword?)
 
 (s/def ::command (s/keys :req-un [::type]
@@ -21,3 +23,20 @@
                                      :target (dict/lookup cli-dict predicate)}
       (= first-word "enter")        {:type :navigate
                                      :target (dict/lookup cli-dict predicate)})))
+
+(defmulti evaluate
+  (fn [command state]
+    (and (s/valid? ::command command)
+         (:type command))))
+
+(defmethod evaluate :describe [command state]
+  (state/describe state))
+
+(defmethod evaluate :navigate [command state]
+  (nav/go-to state (:target command)))
+
+(defmethod evaluate :examine [command state]
+  (state/examine state (:target command)))
+
+(defmethod evaluate :default [command state]
+  state)
