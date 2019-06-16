@@ -60,34 +60,33 @@
            :clues) => [])
 
  (fact "player should not be able to add same clue twice"
-       (let [already-interacted-state (state/examine consts/initial consts/single-line-poi)]
-         (-> (state/examine already-interacted-state consts/single-line-poi)
+       (let [already-interacted-state (state/examine consts/initial :knife)]
+         (-> (state/examine already-interacted-state :knife)
              :player
              :clues) => [test-game/clue-1]))
 
  (fact "player should add clues by interacting with poi"
-       (-> (state/examine consts/initial consts/single-line-poi)
+       (-> (state/examine consts/initial :knife)
            :player
            :clues) => [test-game/clue-1])
-
+ 
  (fact "player examining non-existing poi should not return different player"
-       (state/examine consts/initial "balloon") => consts/initial))
+       (state/examine consts/initial :balloon) => consts/initial))
 
-(facts
- "about dialog mode"
- (fact "interaction should trigger dialog mode"
-       (let [dialog-mode-state (state/examine consts/initial consts/single-line-poi)]
+(facts "about dialog mode"
+  (fact "interaction with poi should trigger dialog mode"
+       (let [dialog-mode-state (state/examine consts/initial :knife)]
          (:mode dialog-mode-state) => :dialog
+         (:current-dialog dialog-mode-state) => :knife-dialog
          (:current-line dialog-mode-state) => 0))
 
- (fact "after dialog is complete, 'advance-dial
-og' command should go back to interact mode"
-       (let [dialog-mode-state (state/examine consts/initial consts/single-line-poi)
+ (fact "after dialog is complete, 'advance-dialog' command should go back to interact mode"
+       (let [dialog-mode-state (state/examine consts/initial :knife)
              dialog-finished-state (state/advance-dialog dialog-mode-state)]
          (:mode dialog-finished-state) => :interact))
 
  (fact "'advance-dialog' command should trigger next line if dialog has more than one line"
-       (let [line-one   (state/examine consts/initial consts/multi-line-poi)
+       (let [line-one   (state/examine consts/initial :schredder)
              line-two   (state/advance-dialog line-one)
              line-three (state/advance-dialog line-two)
              dialog-end (state/advance-dialog line-three)]

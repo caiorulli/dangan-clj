@@ -8,8 +8,6 @@
 (def start-dialog-command {:type :examine
                            :target :knife})
 (def formatted-dialog-line "Giba: That's the knife I used to cut tomatoes.")
-(def single-line-poi :knife)
-(def multi-line-poi :schredder)
 
 (def initial (state/make-initial-state test-game/test-game test-game/cli-dict))
 
