@@ -1,41 +1,36 @@
 (ns dangan-clj.cli.interpretation-test
   (:require [dangan-clj.cli.cli :as cli]
-            [dangan-clj.input.consts :as consts]
+            [dangan-clj.input.test-game :as test-game]
             [midje.sweet :refer [=> fact facts]]))
+
+(def interpret #(cli/interpret test-game/cli-dict %))
 
 (facts
  "about interpretation"
  (fact
   "empty or invalid commands should be interpreted to nil"
-  (cli/interpret consts/initial "") => nil
-  (cli/interpret consts/initial "lalala") => nil)
+  (interpret "") => nil
+  (interpret "lalala") => nil)
 
  (fact
   "describe synonims should be interpreted as describe commands"
-  (cli/interpret consts/initial "describe") => {:type :describe})
+  (interpret "describe") => {:type :describe})
 
  (fact
   "help synonims should be interpreted as help commands"
-  (cli/interpret consts/initial "help") => {:type :help})
+  (interpret "help") => {:type :help})
 
  (fact
   "examine synonims should be interpreted as examine commands"
-  (let [interpret #(cli/interpret consts/initial %)
-        examine-schredder-command {:type :examine
+  (let [examine-schredder-command {:type :examine
                                    :target :schredder}]
     (interpret "examine schredder") => examine-schredder-command
     (interpret "examine black box")  => examine-schredder-command
     (interpret "examine BOX") => examine-schredder-command))
 
  (fact
-  "should not find poi if it doesn't belong in the scene"
-  (cli/interpret consts/initial "examine washing-machine") => {:type :examine
-                                                               :target nil})
-
- (fact
   "enter synonims should be interpreted as navigate commands"
-  (let [interpret #(cli/interpret consts/initial %)
-        enter-laundry-command {:type :navigate
+  (let [enter-laundry-command {:type :navigate
                                :target :laundry}
         enter-room-command {:type :navigate
                             :target :gibas-room}]

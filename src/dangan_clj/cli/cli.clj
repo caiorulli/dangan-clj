@@ -1,6 +1,7 @@
 (ns dangan-clj.cli.cli
   (:require [clojure.spec.alpha :as s]
             [clojure.string :as string]
+            [dangan-clj.cli.dict :refer [lookup]]
             [dangan-clj.cli.messages :as messages]
             [dangan-clj.logic.navigation :as nav]
             [dangan-clj.logic.state :as state]))
@@ -39,24 +40,7 @@
           character-name (:display-name character)]
       (str character-name ": " text))))
 
-(defn- find-id-from-cli-dict
-  [cli-dict predicate possible-ids]
-  (first (filter #(some (partial = predicate)
-                        (get cli-dict %))
-                 possible-ids)))
-
-(defn- get-scene [state scene-string]
-  (let [cli-dict (:cli-dict state)
-        scene-ids (keys (:scenes (:game state)))]
-    (find-id-from-cli-dict cli-dict scene-string scene-ids)))
-
-(defn- get-poi [state poi-string]
-  (let [cli-dict (:cli-dict state)
-        all-pois (:pois (:game state))
-        poi-ids (filter #(= (:current-scene state) (:scene-id (% all-pois))) (keys all-pois))]
-    (find-id-from-cli-dict cli-dict poi-string poi-ids)))
-
-(defn interpret [state command-string]
+(defn interpret [cli-dict command-string]
   (let [lowered-command-string (string/lower-case command-string)
         command-words (string/split lowered-command-string #" ")
         first-word    (first command-words)
@@ -65,6 +49,6 @@
       (= command-string "describe") {:type :describe}
       (= command-string "help")     {:type :help}
       (= first-word "examine")      {:type :examine
-                                     :target (get-poi state predicate)}
+                                     :target (lookup cli-dict predicate)}
       (= first-word "enter")        {:type :navigate
-                                     :target (get-scene state predicate)})))
+                                     :target (lookup cli-dict predicate)})))

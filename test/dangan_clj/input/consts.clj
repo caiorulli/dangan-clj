@@ -9,7 +9,7 @@
                            :target :knife})
 (def formatted-dialog-line "Giba: That's the knife I used to cut tomatoes.")
 
-(def initial (state/make-initial-state test-game/test-game test-game/cli-dict))
+(def initial (state/make-initial-state test-game/test-game))
 
 (def dialog-start (state/examine initial :knife))
 

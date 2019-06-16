@@ -7,7 +7,6 @@
 
 (s/def ::current-scene keyword?)
 (s/def ::mode #{:interact :dialog})
-(s/def ::cli-dict (s/map-of keyword? (s/coll-of string?)))
 
 (s/def ::current-dialog keyword?)
 (s/def ::current-line int?)
@@ -15,20 +14,18 @@
 (s/def ::state (s/keys :req-un [::game/game
                                 ::mode
                                 ::player
-                                ::current-scene
-                                ::cli-dict]
+                                ::current-scene]
                        :opt-un [::current-dialog
                                 ::current-line]))
 
 (defn- make-player []
   {:clues []})
 
-(defn make-initial-state [game cli-dict]
+(defn make-initial-state [game]
   {:player        (make-player)
    :game          game
    :mode          :interact
-   :current-scene (:first-scene game)
-   :cli-dict      cli-dict})
+   :current-scene (:first-scene game)})
 
 (defn- find-poi [{:keys [pois]} poi-id]
   (get pois poi-id))

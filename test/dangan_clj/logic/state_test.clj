@@ -9,8 +9,7 @@
 (def valid-state {:game test-game/test-game
                   :mode :interact
                   :player valid-player
-                  :current-scene :rodrigos-room
-                  :cli-dict {:lala #{"lala" "lalala"}}})
+                  :current-scene :rodrigos-room})
 
 (facts "about state validation"
        (fact "should contain required fields"
@@ -29,10 +28,6 @@
              (s/valid? ::state/state {:game test-game/test-game
                                       :mode :interact
                                       :player valid-player}) => false
-             (s/valid? ::state/state {:game test-game/test-game
-                                      :mode :interact
-                                      :player valid-player
-                                      :current-scene :rodrigos-room}) => false
 
              (s/valid? ::state/state valid-state) => true)
 
@@ -44,8 +39,8 @@
 
 (facts "about state functions"
        (fact "makes valid initial state"
-             (s/valid? ::state/state (state/make-initial-state test-game/test-game
-                                                               test-game/cli-dict)) => true))
+         (s/valid? ::state/state
+                   (state/make-initial-state test-game/test-game)) => true))
 
 (facts
  "about initial state"
