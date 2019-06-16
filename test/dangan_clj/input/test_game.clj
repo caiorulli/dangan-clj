@@ -13,7 +13,7 @@
 
 (def gibas-room
   {:display-name "Giba's Room"
-   :description "Giba's hauntingly neat and organized room."})
+   :dialog-id :describe-gibas-room})
 
 (def washing-machine
   {:dialog-id :washing-machine-dialog
@@ -21,7 +21,7 @@
 
 (def laundry
   {:display-name "Laundry"
-   :description "So this is where Giba disposes of blood-soaked clothes..."})
+   :dialog-id :describe-laundry})
 
 (def knife-dialog
   [[:giba "That's the knife I used to cut tomatoes."]])
@@ -34,6 +34,12 @@
 (def washing-machine-dialog
   [[:thiago "So here's where you hide the bodies."]])
 
+(def describe-gibas-room
+  [[:thought "Giba's hauntingly neat and organized room."]])
+
+(def describe-laundry
+  [[:thought "So this is where Giba disposes of blood-soaked clothes..."]])
+
 (def test-game
   {:scenes {:gibas-room gibas-room
             :laundry    laundry}
@@ -43,7 +49,9 @@
             :washing-machine washing-machine}
    :dialogs {:knife-dialog knife-dialog
              :schredder-dialog schredder-dialog
-             :washing-machine-dialog washing-machine-dialog}
+             :washing-machine-dialog washing-machine-dialog
+             :describe-gibas-room describe-gibas-room
+             :describe-laundry describe-laundry}
    :characters {:giba {:display-name "Giba"
                        :description  "A respectable gentleman"}
                 :thiago {:display-name "Thiago"

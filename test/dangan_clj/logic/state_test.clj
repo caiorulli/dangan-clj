@@ -75,6 +75,12 @@
          (:current-dialog dialog-mode-state) => :knife-dialog
          (:current-line dialog-mode-state) => 0))
 
+  (fact "describe should also trigger entering dialog mode"
+    (let [state (state/describe consts/initial)]
+      (:mode state) => :dialog
+      (:current-dialog state) => :describe-gibas-room
+      (:current-line state) => 0))
+
  (fact "after dialog is complete, 'advance-dialog' command should go back to interact mode"
        (let [dialog-mode-state (state/examine consts/initial :knife)
              dialog-finished-state (state/advance-dialog dialog-mode-state)]

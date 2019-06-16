@@ -52,6 +52,14 @@
               :current-dialog dialog-id
               :current-line 0}))))
 
+(defn describe [state]
+  (let [current-scene (get-current-scene state)
+        dialog-id (:dialog-id current-scene)]
+    (merge state
+           {:mode :dialog
+            :current-dialog dialog-id
+            :current-line 0})))
+
 (defn advance-dialog [{:keys [current-line current-dialog]
                        :as state}]
   (let [next-line (inc current-line)

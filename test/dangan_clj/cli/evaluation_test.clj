@@ -4,9 +4,10 @@
             [midje.sweet :refer [=> fact]]
             [dangan-clj.logic.state :as state]))
 
-(fact
- "examine command should yield same result from examine fn"
- (evaluate-command consts/initial consts/start-dialog-command) => consts/dialog-start)
+(fact "examine command should yield same result from examine fn"
+  (evaluate-command consts/initial {:type :examine
+                                    :target :knife}) => consts/dialog-start
+  (evaluate-command consts/initial {:type :describe}) => (state/describe consts/initial))
 
 (fact
  "on dialog mode, anything should trigger dialog advance"
@@ -21,7 +22,6 @@
  (let [evaluate #(evaluate-command consts/initial %)]
    (evaluate nil) => consts/initial
    (evaluate "") => consts/initial
-   (evaluate {:type :describe}) => consts/initial
    (evaluate {:type :help}) => consts/initial))
 
 (fact

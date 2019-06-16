@@ -22,7 +22,7 @@
 (s/def ::poi-id keyword?)
 (s/def ::pois (s/map-of ::poi-id ::poi))
 
-(s/def ::scene (s/keys :req-un [::display-name ::description]))
+(s/def ::scene (s/keys :req-un [::display-name ::dialog-id]))
 (s/def ::scenes (s/map-of ::scene-id ::scene))
 
 (s/def ::game (s/keys :req-un [::first-scene

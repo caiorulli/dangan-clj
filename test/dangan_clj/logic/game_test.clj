@@ -16,9 +16,9 @@
 
 (facts "about scene validity"
        (fact "scenes should have a display-name"
-             (s/valid? ::game/scene {:description "lala"}) => false)
+             (s/valid? ::game/scene {:dialog-id :lala}) => false)
 
-       (fact "scenes should have a description"
+       (fact "scenes should have a dialog-id"
              (s/valid? ::game/scene {:display-name "lala"}) => false)
 
        (fact "giba's room scene should be valid"

@@ -10,14 +10,11 @@
 
 (def rodrigos-room
   {:display-name "Rodrigo's Room"
-   :description  (str "Rodrigo laid dead on his bed, pale and cold.\n"
-                      "No visible wound. He's still holding his phone.\n"
-                      "Me, Thiago and Giba stood around him, breathless, with no clue of how this came to happen.\n"
-                      "The others were still asleep, elsewhere.\n")})
+   :dialog-id :describe-rodrigos-room})
 
 (def pool
   {:display-name "Pool"
-   :description  "We're next to the pool, nice"})
+   :dialog-id :describe-pool})
 
 (def rodrigos-dead
   [[:giba   "What the hell? Rodrigo's dead?"]
@@ -34,6 +31,15 @@
    [:giba "Oh, it's that series he's been watching, in which a woman goes back in time."]
    [:caio "So, whatever happened, might have happened while he was watching it?"]])
 
+(def describe-rodrigos-room
+  [[:thought "Rodrigo laid dead on his bed, pale and cold."]
+   [:thought "No visible wound. He's still holding his phone."]
+   [:thought "Me, Thiago and Giba stood around him, breathless, with no clue of how this came to happen."]
+   [:thought "The others were still asleep, elsewhere."]])
+
+(def describe-pool
+  [[:thought "We're next to the pool, nice"]])
+
 (def game
   {:first-scene :rodrigos-room
    :scenes      {:rodrigos-room rodrigos-room
@@ -41,7 +47,9 @@
    :pois {:rodrigo rodrigo
           :phone   phone}
    :dialogs {:rodrigos-dead rodrigos-dead
-             :rodrigos-phone rodrigos-phone}
+             :rodrigos-phone rodrigos-phone
+             :describe-rodrigos-room describe-rodrigos-room
+             :describe-pool describe-pool}
    :characters {:giba {:display-name "Giba"
                        :description  "A friend from college. He works for a man called \"The Little Fish\"."}
                 :thiago {:display-name "Thiago"

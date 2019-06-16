@@ -20,6 +20,7 @@
       state
       (cond
         (= (:type command) :examine) (state/examine state (:target command))
+        (= (:type command) :describe) (state/describe state)
         (= (:type command) :navigate) (nav/go-to state (:target command))
         :else state))
     (state/advance-dialog state)))
@@ -30,15 +31,17 @@
 (defn present-state [state command]
   (if (= (:mode state) :interact)
     (cond
-      (= (:type command) :describe) (present-look state)
       (= (:type command) :help) messages/help-text)
     (let [dialog-id (:current-dialog state)
           dialog (get (:dialogs (:game state)) dialog-id)
           line (dialog (:current-line state))
           [speaker-id text] line
+          is-thought? (= speaker-id :thought)
           character (get (:characters (:game state)) speaker-id)
           character-name (:display-name character)]
-      (str character-name ": " text))))
+      (if is-thought?
+        text
+        (str character-name ": " text)))))
 
 (defn interpret [cli-dict command-string]
   (let [lowered-command-string (string/lower-case command-string)
