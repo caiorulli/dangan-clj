@@ -1,7 +1,5 @@
 (ns dangan-clj.cli.cli
   (:require [clojure.spec.alpha :as s]
-            [clojure.string :as string]
-            [dangan-clj.cli.dict :refer [lookup]]
             [dangan-clj.cli.messages :as messages]
             [dangan-clj.logic.navigation :as nav]
             [dangan-clj.logic.state :as state]))
@@ -42,16 +40,3 @@
       (if is-thought?
         text
         (str character-name ": " text)))))
-
-(defn interpret [cli-dict command-string]
-  (let [lowered-command-string (string/lower-case command-string)
-        command-words (string/split lowered-command-string #" ")
-        first-word    (first command-words)
-        predicate     (string/join " " (rest command-words))]
-    (cond
-      (= command-string "describe") {:type :describe}
-      (= command-string "help")     {:type :help}
-      (= first-word "examine")      {:type :examine
-                                     :target (lookup cli-dict predicate)}
-      (= first-word "enter")        {:type :navigate
-                                     :target (lookup cli-dict predicate)})))

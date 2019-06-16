@@ -10,11 +10,13 @@
 
 (def rodrigos-room
   {:display-name "Rodrigo's Room"
-   :dialog-id :describe-rodrigos-room})
+   :dialog-id :describe-rodrigos-room
+   :presences [[:giba :describe-giba] [:thiago :describe-thiago]]})
 
 (def pool
   {:display-name "Pool"
-   :dialog-id :describe-pool})
+   :dialog-id :describe-pool
+   :presences []})
 
 (def rodrigos-dead
   [[:giba   "What the hell? Rodrigo's dead?"]

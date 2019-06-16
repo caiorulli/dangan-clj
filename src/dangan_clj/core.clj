@@ -4,13 +4,14 @@
             [dangan-clj.cli.messages :as messages]
             [dangan-clj.input.example :as example]
             [dangan-clj.logic.game :as game]
-            [dangan-clj.logic.state :as state]))
+            [dangan-clj.logic.state :as state]
+            [dangan-clj.cli.command :as command]))
 
 (defn- game-loop [state cli-dict]
   (print (cli/make-prompt state))
   (flush)
   (let [command-string (read-line)
-        command (cli/interpret cli-dict command-string)
+        command (command/make command-string cli-dict)
         next-state (cli/evaluate-command state command)
         command-output (cli/present-state next-state command)]
     (when command-output
