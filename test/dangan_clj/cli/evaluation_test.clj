@@ -1,8 +1,8 @@
 (ns dangan-clj.cli.evaluation-test
   (:require [dangan-clj.cli.cli :refer [evaluate-command]]
             [dangan-clj.input.consts :as consts]
-            [dangan-clj.logic.game-logic :refer [advance-dialog]]
-            [midje.sweet :refer [=> fact]]))
+            [midje.sweet :refer [=> fact]]
+            [dangan-clj.logic.state :as state]))
 
 (fact
  "examine command should yield same result from examine fn"
@@ -10,7 +10,7 @@
 
 (fact
  "on dialog mode, anything should trigger dialog advance"
- (let [after-dialog-state (advance-dialog consts/dialog-start)
+ (let [after-dialog-state (state/advance-dialog consts/dialog-start)
        evaluate #(evaluate-command consts/dialog-start %)]
    (evaluate "")  => after-dialog-state
    (evaluate nil) => after-dialog-state

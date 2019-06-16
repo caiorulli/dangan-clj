@@ -2,14 +2,13 @@
   (:require [clojure.spec.alpha :as s]
             [clojure.string :as string]
             [dangan-clj.cli.messages :as messages]
-            [dangan-clj.logic.game-logic :as logic]
             [dangan-clj.logic.navigation :as nav]
             [dangan-clj.logic.state :as state]))
 
 (defn make-prompt [state]
   (if (= (:mode state) :interact)
     (str "("
-         (:display-name (logic/get-current-scene state))
+         (:display-name (state/get-current-scene state))
          ") > ")
     "..."))
 
@@ -19,13 +18,13 @@
     (if (nil? command)
       state
       (cond
-        (= (:type command) :examine) (logic/examine state (:target command))
+        (= (:type command) :examine) (state/examine state (:target command))
         (= (:type command) :navigate) (nav/go-to state (:target command))
         :else state))
-    (logic/advance-dialog state)))
+    (state/advance-dialog state)))
 
 (defn- present-look [state]
-  (-> state logic/get-current-scene :description))
+  (-> state state/get-current-scene :description))
 
 (defn present-state [state command]
   (if (= (:mode state) :interact)
