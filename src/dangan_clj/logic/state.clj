@@ -39,6 +39,11 @@
     player
     (assoc player :clues (conj (:clues player) clue))))
 
+(defn- enter-dialog [state dialog-id]
+  (merge state {:mode :dialog
+                :current-dialog dialog-id
+                :current-line 0}))
+
 (defn examine [{:keys [player]
                 :as state} poi-id]
   (let [current-scene (get-current-scene state)
@@ -46,19 +51,14 @@
         {:keys [clue dialog-id]} poi]
     (if (nil? poi)
       state
-      (merge state
-             {:player (add-clue player clue)
-              :mode :dialog
-              :current-dialog dialog-id
-              :current-line 0}))))
+      (-> state
+          (assoc :player (add-clue player clue))
+          (enter-dialog dialog-id)))))
 
 (defn describe [state]
   (let [current-scene (get-current-scene state)
         dialog-id (:dialog-id current-scene)]
-    (merge state
-           {:mode :dialog
-            :current-dialog dialog-id
-            :current-line 0})))
+    (enter-dialog state dialog-id)))
 
 (defn advance-dialog [{:keys [current-line current-dialog]
                        :as state}]
