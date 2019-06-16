@@ -75,6 +75,12 @@
          (:current-dialog dialog-mode-state) => :knife-dialog
          (:current-line dialog-mode-state) => 0))
 
+  (fact "examining characters should trigger dialog mode with describe dialog"
+    (let [state (state/examine consts/initial :giba)]
+      (:mode state) => :dialog
+      (:current-dialog state) => :describe-giba
+      (:current-line state) => 0))
+
   (fact "describe should also trigger entering dialog mode"
     (let [state (state/describe consts/initial)]
       (:mode state) => :dialog

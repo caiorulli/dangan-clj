@@ -27,9 +27,6 @@
    :mode          :interact
    :current-scene (:first-scene game)})
 
-(defn- find-poi [{:keys [pois]} poi-id]
-  (get pois poi-id))
-
 (defn get-current-scene [{:keys [current-scene]
                           {:keys [scenes]} :game}]
   (current-scene scenes))
@@ -45,15 +42,18 @@
                 :current-line 0}))
 
 (defn examine [{:keys [player]
-                :as state} poi-id]
-  (let [current-scene (get-current-scene state)
-        poi (find-poi (:game state) poi-id)
-        {:keys [clue dialog-id]} poi]
-    (if (nil? poi)
-      state
+                :as state} element-id]
+  (let [poi (get (:pois (:game state)) element-id)
+        character (get (:characters (:game state)) element-id)]
+    (cond
+      (not (nil? poi))
       (-> state
-          (assoc :player (add-clue player clue))
-          (enter-dialog dialog-id)))))
+          (assoc :player (add-clue player (:clue poi)))
+          (enter-dialog (:dialog-id poi)))
+      (not (nil? character))
+      (enter-dialog state (:dialog-id character))
+      :else
+      state)))
 
 (defn describe [state]
   (let [current-scene (get-current-scene state)

@@ -40,6 +40,12 @@
 (def describe-laundry
   [[:thought "So this is where Giba disposes of blood-soaked clothes..."]])
 
+(def describe-giba
+  [[:thought "A respectable gentleman"]])
+
+(def describe-thiago
+  [[:thought "A very tall gentleman"]])
+
 (def test-game
   {:scenes {:gibas-room gibas-room
             :laundry    laundry}
@@ -51,11 +57,13 @@
              :schredder-dialog schredder-dialog
              :washing-machine-dialog washing-machine-dialog
              :describe-gibas-room describe-gibas-room
-             :describe-laundry describe-laundry}
+             :describe-laundry describe-laundry
+             :describe-giba describe-giba
+             :describe-thiago describe-thiago}
    :characters {:giba {:display-name "Giba"
-                       :description  "A respectable gentleman"}
+                       :dialog-id :describe-giba}
                 :thiago {:display-name "Thiago"
-                         :description "A very tall gentleman"}}})
+                         :dialog-id :describe-thiago}}})
 
 (def cli-dict
   {:gibas-room #{"room" "giba's room"}

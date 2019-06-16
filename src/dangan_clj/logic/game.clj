@@ -5,14 +5,14 @@
 (s/def ::display-name string?)
 (s/def ::description string?)
 
-(s/def ::character-id keyword?)
-(s/def ::character (s/keys :req-un [::display-name ::description]))
-(s/def ::characters (s/map-of ::character-id ::character))
-
 (s/def ::line (s/tuple ::character-id string?))
 (s/def ::dialog (s/coll-of ::line))
 (s/def ::dialog-id keyword?)
 (s/def ::dialogs (s/map-of ::dialog-id ::dialog))
+
+(s/def ::character-id keyword?)
+(s/def ::character (s/keys :req-un [::display-name ::dialog-id]))
+(s/def ::characters (s/map-of ::character-id ::character))
 
 (s/def ::clue map?)
 (s/def ::scene-id keyword?)

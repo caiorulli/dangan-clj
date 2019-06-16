@@ -40,6 +40,17 @@
 (def describe-pool
   [[:thought "We're next to the pool, nice"]])
 
+(def describe-giba
+  [[:thought "A friend from college."]
+   [:thought "He works for a man called \"The Little Fish\"."]])
+
+(def describe-thiago
+  [[:thought "Very tall guy."]
+   [:thought "They say if you tell him that, he'll give you a card."]])
+
+(def describe-me
+  [[:thought "Ignore this for now."]])
+
 (def game
   {:first-scene :rodrigos-room
    :scenes      {:rodrigos-room rodrigos-room
@@ -49,16 +60,21 @@
    :dialogs {:rodrigos-dead rodrigos-dead
              :rodrigos-phone rodrigos-phone
              :describe-rodrigos-room describe-rodrigos-room
-             :describe-pool describe-pool}
+             :describe-pool describe-pool
+             :describe-giba describe-giba
+             :describe-thiago describe-thiago
+             :describe-me describe-me}
    :characters {:giba {:display-name "Giba"
-                       :description  "A friend from college. He works for a man called \"The Little Fish\"."}
+                       :dialog-id :describe-giba}
                 :thiago {:display-name "Thiago"
-                         :description "Very tall guy. They say if you tell him that, he'll give you a card."}
+                         :dialog-id :describe-thiago}
                 :caio {:display-name "Me"
-                       :description "Ignore this for now"}}})
+                       :dialog-id :describe-me}}})
 
 (def cli-dict
   {:rodrigos-room #{"rodrigo's room" "room"}
    :pool          #{"pool" "pool area"}
    :rodrigo       #{"rodrigo" "batata"}
-   :phone         #{"phone" "cell phone" "cell"}})
+   :phone         #{"phone" "cell phone" "cell"}
+   :giba          #{"giba" "gilberto" "guilherme"}
+   :thiago        #{"thiago" "thits"}})

@@ -49,9 +49,9 @@
 (facts "about characters"
        (fact "should have display-name and description"
              (s/valid? ::game/character {:display-name "Dr. Gori"}) => false
-             (s/valid? ::game/character {:description "Meu objetivo é a conquista"}) => false
+             (s/valid? ::game/character {:dialog-id :lala}) => false
              (s/valid? ::game/character {:display-name "Dr. Gori"
-                                         :description "Meu objetivo é a conquista"}) => true
+                                         :dialog-id :lala}) => true
              (s/valid? ::game/character nil) => false
              (s/valid? ::game/character "Spectreman") => false
              (s/valid? ::game/character {}) => false))
