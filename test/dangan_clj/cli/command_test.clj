@@ -48,16 +48,16 @@
     (make-command "examine BOX") => examine-schredder-command))
 
  (fact
-  "enter synonims should be interpreted as navigate commands"
+  "go to synonims should be interpreted as navigate commands"
   (let [enter-laundry-command {:type :navigate
                                :target :laundry}
         enter-room-command {:type :navigate
                             :target :gibas-room}]
-    (make-command "enter Laundry") => enter-laundry-command
-    (make-command "enter laundry") => enter-laundry-command
-    (make-command "enter laundry area") => enter-laundry-command
-    (make-command "enter Giba's Room") => enter-room-command
-    (make-command "enter room") => enter-room-command)))
+    (make-command "go to Laundry") => enter-laundry-command
+    (make-command "go to laundry") => enter-laundry-command
+    (make-command "go to laundry area") => enter-laundry-command
+    (make-command "go to Giba's Room") => enter-room-command
+    (make-command "go to room") => enter-room-command)))
 
 (def evaluate-init #(command/evaluate % consts/initial))
 

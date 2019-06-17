@@ -11,21 +11,32 @@
 (s/def ::command (s/keys :req-un [::type]
                          :opt-un [::target]))
 
+(defn- make-predicate [command-words]
+  #(string/join " " (subvec command-words %)))
+
 (defn make [command-string cli-dict]
   (let [lowered-command-string (string/lower-case command-string)
         command-words (string/split lowered-command-string #" ")
         first-word    (first command-words)
-        predicate     (string/join " " (rest command-words))]
+        predicate-after  (make-predicate command-words)]
     (cond
-      (= first-word "describe") {:type :describe}
-      (= first-word "help")     {:type :help}
-      (= first-word "examine")  {:type :examine
-                                 :target (dict/lookup cli-dict predicate)}
-      (= first-word "enter")    {:type :navigate
-                                 :target (dict/lookup cli-dict predicate)}
+      (= first-word "describe")
+      {:type :describe}
+      
+      (= first-word "help")
+      {:type :help}
+      
+      (= first-word "examine")
+      {:type :examine
+       :target (dict/lookup cli-dict (predicate-after 1))}
+      
+      (string/starts-with? lowered-command-string "go to")
+      {:type :navigate
+       :target (dict/lookup cli-dict (predicate-after 2))}
+      
       (string/starts-with? lowered-command-string "talk to")
       {:type :talk
-       :target (dict/lookup cli-dict (last command-words))})))
+       :target (dict/lookup cli-dict (predicate-after 2))})))
 
 (defmulti evaluate
   (fn [command state]
