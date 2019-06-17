@@ -82,4 +82,6 @@
    :laundry    #{"laundry" "laundry area"}
    :knife      #{"knife"}
    :schredder  #{"schredder" "black box" "box"}
-   :washing-machine #{"washing-machine"}})
+   :washing-machine #{"washing-machine"}
+   :giba      #{"giba" "gilberto" "guilherme"}
+   :thiago    #{"thiago" "thits"}})

@@ -24,20 +24,20 @@
 
 (def make-command #(command/make % test-game/cli-dict))
 
-(facts
- "about interpretation"
- (fact
-  "empty or invalid commands should be interpreted to nil"
+(facts "about interpretation"
+ (fact "empty or invalid commands should be interpreted to nil"
   (make-command "") => nil
   (make-command "lalala") => nil)
 
- (fact
-  "describe synonims should be interpreted as describe commands"
+ (fact "describe synonims should be interpreted as describe commands"
   (make-command "describe") => {:type :describe})
 
- (fact
-  "help synonims should be interpreted as help commands"
-  (make-command "help") => {:type :help})
+ (fact "help synonims should be interpreted as help commands"
+   (make-command "help") => {:type :help})
+
+ (fact "talk to synonyms should be interpreted as talk commands"
+   (make-command "talk to giba") => {:type :talk
+                                     :target :giba})
 
  (fact
   "examine synonims should be interpreted as examine commands"
@@ -59,30 +59,31 @@
     (make-command "enter Giba's Room") => enter-room-command
     (make-command "enter room") => enter-room-command)))
 
-(fact "examine command should yield same result from examine fn"
-      (command/evaluate {:type :examine
-                         :target :knife} consts/initial) => consts/dialog-start
-      (command/evaluate {:type :describe} consts/initial) => (state/describe consts/initial))
+(def evaluate-init #(command/evaluate % consts/initial))
 
-(fact
- "on dialog mode, anything should trigger dialog advance"
- (let [after-dialog-state (state/advance-dialog consts/dialog-start)
-       evaluate #(command/evaluate % consts/dialog-start)]
-   (evaluate "")  => after-dialog-state
-   (evaluate nil) => after-dialog-state
-   (evaluate {})  => after-dialog-state))
+(facts "about command evaluation"
+  (fact "examine command should yield same result from examine fn"
+    (evaluate-init {:type :examine
+                    :target :knife}) => consts/dialog-start
+    (evaluate-init {:type :describe}) => (state/describe consts/initial))
 
-(fact
- "certain commands should not trigger state changes in interact mode"
- (let [evaluate #(command/evaluate % consts/initial)]
-   (evaluate nil) => consts/initial
-   (evaluate "") => consts/initial
-   (evaluate {:type :help}) => consts/initial))
+  (fact "on dialog mode, anything should trigger dialog advance"
+    (let [after-dialog-state (state/advance-dialog consts/dialog-start)
+          evaluate #(command/evaluate % consts/dialog-start)]
+      (evaluate "")  => after-dialog-state
+      (evaluate nil) => after-dialog-state
+      (evaluate {})  => after-dialog-state))
 
-(fact
- "word enter should trigger navigation"
- (let [evaluate #(command/evaluate % consts/initial)]
-   (evaluate "") => consts/initial
-   (evaluate "enter") => consts/initial
-   (evaluate {:type :navigate
-              :target :laundry}) => consts/entered-scene-two))
+  (fact "certain commands should not trigger state changes in interact mode"
+    (let [evaluate #(command/evaluate % consts/initial)]
+      (evaluate nil) => consts/initial
+      (evaluate "") => consts/initial
+      (evaluate {:type :help}) => consts/initial))
+
+  (fact "word enter should trigger navigation"
+    (evaluate-init {:type :navigate
+                    :target :laundry}) => consts/entered-scene-two)
+
+  (fact ":talk command type should trigger talk-to state fn"
+    (evaluate-init {:type :talk
+                    :target :giba}) => (state/talk-to consts/initial :giba)))

@@ -11,7 +11,8 @@
 (def rodrigos-room
   {:display-name "Rodrigo's Room"
    :dialog-id :describe-rodrigos-room
-   :presences [[:giba :describe-giba] [:thiago :describe-thiago]]})
+   :presences [[:giba :talk-to-giba]
+               [:thiago :describe-thiago]]})
 
 (def pool
   {:display-name "Pool"
@@ -46,6 +47,13 @@
   [[:thought "A friend from college."]
    [:thought "He works for a man called \"The Little Fish\"."]])
 
+(def talk-to-giba
+  [[:giba    "What's the cause of death? He looks normal."]
+   [:caio    "Hell if I know."]
+   [:giba    "Maybe he just watched too much anime for a lifetime."]
+   [:giba    "There's a very good anime film in theaters now..."]
+   [:giba    "It's about a guy who learns as he fights."]])
+
 (def describe-thiago
   [[:thought "Very tall guy."]
    [:thought "They say if you tell him that, he'll give you a card."]])
@@ -65,7 +73,8 @@
              :describe-pool describe-pool
              :describe-giba describe-giba
              :describe-thiago describe-thiago
-             :describe-me describe-me}
+             :describe-me describe-me
+             :talk-to-giba talk-to-giba}
    :characters {:giba {:display-name "Giba"
                        :dialog-id :describe-giba}
                 :thiago {:display-name "Thiago"
