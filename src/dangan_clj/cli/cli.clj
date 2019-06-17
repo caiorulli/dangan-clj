@@ -1,9 +1,6 @@
 (ns dangan-clj.cli.cli
-  (:require [clojure.spec.alpha :as s]
-            [dangan-clj.cli.messages :as messages]
-            [dangan-clj.logic.navigation :as nav]
-            [dangan-clj.logic.state :as state]
-            [dangan-clj.cli.command :as command]))
+  (:require [dangan-clj.cli.messages :as messages]
+            [dangan-clj.logic.state :as state]))
 
 (defn make-prompt [state]
   (if (= (:mode state) :interact)
@@ -11,10 +8,6 @@
          (:display-name (state/get-current-scene state))
          ") > ")
     "..."))
-
-(defn evaluate-command [state command]
-  {:post [(s/valid? ::state/state %)]}
-  (command/evaluate command state))
 
 (defn- present-look [state]
   (-> state state/get-current-scene :description))

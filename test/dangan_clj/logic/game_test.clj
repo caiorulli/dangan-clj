@@ -16,16 +16,16 @@
 
 (facts "about scene validity"
        (fact "scenes should have a display-name"
-         (s/valid? ::game/scene {:dialog-id :lala
-                                 :presences []}) => false)
+             (s/valid? ::game/scene {:dialog-id :lala
+                                     :presences []}) => false)
 
        (fact "scenes should have a dialog-id"
-         (s/valid? ::game/scene {:display-name "lala"
-                                 :presences []}) => false)
+             (s/valid? ::game/scene {:display-name "lala"
+                                     :presences []}) => false)
 
        (fact "scenes can omit a presences list"
-         (s/valid? ::game/scene {:display-name "lala"
-                                 :dialog-id :lala}) => true)
+             (s/valid? ::game/scene {:display-name "lala"
+                                     :dialog-id :lala}) => true)
 
        (fact "giba's room scene should be valid"
              (s/valid? ::game/scene test-game/gibas-room) => true
@@ -45,10 +45,10 @@
              (s/valid? ::game/poi test-game/knife) => true))
 
 (facts "about presences validity"
-  (fact "should be coll of two keywords"
-    (s/valid? ::game/presences []) => true
-    (s/valid? ::game/presences [[:lala :lala]]) => true
-    (s/valid? ::game/presences [["lala" "lala"]]) => false))
+       (fact "should be coll of two keywords"
+             (s/valid? ::game/presences []) => true
+             (s/valid? ::game/presences [[:lala :lala]]) => true
+             (s/valid? ::game/presences [["lala" "lala"]]) => false))
 
 (facts "about dialogs"
        (fact "should be collections of lines"

@@ -39,8 +39,8 @@
 
 (facts "about state functions"
        (fact "makes valid initial state"
-         (s/valid? ::state/state
-                   (state/make-initial-state test-game/test-game)) => true))
+             (s/valid? ::state/state
+                       (state/make-initial-state test-game/test-game)) => true))
 
 (facts
  "about initial state"
@@ -64,70 +64,70 @@
        (-> (state/examine consts/initial :knife)
            :player
            :clues) => [test-game/clue-1])
- 
+
  (fact "player examining non-existing poi should not return different player"
        (state/examine consts/initial :balloon) => consts/initial))
 
 (facts "about dialog mode"
-  (fact "interaction with poi should trigger dialog mode"
-       (let [state (state/examine consts/initial :knife)]
-         (:mode state) => :dialog
-         (:current-dialog state) => :knife-dialog
-         (:current-line state) => 0))
+       (fact "interaction with poi should trigger dialog mode"
+             (let [state (state/examine consts/initial :knife)]
+               (:mode state) => :dialog
+               (:current-dialog state) => :knife-dialog
+               (:current-line state) => 0))
 
-  (fact "examining characters should trigger dialog mode with describe dialog"
-    (let [state (state/examine consts/initial :giba)]
-      (:mode state) => :dialog
-      (:current-dialog state) => :describe-giba
-      (:current-line state) => 0))
+       (fact "examining characters should trigger dialog mode with describe dialog"
+             (let [state (state/examine consts/initial :giba)]
+               (:mode state) => :dialog
+               (:current-dialog state) => :describe-giba
+               (:current-line state) => 0))
 
-  (fact "examining characters should not trigger dialog mode if character is not there"
-    (let [state (state/examine consts/initial :rodrigo)]
-      (:mode state) => :interact
-      (:current-dialog state) => nil
-      (:current-line state) => nil))
-  
-  (fact "describe should also trigger entering dialog mode"
-    (let [state (state/describe consts/initial)]
-      (:mode state) => :dialog
-      (:current-dialog state) => :describe-gibas-room
-      (:current-line state) => 0))
+       (fact "examining characters should not trigger dialog mode if character is not there"
+             (let [state (state/examine consts/initial :rodrigo)]
+               (:mode state) => :interact
+               (:current-dialog state) => nil
+               (:current-line state) => nil))
 
-  (fact "talk should also trigger dialog mode"
-    (let [state (state/talk-to consts/initial :giba)]
-      (:mode state) => :dialog
-      (:current-dialog state) => :giba-talk
-      (:current-line state) => 0))
+       (fact "describe should also trigger entering dialog mode"
+             (let [state (state/describe consts/initial)]
+               (:mode state) => :dialog
+               (:current-dialog state) => :describe-gibas-room
+               (:current-line state) => 0))
 
-  (fact "talk should not trigger dialog mode if character does not exist"
-    (let [state (state/talk-to consts/initial :ricardo)]
-      (:mode state) => :interact
-      (:current-dialog state) => nil
-      (:current-line state) => nil))
+       (fact "talk should also trigger dialog mode"
+             (let [state (state/talk-to consts/initial :giba)]
+               (:mode state) => :dialog
+               (:current-dialog state) => :giba-talk
+               (:current-line state) => 0))
 
-  (fact "talk should not trigger dialog mode if character is not there"
-    (let [state (state/talk-to consts/initial :rodrigo)]
-      (:mode state) => :interact
-      (:current-dialog state) => nil
-      (:current-line state) => nil))
+       (fact "talk should not trigger dialog mode if character does not exist"
+             (let [state (state/talk-to consts/initial :ricardo)]
+               (:mode state) => :interact
+               (:current-dialog state) => nil
+               (:current-line state) => nil))
 
- (fact "after dialog is complete, 'advance-dialog' command should go back to interact mode"
-       (let [dialog-mode-state (state/examine consts/initial :knife)
-             dialog-finished-state (state/advance-dialog dialog-mode-state)]
-         (:mode dialog-finished-state) => :interact))
+       (fact "talk should not trigger dialog mode if character is not there"
+             (let [state (state/talk-to consts/initial :rodrigo)]
+               (:mode state) => :interact
+               (:current-dialog state) => nil
+               (:current-line state) => nil))
 
- (fact "'advance-dialog' command should trigger next line if dialog has more than one line"
-       (let [line-one   (state/examine consts/initial :schredder)
-             line-two   (state/advance-dialog line-one)
-             line-three (state/advance-dialog line-two)
-             dialog-end (state/advance-dialog line-three)]
-         (:mode line-one) => :dialog
-         (:current-line line-one) => 0
+       (fact "after dialog is complete, 'advance-dialog' command should go back to interact mode"
+             (let [dialog-mode-state (state/examine consts/initial :knife)
+                   dialog-finished-state (state/advance-dialog dialog-mode-state)]
+               (:mode dialog-finished-state) => :interact))
 
-         (:mode line-two) => :dialog
-         (:current-line line-two) => 1
+       (fact "'advance-dialog' command should trigger next line if dialog has more than one line"
+             (let [line-one   (state/examine consts/initial :schredder)
+                   line-two   (state/advance-dialog line-one)
+                   line-three (state/advance-dialog line-two)
+                   dialog-end (state/advance-dialog line-three)]
+               (:mode line-one) => :dialog
+               (:current-line line-one) => 0
 
-         (:mode line-three) => :dialog
-         (:current-line line-three) => 2
+               (:mode line-two) => :dialog
+               (:current-line line-two) => 1
 
-         (:mode dialog-end) => :interact)))
+               (:mode line-three) => :dialog
+               (:current-line line-three) => 2
+
+               (:mode dialog-end) => :interact)))

@@ -1,24 +1,26 @@
 (ns dangan-clj.cli.command-test
-  (:require  [midje.sweet :refer [fact facts =>]]
-             [clojure.spec.alpha :as s]
-             [dangan-clj.input.test-game :as test-game]
-             [dangan-clj.cli.command :as command]))
+  (:require [clojure.spec.alpha :as s]
+            [dangan-clj.cli.command :as command]
+            [dangan-clj.input.consts :as consts]
+            [dangan-clj.input.test-game :as test-game]
+            [dangan-clj.logic.state :as state]
+            [midje.sweet :refer [=> fact facts]]))
 
 (facts "about command validation"
-  (fact "should always have type"
-    (s/valid? ::command/command nil) => false
-    (s/valid? ::command/command {}) => false
-    (s/valid? ::command/command {:type :lala}) => false
+       (fact "should always have type"
+             (s/valid? ::command/command nil) => false
+             (s/valid? ::command/command {}) => false
+             (s/valid? ::command/command {:type :lala}) => false
 
-    (s/valid? ::command/command {:type :describe}) => true
-    (s/valid? ::command/command {:type :examine}) => true
-    (s/valid? ::command/command {:type :help}) => true)
+             (s/valid? ::command/command {:type :describe}) => true
+             (s/valid? ::command/command {:type :examine}) => true
+             (s/valid? ::command/command {:type :help}) => true)
 
-  (fact "may have a target id"
-    (s/valid? ::command/command {:type :examine
-                                 :target :spectreman}) => true
-    (s/valid? ::command/command {:type :examine
-                                 :target "conquista"}) => false))
+       (fact "may have a target id"
+             (s/valid? ::command/command {:type :examine
+                                          :target :spectreman}) => true
+             (s/valid? ::command/command {:type :examine
+                                          :target "conquista"}) => false))
 
 (def make-command #(command/make % test-game/cli-dict))
 
@@ -57,3 +59,30 @@
     (make-command "enter Giba's Room") => enter-room-command
     (make-command "enter room") => enter-room-command)))
 
+(fact "examine command should yield same result from examine fn"
+      (command/evaluate {:type :examine
+                         :target :knife} consts/initial) => consts/dialog-start
+      (command/evaluate {:type :describe} consts/initial) => (state/describe consts/initial))
+
+(fact
+ "on dialog mode, anything should trigger dialog advance"
+ (let [after-dialog-state (state/advance-dialog consts/dialog-start)
+       evaluate #(command/evaluate % consts/dialog-start)]
+   (evaluate "")  => after-dialog-state
+   (evaluate nil) => after-dialog-state
+   (evaluate {})  => after-dialog-state))
+
+(fact
+ "certain commands should not trigger state changes in interact mode"
+ (let [evaluate #(command/evaluate % consts/initial)]
+   (evaluate nil) => consts/initial
+   (evaluate "") => consts/initial
+   (evaluate {:type :help}) => consts/initial))
+
+(fact
+ "word enter should trigger navigation"
+ (let [evaluate #(command/evaluate % consts/initial)]
+   (evaluate "") => consts/initial
+   (evaluate "enter") => consts/initial
+   (evaluate {:type :navigate
+              :target :laundry}) => consts/entered-scene-two))

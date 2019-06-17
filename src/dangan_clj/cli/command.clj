@@ -2,8 +2,8 @@
   (:require [clojure.spec.alpha :as s]
             [clojure.string :as string]
             [dangan-clj.cli.dict :as dict]
-            [dangan-clj.logic.state :as state]
-            [dangan-clj.logic.navigation :as nav]))
+            [dangan-clj.logic.navigation :as nav]
+            [dangan-clj.logic.state :as state]))
 
 (s/def ::type #{:describe :examine :help :navigate})
 (s/def ::target keyword?)
