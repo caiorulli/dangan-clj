@@ -3,7 +3,9 @@
 > "Y'know, that thing where everyone stands in a circle and talks about the dead body..."
 > - Monokuma
 
-Dangan-clj is a (work-in-progress) game framework for writing investigative visual novels using Clojure. It is freely based on the Danganronpa series (and Phoenix Wright: Ace Attorney series as well) narrative structure, in which there are different stages of investigation and trial. Also a very good excuse to learn better Clojure.
+Dangan-clj is a (work-in-progress) game framework for writing investigative visual novels using Clojure.
+
+It is freely based on the Danganronpa series (and Phoenix Wright: Ace Attorney series as well) narrative structure, in which there are different stages of investigation and trial. Also a very good excuse to learn better Clojure.
 
 So far, it's meant to be an text-based CLI game, but that is subject to change. It is intended to be a library in the future, but for development purposes I have been developing an example game along with it, so I can clearly separate game from library in afterwards.
 
