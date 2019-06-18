@@ -1,38 +1,16 @@
 # dangan-clj
 
-> "Once you eliminate the impossible...
-> Whatever remains must be the truth.
-> 
-> ...No matter how improbable it may seem."
-> - Prosecutor Godot
+> "Y'know, that thing where everyone stands in a circle and talks about the dead body..."
+> - Monokuma
 
-Investigative game framework
+Dangan-clj is a (work-in-progress) game framework for writing investigative visual novels using Clojure. It is freely based on the Danganronpa series (and Phoenix Wright: Ace Attorney series as well) narrative structure, in which there are different stages of investigation and trial. Also a very good excuse to learn better Clojure.
 
-## Installation
+So far, it's meant to be an text-based CLI game, but that is subject to change. It is intended to be a library in the future, but for development purposes I have been developing an example game along with it, so I can clearly separate game from library in afterwards.
 
-Download from http://example.com/FIXME.
+## To run the example game so far...
 
-## Usage
-
-FIXME: explanation
-
-    $ java -jar dangan-clj-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+Just go with `lein run`.
+If you want to run the tests, it's `lein midje`.
 
 ## License
 
