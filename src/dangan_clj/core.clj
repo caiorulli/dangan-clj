@@ -23,7 +23,7 @@
   (let [game-valid? (game/valid? example/game)]
     (if (not game-valid?)
       (println (game/explain example/game))
-      (let [state (state/make-initial-state example/game)]
+      (let [state (state/initial-state example/game)]
         (println messages/welcome-text)
         (cli/present-state state "")
         (game-loop state example/cli-dict)))))

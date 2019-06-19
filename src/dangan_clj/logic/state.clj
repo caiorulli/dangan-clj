@@ -18,18 +18,17 @@
                        :opt-un [::current-dialog
                                 ::current-line]))
 
-(defn- make-player []
+(defn- player []
   {:clues []})
 
-(defn make-initial-state [game]
-  {:player        (make-player)
+(defn initial-state [game]
+  {:player        (player)
    :game          game
    :mode          :interact
    :current-scene (:first-scene game)})
 
-(defn get-current-scene [{:keys [current-scene]
-                          {:keys [scenes]} :game}]
-  (current-scene scenes))
+(defn current-scene [state]
+  ((:current-scene state) (-> state :game :scenes)))
 
 (defn- add-clue [player clue]
   (if (some (partial = clue) (:clues player))
@@ -43,17 +42,17 @@
 
 (defn- find-presence [state character-id]
   (some #(when (= (first %) character-id) %)
-        (:presences (get-current-scene state))))
+        (:presences (current-scene state))))
 
 (defn examine [{:keys [player]
                 :as state} element-id]
-  (let [poi (get (:pois (:game state)) element-id)
-        character (get (:characters (:game state)) element-id)
+  (let [poi (-> state :game :pois (get element-id))
+        character (-> state :game :characters (get element-id))
         presence (find-presence state element-id)]
     (cond
       (not (nil? poi))
       (-> state
-          (assoc :player (add-clue player (:clue poi)))
+          (assoc :player (add-clue player (:clue-id poi)))
           (enter-dialog (:dialog-id poi)))
       (not (or (nil? character) (nil? presence)))
       (enter-dialog state (:dialog-id character))
@@ -61,7 +60,7 @@
       state)))
 
 (defn describe [state]
-  (let [current-scene (get-current-scene state)
+  (let [current-scene (current-scene state)
         dialog-id (:dialog-id current-scene)]
     (enter-dialog state dialog-id)))
 
@@ -74,7 +73,7 @@
 (defn advance-dialog [{:keys [current-line current-dialog]
                        :as state}]
   (let [next-line (inc current-line)
-        dialog (get (:dialogs (:game state)) current-dialog)]
+        dialog (-> state :game :dialogs (get current-dialog))]
     (if (= next-line (count dialog))
       (assoc state :mode :interact)
       (assoc state :current-line next-line))))

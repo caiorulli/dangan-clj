@@ -14,7 +14,7 @@
 (s/def ::character (s/keys :req-un [::display-name ::dialog-id]))
 (s/def ::characters (s/map-of ::character-id ::character))
 
-(s/def ::clue map?)
+(s/def ::clue-id keyword?)
 (s/def ::scene-id keyword?)
 (s/def ::poi (s/keys :req-un [::dialog-id ::scene-id]
                      :opt-un [::clue]))

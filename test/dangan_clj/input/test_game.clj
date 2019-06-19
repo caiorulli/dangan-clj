@@ -1,9 +1,7 @@
 (ns dangan-clj.input.test-game)
 
-(def clue-1 {:id 1})
-
 (def knife
-  {:clue     clue-1
+  {:clue-id   :bloody-knife
    :dialog-id :knife-dialog
    :scene-id :gibas-room})
 

@@ -40,7 +40,7 @@
 (facts "about state functions"
        (fact "makes valid initial state"
              (s/valid? ::state/state
-                       (state/make-initial-state test-game/test-game)) => true))
+                       (state/initial-state test-game/test-game)) => true))
 
 (facts
  "about initial state"
@@ -48,25 +48,25 @@
        (:mode consts/initial) => :interact))
 
 (facts
- "about the player interaction"
- (fact "player should start clueless"
-       (-> consts/initial
-           :player
-           :clues) => [])
+    "about the player interaction"
+  (fact "player should start clueless"
+    (-> consts/initial
+        :player
+        :clues) => [])
 
- (fact "player should not be able to add same clue twice"
-       (let [already-interacted-state (state/examine consts/initial :knife)]
-         (-> (state/examine already-interacted-state :knife)
-             :player
-             :clues) => [test-game/clue-1]))
+  (fact "player should not be able to add same clue twice"
+    (let [already-interacted-state (state/examine consts/initial :knife)]
+      (-> (state/examine already-interacted-state :knife)
+          :player
+          :clues) => [:bloody-knife]))
 
- (fact "player should add clues by interacting with poi"
-       (-> (state/examine consts/initial :knife)
-           :player
-           :clues) => [test-game/clue-1])
+  (fact "player should add clues by interacting with poi"
+    (-> (state/examine consts/initial :knife)
+        :player
+        :clues) => [:bloody-knife])
 
- (fact "player examining non-existing poi should not return different player"
-       (state/examine consts/initial :balloon) => consts/initial))
+  (fact "player examining non-existing poi should not return different player"
+    (state/examine consts/initial :balloon) => consts/initial))
 
 (facts "about dialog mode"
        (fact "interaction with poi should trigger dialog mode"

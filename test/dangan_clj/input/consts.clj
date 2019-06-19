@@ -6,7 +6,7 @@
 (def scene-description "Giba's hauntingly neat and organized room.")
 (def scene-prompt "(Giba's Room) > ")
 
-(def initial (state/make-initial-state test-game/test-game))
+(def initial (state/initial-state test-game/test-game))
 
 (def dialog-start (state/examine initial :knife))
 

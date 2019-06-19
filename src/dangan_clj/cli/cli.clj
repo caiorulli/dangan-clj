@@ -5,12 +5,12 @@
 (defn make-prompt [state]
   (if (= (:mode state) :interact)
     (str "("
-         (:display-name (state/get-current-scene state))
+         (:display-name (state/current-scene state))
          ") > ")
     "..."))
 
 (defn- present-look [state]
-  (-> state state/get-current-scene :description))
+  (-> state state/current-scene :description))
 
 (defn present-state [state command]
   (if (= (:mode state) :interact)
