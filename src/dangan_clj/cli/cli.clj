@@ -1,6 +1,14 @@
 (ns dangan-clj.cli.cli
   (:require [dangan-clj.cli.messages :as messages]
-            [dangan-clj.logic.state :as state]))
+            [dangan-clj.logic.state :as state]
+            [clojure.spec.alpha :as s]))
+
+(s/def ::mode #{:interact :dialog})
+(s/def ::current-dialog keyword?)
+(s/def ::current-line int?)
+
+(s/def ::cli (s/keys :req-un [::mode]
+                     :opt-un [::current-dialog ::current-line]))
 
 (defn make-prompt [state]
   (if (= (:mode state) :interact)
@@ -26,3 +34,26 @@
       (if is-thought?
         text
         (str character-name ": " text)))))
+
+;; New format methods
+
+(defn- is-thought? [speaker-id]
+  (= speaker-id :thought))
+
+(defn dialog-output [cli state]
+  (let [dialog-id (:current-dialog cli)
+        line-number (:current-line cli)
+        line (-> state :game :dialogs dialog-id (nth line-number))
+        [speaker-id text] line
+        character-name (-> state :game :characters speaker-id :display-name)]
+    (if (is-thought? speaker-id)
+      text
+      (str character-name ": " text))))
+
+(defn dialog-mode-cli [dialog-id]
+  {:mode :dialog
+   :current-dialog dialog-id
+   :current-line   0})
+
+(defn next-line-cli [cli]
+  (merge cli {:current-line (inc (:current-line cli))}))
