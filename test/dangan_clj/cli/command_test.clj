@@ -83,48 +83,71 @@
 (facts "about command cli evaluation"
        (fact "examine should trigger dialog mode"
              (command/evaluate-cli {:type :examine
-                                    :target :knife} cli/interact-mode consts/initial)
+                                    :target :knife}
+                                   cli/interact-mode
+                                   consts/initial
+                                   test-game/test-game)
              => (cli/dialog-mode :knife-dialog))
 
        (fact "examine should not trigger dialog mode if target does not exist in scene"
              (command/evaluate-cli {:type :examine
                                     :target :washing-machine}
                                    cli/interact-mode
-                                   consts/initial)
+                                   consts/initial
+                                   test-game/test-game)
              => cli/interact-mode)
 
        (fact "examine should work for characters too"
              (command/evaluate-cli {:type :examine
-                                    :target :giba} cli/interact-mode consts/initial)
+                                    :target :giba}
+                                   cli/interact-mode
+                                   consts/initial
+                                   test-game/test-game)
              => (cli/dialog-mode :describe-giba))
 
        (fact "examine should not work for characters that are not present"
              (command/evaluate-cli {:type :examine
-                                    :target :rodrigo} cli/interact-mode consts/initial)
+                                    :target :rodrigo}
+                                   cli/interact-mode
+                                   consts/initial
+                                   test-game/test-game)
              => cli/interact-mode)
 
        (fact "talk command should trigger dialog mode"
              (command/evaluate-cli {:type :talk
-                                    :target :giba} cli/interact-mode consts/initial)
+                                    :target :giba}
+                                   cli/interact-mode
+                                   consts/initial
+                                   test-game/test-game)
              => (cli/dialog-mode :giba-talk))
 
        (fact "talk command should not trigger dialog mode if character not present"
              (command/evaluate-cli {:type :talk
-                                    :target :rodrigo} cli/interact-mode consts/initial)
+                                    :target :rodrigo}
+                                   cli/interact-mode
+                                   consts/initial
+                                   test-game/test-game)
              => cli/interact-mode)
 
        (fact "describe command should trigger dialog mode"
-             (command/evaluate-cli {:type :describe} cli/interact-mode consts/initial)
+         (command/evaluate-cli {:type :describe}
+                               cli/interact-mode
+                               consts/initial
+                               test-game/test-game)
              => (cli/dialog-mode :describe-gibas-room))
 
        (fact "if in dialog mode, any command will trigger next line"
              (let [dialog-mode (cli/dialog-mode :schredder-dialog)]
                (command/evaluate-cli {:type :describe}
                                      dialog-mode
-                                     consts/initial)
+                                     consts/initial
+                                     test-game/test-game)
                => (cli/next-line dialog-mode test-game/test-game)))
 
        (fact "if in interact mode, any other command will return interact mode"
              (command/evaluate-cli {:type :navigate
-                                    :target :laundry} cli/interact-mode consts/initial)
+                                    :target :laundry}
+                                   cli/interact-mode
+                                   consts/initial
+                                   test-game/test-game)
              => cli/interact-mode))

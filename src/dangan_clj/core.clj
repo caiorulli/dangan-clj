@@ -13,7 +13,7 @@
   (let [command-string (read-line)
         command (command/make command-string cli-dict)
         next-state (command/evaluate-state command state game)
-        next-cli (command/evaluate-cli command cli state)
+        next-cli (command/evaluate-cli command cli state game)
         command-output (cli/output next-cli game command)]
     (when command-output
       (println command-output))

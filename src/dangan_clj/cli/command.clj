@@ -50,37 +50,37 @@
 (defmethod evaluate-state :default [command state game]
   state)
 
-(defmulti evaluate-cli (fn [command cli state]
+(defmulti evaluate-cli (fn [command cli state game]
                          (if (= (:mode cli) :dialog)
                            :advance-dialog
                            (and (s/valid? ::command command)
                                 (:type command)))))
 
-(defmethod evaluate-cli :examine [command cli state]
+(defmethod evaluate-cli :examine [command cli state game]
   (let [target (:target command)
-        target-poi (-> state :game :pois target)
+        target-poi (-> game :pois target)
         current-scene-id (-> state :current-scene)
-        character-is-present? (not (nil? (state/presence state target (:game state))))
+        character-is-present? (not (nil? (state/presence state target game)))
         target-dialog (or (when (= (get target-poi :scene-id) current-scene-id)
                             (get target-poi :dialog-id))
                           (when character-is-present?
-                            (-> state :game :characters target :dialog-id)))]
+                            (-> game :characters target :dialog-id)))]
     (if target-dialog
       (cli/dialog-mode target-dialog)
       cli/interact-mode)))
 
-(defmethod evaluate-cli :talk [command cli state]
+(defmethod evaluate-cli :talk [command cli state game]
   (let [target (:target command)
-        presence (state/presence state target (:game state))]
+        presence (state/presence state target game)]
     (if-not (nil? presence)
       (cli/dialog-mode (nth presence 1))
       cli/interact-mode)))
 
-(defmethod evaluate-cli :describe [command cli state]
-  (cli/dialog-mode (-> state (state/current-scene (:game state)) :dialog-id)))
+(defmethod evaluate-cli :describe [command cli state game]
+  (cli/dialog-mode (-> state (state/current-scene game) :dialog-id)))
 
-(defmethod evaluate-cli :advance-dialog [command cli state]
-  (cli/next-line cli (:game state)))
+(defmethod evaluate-cli :advance-dialog [command cli state game]
+  (cli/next-line cli game))
 
-(defmethod evaluate-cli :default [command cli state]
+(defmethod evaluate-cli :default [command cli state game]
   cli/interact-mode)
