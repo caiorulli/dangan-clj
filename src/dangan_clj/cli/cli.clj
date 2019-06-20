@@ -10,7 +10,7 @@
 (s/def ::cli (s/keys :req-un [::mode]
                      :opt-un [::current-dialog ::current-line]))
 
-(defn make-prompt [state]
+(defn prompt [state]
   (if (= (:mode state) :interact)
     (str "("
          (:display-name (state/current-scene state))

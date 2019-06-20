@@ -4,7 +4,8 @@
             [dangan-clj.input.consts :as consts]
             [dangan-clj.input.test-game :as test-game]
             [dangan-clj.logic.state :as state]
-            [midje.sweet :refer [=> fact facts]]))
+            [midje.sweet :refer [=> fact facts]]
+            [dangan-clj.cli.cli :as cli]))
 
 (facts "about command validation"
        (fact "should always have type"
@@ -59,9 +60,9 @@
     (make-command "go to Giba's Room") => enter-room-command
     (make-command "go to room") => enter-room-command)))
 
-(def evaluate-init #(command/evaluate % consts/initial))
+(def evaluate-init #(command/evaluate-state % consts/initial))
 
-(facts "about command evaluation"
+(facts "about command state evaluation"
   (fact "examine command should yield same result from examine fn"
     (evaluate-init {:type :examine
                     :target :knife}) => consts/dialog-start
@@ -69,13 +70,13 @@
 
   (fact "on dialog mode, anything should trigger dialog advance"
     (let [after-dialog-state (state/advance-dialog consts/dialog-start)
-          evaluate #(command/evaluate % consts/dialog-start)]
+          evaluate #(command/evaluate-state % consts/dialog-start)]
       (evaluate "")  => after-dialog-state
       (evaluate nil) => after-dialog-state
       (evaluate {})  => after-dialog-state))
 
   (fact "certain commands should not trigger state changes in interact mode"
-    (let [evaluate #(command/evaluate % consts/initial)]
+    (let [evaluate #(command/evaluate-state % consts/initial)]
       (evaluate nil) => consts/initial
       (evaluate "") => consts/initial
       (evaluate {:type :help}) => consts/initial))
@@ -87,3 +88,36 @@
   (fact ":talk command type should trigger talk-to state fn"
     (evaluate-init {:type :talk
                     :target :giba}) => (state/talk-to consts/initial :giba)))
+
+(facts "about command cli evaluation"
+  (fact "examine should trigger dialog mode"
+    (command/evaluate-cli {:type :examine
+                           :target :knife} cli/interact-mode consts/initial)
+    => (cli/dialog-mode :knife-dialog))
+
+  (fact "examine should work for characters too"
+    (command/evaluate-cli {:type :examine
+                           :target :giba} cli/interact-mode consts/initial)
+    => (cli/dialog-mode :describe-giba))
+
+  (fact "talk command should trigger dialog mode"
+    (command/evaluate-cli {:type :talk
+                           :target :giba} cli/interact-mode consts/initial)
+    => (cli/dialog-mode :giba-talk))
+
+  (fact "describe command should trigger dialog mode"
+    (command/evaluate-cli {:type :describe} cli/interact-mode consts/initial)
+    => (cli/dialog-mode :describe-gibas-room))
+
+  (fact "if in dialog mode, any command will trigger next line"
+    (let [dialog-mode (cli/dialog-mode :schredder-dialog)]
+      (command/evaluate-cli {:type :describe}
+                            dialog-mode
+                            consts/initial)
+      => (cli/next-line dialog-mode consts/initial)))
+
+  (fact "if in interact mode, any other command will return interact mode"
+    (command/evaluate-cli {:type :navigate
+                           :target :laundry} cli/interact-mode consts/initial)
+    => cli/interact-mode))
+

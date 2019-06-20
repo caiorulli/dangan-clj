@@ -7,23 +7,23 @@
             [dangan-clj.logic.game :as game]
             [dangan-clj.logic.state :as state]))
 
-(defn- game-loop [state cli-dict]
-  (print (cli/make-prompt state))
+(defn- game-loop [state cli-dict cli]
+  (print (cli/prompt state))
   (flush)
   (let [command-string (read-line)
         command (command/make command-string cli-dict)
-        next-state (command/evaluate command state)
+        next-state (command/evaluate-state command state)
         command-output (cli/present-state next-state command)]
     (when command-output
       (println command-output))
-    (recur next-state cli-dict)))
+    (recur next-state cli-dict cli)))
 
 (defn -main
   [& _]
   (let [game-valid? (game/valid? example/game)]
-    (if (not game-valid?)
+    (if-not game-valid?
       (println (game/explain example/game))
-      (let [state (state/initial-state example/game)]
+      (let [state (state/initial-state example/game)
+            cli   cli/interact-mode]
         (println messages/welcome-text)
-        (cli/present-state state "")
-        (game-loop state example/cli-dict)))))
+        (game-loop state example/cli-dict cli)))))

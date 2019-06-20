@@ -3,7 +3,8 @@
             [clojure.string :as string]
             [dangan-clj.cli.dict :as dict]
             [dangan-clj.logic.navigation :as nav]
-            [dangan-clj.logic.state :as state]))
+            [dangan-clj.logic.state :as state]
+            [dangan-clj.cli.cli :as cli]))
 
 (s/def ::type #{:describe :examine :help :navigate :talk})
 (s/def ::target keyword?)
@@ -38,27 +39,52 @@
       {:type :talk
        :target (dict/lookup cli-dict (predicate-after 2))})))
 
-(defmulti evaluate
-  (fn [command state]
-    (if (= (:mode state) :dialog)
+(defmulti evaluate-state (fn [command state]
+  (if (= (:mode state) :dialog)
+    :advance-dialog
+    (and (s/valid? ::command command)
+         (:type command)))))
+
+(defmethod evaluate-state :describe [command state]
+  (state/describe state))
+
+(defmethod evaluate-state :navigate [command state]
+  (nav/go-to state (:target command)))
+
+(defmethod evaluate-state :examine [command state]
+  (state/examine state (:target command)))
+
+(defmethod evaluate-state :talk [command state]
+  (state/talk-to state (:target command)))
+
+(defmethod evaluate-state :advance-dialog [command state]
+  (state/advance-dialog state))
+
+(defmethod evaluate-state :default [command state]
+  state)
+
+
+(defmulti evaluate-cli (fn [command cli state]
+    (if (= (:mode cli) :dialog)
       :advance-dialog
       (and (s/valid? ::command command)
            (:type command)))))
 
-(defmethod evaluate :describe [command state]
-  (state/describe state))
+(defmethod evaluate-cli :examine [command cli state]
+  (let [target (:target command)]
+    (cli/dialog-mode (or (-> state :game :pois target :dialog-id)
+                         (-> state :game :characters target :dialog-id)))))
 
-(defmethod evaluate :navigate [command state]
-  (nav/go-to state (:target command)))
+(defmethod evaluate-cli :talk [command cli state]
+  (let [target (:target command)
+        [_ presence-dialog] (state/presence state target)]
+    (cli/dialog-mode presence-dialog)))
 
-(defmethod evaluate :examine [command state]
-  (state/examine state (:target command)))
+(defmethod evaluate-cli :describe [command cli state]
+    (cli/dialog-mode (-> state (state/current-scene) :dialog-id)))
 
-(defmethod evaluate :talk [command state]
-  (state/talk-to state (:target command)))
+(defmethod evaluate-cli :advance-dialog [command cli state]
+  (cli/next-line cli state))
 
-(defmethod evaluate :advance-dialog [command state]
-  (state/advance-dialog state))
-
-(defmethod evaluate :default [command state]
-  state)
+(defmethod evaluate-cli :default [command cli state]
+  cli/interact-mode)
