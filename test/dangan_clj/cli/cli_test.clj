@@ -35,17 +35,24 @@
 
 (facts "about cli dialog flow"
   (fact "should be able to enter dialog flow"
-    (cli/dialog-mode-cli :knife-dialog)
+    (cli/dialog-mode :schredder-dialog)
     => {:mode :dialog
-        :current-dialog :knife-dialog
+        :current-dialog :schredder-dialog
         :current-line   0})
 
   (fact "should be able to advance dialog"
-    (cli/next-line-cli (cli/dialog-mode-cli :knife-dialog))
+    (-> (cli/dialog-mode :schredder-dialog)
+        (cli/next-line consts/initial))
     => {:mode :dialog
-        :current-dialog :knife-dialog
-        :current-line   1}))
+        :current-dialog :schredder-dialog
+        :current-line   1})
 
+  (fact "should return to interact mode when dialog ends"
+    (-> (cli/dialog-mode :knife-dialog)
+        (cli/next-line consts/initial))
+    => {:mode :interact})
+
+  (fact "should validate for dialog mode?"))
 
 ;; Tests for old structure
 

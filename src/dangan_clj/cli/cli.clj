@@ -50,10 +50,18 @@
       text
       (str character-name ": " text))))
 
-(defn dialog-mode-cli [dialog-id]
+(def interact-mode
+  {:mode :interact})
+
+(defn dialog-mode [dialog-id]
   {:mode :dialog
    :current-dialog dialog-id
    :current-line   0})
 
-(defn next-line-cli [cli]
-  (merge cli {:current-line (inc (:current-line cli))}))
+(defn next-line [cli state]
+  (let [dialog-id (:current-dialog cli)
+        next-line-number (-> cli :current-line inc)
+        dialog (-> state :game :dialogs dialog-id)]
+    (if (= (count dialog) next-line-number)
+      interact-mode
+      (merge cli {:current-line next-line-number}))))
