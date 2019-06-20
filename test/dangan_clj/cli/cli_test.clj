@@ -58,6 +58,14 @@
 
   (fact "should validate for dialog mode?"))
 
+(facts
+ "about prompt generation"
+ (fact "returns scene name prompt"
+       (cli/prompt consts/initial) => consts/scene-prompt)
+
+ (fact "on dialog mode, should display three dots"
+       (cli/prompt consts/dialog-start) => "..."))
+
 ;; Tests for old structure
 
 (facts "about presenting state"
@@ -74,3 +82,4 @@
 
  (fact "help command should output help text"
        (cli/present-state consts/initial {:type :help}) => messages/help-text))
+
