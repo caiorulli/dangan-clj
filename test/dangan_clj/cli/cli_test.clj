@@ -17,21 +17,25 @@
                          :current-dialog :lala
                          :current-line   0}) => true))
 
-(facts "about cli dialog output"
+(facts "about cli output"
   (fact "should output formatted dialog"
-    (cli/dialog-output {:mode :dialog
-                        :current-dialog :knife-dialog
-                        :current-line 0} consts/initial)
+    (cli/output {:mode :dialog
+                 :current-dialog :knife-dialog
+                 :current-line 0} consts/initial {})
     =>
     "Giba: That's the knife I used to cut tomatoes."
 
-    (cli/dialog-output {:mode :dialog
-                        :current-dialog :describe-giba
-                        :current-line 0} consts/initial)
+    (cli/output {:mode :dialog
+                 :current-dialog :describe-giba
+                 :current-line 0} consts/initial {})
     =>
-    "A respectable gentleman")
+    "A respectable gentleman"
 
-  (fact "should throw if invalid dialog state?"))
+    (cli/output {:mode :interact} consts/initial {})
+    => nil
+
+    (cli/output {:mode :interact} consts/initial {:type :help})
+    => messages/help-text))
 
 (facts "about cli dialog flow"
   (fact "should be able to enter dialog flow"

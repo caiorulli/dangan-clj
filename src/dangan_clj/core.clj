@@ -13,10 +13,11 @@
   (let [command-string (read-line)
         command (command/make command-string cli-dict)
         next-state (command/evaluate-state command state)
-        command-output (cli/present-state next-state command)]
+        next-cli (command/evaluate-cli command cli state)
+        command-output (cli/output next-cli state command)]
     (when command-output
       (println command-output))
-    (recur next-state cli-dict cli)))
+    (recur next-state cli-dict next-cli)))
 
 (defn -main
   [& _]

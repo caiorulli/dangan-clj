@@ -40,7 +40,7 @@
 (defn- is-thought? [speaker-id]
   (= speaker-id :thought))
 
-(defn dialog-output [cli state]
+(defn- dialog-output [cli state]
   (let [dialog-id (:current-dialog cli)
         line-number (:current-line cli)
         line (-> state :game :dialogs dialog-id (nth line-number))
@@ -49,6 +49,13 @@
     (if (is-thought? speaker-id)
       text
       (str character-name ": " text))))
+
+(defn output [cli state command]
+  (cond
+    (= (:mode cli) :dialog)
+    (dialog-output cli state)
+    (= (:type command) :help)
+    messages/help-text))
 
 (def interact-mode
   {:mode :interact})
