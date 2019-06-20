@@ -1,10 +1,9 @@
 (ns dangan-clj.cli.command
   (:require [clojure.spec.alpha :as s]
             [clojure.string :as string]
+            [dangan-clj.cli.cli :as cli]
             [dangan-clj.cli.dict :as dict]
-            [dangan-clj.logic.navigation :as nav]
-            [dangan-clj.logic.state :as state]
-            [dangan-clj.cli.cli :as cli]))
+            [dangan-clj.logic.state :as state]))
 
 (s/def ::type #{:describe :examine :help :navigate :talk})
 (s/def ::target keyword?)
@@ -45,7 +44,7 @@
          (:type command))))
 
 (defmethod evaluate-state :navigate [command state game]
-  (nav/go-to state (:target command) game))
+  (state/go-to state (:target command) game))
 
 (defmethod evaluate-state :default [command state game]
   state)

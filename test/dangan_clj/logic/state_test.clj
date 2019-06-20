@@ -6,8 +6,7 @@
             [midje.sweet :refer [=> fact facts]]))
 
 (def valid-player {:clues []})
-(def valid-state {:game test-game/test-game
-                  :player valid-player
+(def valid-state {:player valid-player
                   :current-scene :rodrigos-room})
 
 (facts "about state validation"
@@ -15,10 +14,7 @@
              (s/valid? ::state/state nil) => false
              (s/valid? ::state/state {}) => false
 
-             (s/valid? ::state/state {:game test-game/test-game}) => false
              (s/valid? ::state/state {:player valid-player}) => false
-             (s/valid? ::state/state {:game test-game/test-game
-                                      :player valid-player}) => false
 
              (s/valid? ::state/state valid-state) => true))
 
@@ -33,3 +29,15 @@
        (-> consts/initial
            :player
            :clues) => []))
+
+(facts
+ "about navigation"
+ (fact "navigating to nil should just return same state"
+       (state/go-to consts/initial nil test-game/test-game) => consts/initial)
+
+ (fact "navigating to inexisting symbol should also just return state"
+       (state/go-to consts/initial :rollercoaster test-game/test-game) => consts/initial)
+
+ (fact "navigating to existing scene should change current scene"
+       (-> (state/go-to consts/initial :laundry test-game/test-game)
+           :current-scene) => :laundry))

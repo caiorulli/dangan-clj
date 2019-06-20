@@ -1,13 +1,11 @@
 (ns dangan-clj.logic.state
-  (:require [clojure.spec.alpha :as s]
-            [dangan-clj.logic.game :as game]))
+  (:require [clojure.spec.alpha :as s]))
 
 (s/def ::clues vector?)
 (s/def ::player (s/keys :req-un [::clues]))
 (s/def ::current-scene keyword?)
 
-(s/def ::state (s/keys :req-un [::game/game
-                                ::player
+(s/def ::state (s/keys :req-un [::player
                                 ::current-scene]))
 
 (defn- player []
@@ -15,7 +13,6 @@
 
 (defn initial-state [game]
   {:player        (player)
-   :game          game
    :current-scene (:first-scene game)})
 
 (defn current-scene [state game]
@@ -24,3 +21,11 @@
 (defn presence [state character-id game]
   (some #(when (= (first %) character-id) %)
         (:presences (current-scene state game))))
+
+(defn go-to [state new-scene-id game]
+  (let [scenes (:scenes game)
+        new-scene (get scenes new-scene-id)]
+    (if (nil? new-scene)
+      state
+      (assoc state :current-scene new-scene-id))))
+
