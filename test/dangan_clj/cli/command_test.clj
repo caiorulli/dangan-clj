@@ -21,7 +21,7 @@
              (s/valid? ::command/command {:type :examine
                                           :target :spectreman}) => true
              (s/valid? ::command/command {:type :examine
-                                          :target "conquista"}) => false))
+                                           :target "conquista"}) => false))
 
 (def make-command #(command/make % test-game/cli-dict))
 
@@ -65,15 +65,16 @@
 (facts "about command state evaluation"
   (fact "examine command should yield same result from examine fn"
     (evaluate-init {:type :examine
-                    :target :knife}) => consts/dialog-start
-    (evaluate-init {:type :describe}) => (state/describe consts/initial))
+                    :target :knife}) => consts/initial
+    (evaluate-init {:type :describe}) => consts/initial
+    (evaluate-init {:type :talk
+                    :target :giba}) => consts/initial)
 
-  (fact "on dialog mode, anything should trigger dialog advance"
-    (let [after-dialog-state (state/advance-dialog consts/dialog-start)
-          evaluate #(command/evaluate-state % consts/dialog-start)]
-      (evaluate "")  => after-dialog-state
-      (evaluate nil) => after-dialog-state
-      (evaluate {})  => after-dialog-state))
+  (fact "on dialog mode, nothing should trigger dialog advance"
+    (let [evaluate #(command/evaluate-state % consts/dialog-start)]
+      (evaluate "")  => consts/dialog-start
+      (evaluate nil) => consts/dialog-start
+      (evaluate {})  => consts/dialog-start))
 
   (fact "certain commands should not trigger state changes in interact mode"
     (let [evaluate #(command/evaluate-state % consts/initial)]
@@ -83,11 +84,7 @@
 
   (fact "word enter should trigger navigation"
     (evaluate-init {:type :navigate
-                    :target :laundry}) => consts/entered-scene-two)
-
-  (fact ":talk command type should trigger talk-to state fn"
-    (evaluate-init {:type :talk
-                    :target :giba}) => (state/talk-to consts/initial :giba)))
+                    :target :laundry}) => consts/entered-scene-two))
 
 (facts "about command cli evaluation"
   (fact "examine should trigger dialog mode"

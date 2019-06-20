@@ -61,25 +61,7 @@
 (facts
  "about prompt generation"
  (fact "returns scene name prompt"
-       (cli/prompt consts/initial) => consts/scene-prompt)
+       (cli/prompt cli/interact-mode consts/initial) => consts/scene-prompt)
 
  (fact "on dialog mode, should display three dots"
-       (cli/prompt consts/dialog-start) => "..."))
-
-;; Tests for old structure
-
-(facts "about presenting state"
- (fact "on interactive mode, returns nothing"
-       (cli/present-state consts/initial "") => nil
-       (cli/present-state consts/initial nil) => nil
-       (cli/present-state consts/initial {}) => nil)
-
- (fact "on dialog mode, returns the current speaker and text"
-       (cli/present-state consts/dialog-start
-                      {:type :examine
-                       :target :knife}) => "Giba: That's the knife I used to cut tomatoes."
-       (cli/present-state (state/describe consts/initial) {}) => "Giba's hauntingly neat and organized room.")
-
- (fact "help command should output help text"
-       (cli/present-state consts/initial {:type :help}) => messages/help-text))
-
+       (cli/prompt (cli/dialog-mode :knife-dialog) consts/initial) => "..."))

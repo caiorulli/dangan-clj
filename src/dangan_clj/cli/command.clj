@@ -45,20 +45,8 @@
     (and (s/valid? ::command command)
          (:type command)))))
 
-(defmethod evaluate-state :describe [command state]
-  (state/describe state))
-
 (defmethod evaluate-state :navigate [command state]
   (nav/go-to state (:target command)))
-
-(defmethod evaluate-state :examine [command state]
-  (state/examine state (:target command)))
-
-(defmethod evaluate-state :talk [command state]
-  (state/talk-to state (:target command)))
-
-(defmethod evaluate-state :advance-dialog [command state]
-  (state/advance-dialog state))
 
 (defmethod evaluate-state :default [command state]
   state)

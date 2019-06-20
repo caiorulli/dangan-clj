@@ -52,28 +52,8 @@
     (cond
       (not (nil? poi))
       (-> state
-          (assoc :player (add-clue player (:clue-id poi)))
-          (enter-dialog (:dialog-id poi)))
+          (assoc :player (add-clue player (:clue-id poi))))
       (not (or (nil? character) (nil? presence)))
-      (enter-dialog state (:dialog-id character))
+      state
       :else
       state)))
-
-(defn describe [state]
-  (let [current-scene (current-scene state)
-        dialog-id (:dialog-id current-scene)]
-    (enter-dialog state dialog-id)))
-
-(defn talk-to [state character-id]
-  (let [target-presence (presence state character-id)]
-    (if-not (nil? target-presence)
-      (enter-dialog state (target-presence 1))
-      state)))
-
-(defn advance-dialog [{:keys [current-line current-dialog]
-                       :as state}]
-  (let [next-line (inc current-line)
-        dialog (-> state :game :dialogs (get current-dialog))]
-    (if (= next-line (count dialog))
-      (assoc state :mode :interact)
-      (assoc state :current-line next-line))))

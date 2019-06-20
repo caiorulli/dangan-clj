@@ -8,7 +8,7 @@
             [dangan-clj.logic.state :as state]))
 
 (defn- game-loop [state cli-dict cli]
-  (print (cli/prompt state))
+  (print (cli/prompt cli state))
   (flush)
   (let [command-string (read-line)
         command (command/make command-string cli-dict)

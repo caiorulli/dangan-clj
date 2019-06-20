@@ -10,32 +10,12 @@
 (s/def ::cli (s/keys :req-un [::mode]
                      :opt-un [::current-dialog ::current-line]))
 
-(defn prompt [state]
-  (if (= (:mode state) :interact)
+(defn prompt [cli state]
+  (if (= (:mode cli) :interact)
     (str "("
          (:display-name (state/current-scene state))
          ") > ")
     "..."))
-
-(defn- present-look [state]
-  (-> state state/current-scene :description))
-
-(defn present-state [state command]
-  (if (= (:mode state) :interact)
-    (cond
-      (= (:type command) :help) messages/help-text)
-    (let [dialog-id (:current-dialog state)
-          dialog (get (:dialogs (:game state)) dialog-id)
-          line (dialog (:current-line state))
-          [speaker-id text] line
-          is-thought? (= speaker-id :thought)
-          character (get (:characters (:game state)) speaker-id)
-          character-name (:display-name character)]
-      (if is-thought?
-        text
-        (str character-name ": " text)))))
-
-;; New format methods
 
 (defn- is-thought? [speaker-id]
   (= speaker-id :thought))
