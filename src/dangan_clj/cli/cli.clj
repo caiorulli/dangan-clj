@@ -44,7 +44,7 @@
   {:mode :dialog
    :current-dialog dialog-id
    :current-line   0})
- 
+
 (defn next-line [cli game]
   (let [dialog-id (:current-dialog cli)
         next-line-number (-> cli :current-line inc)

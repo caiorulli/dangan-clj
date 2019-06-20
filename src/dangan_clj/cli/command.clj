@@ -23,18 +23,18 @@
     (cond
       (= first-word "describe")
       {:type :describe}
-      
+
       (= first-word "help")
       {:type :help}
-      
+
       (= first-word "examine")
       {:type :examine
        :target (dict/lookup cli-dict (predicate-after 1))}
-      
+
       (string/starts-with? lowered-command-string "go to")
       {:type :navigate
        :target (dict/lookup cli-dict (predicate-after 2))}
-      
+
       (string/starts-with? lowered-command-string "talk to")
       {:type :talk
        :target (dict/lookup cli-dict (predicate-after 2))})))
@@ -50,12 +50,11 @@
 (defmethod evaluate-state :default [command state game]
   state)
 
-
 (defmulti evaluate-cli (fn [command cli state]
-    (if (= (:mode cli) :dialog)
-      :advance-dialog
-      (and (s/valid? ::command command)
-           (:type command)))))
+                         (if (= (:mode cli) :dialog)
+                           :advance-dialog
+                           (and (s/valid? ::command command)
+                                (:type command)))))
 
 (defmethod evaluate-cli :examine [command cli state]
   (let [target (:target command)
@@ -78,7 +77,7 @@
       cli/interact-mode)))
 
 (defmethod evaluate-cli :describe [command cli state]
-    (cli/dialog-mode (-> state (state/current-scene (:game state)) :dialog-id)))
+  (cli/dialog-mode (-> state (state/current-scene (:game state)) :dialog-id)))
 
 (defmethod evaluate-cli :advance-dialog [command cli state]
   (cli/next-line cli (:game state)))

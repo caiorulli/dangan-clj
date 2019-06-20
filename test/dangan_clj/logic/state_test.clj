@@ -28,8 +28,8 @@
                        (state/initial-state test-game/test-game)) => true))
 
 (facts
-    "about the player interaction"
-  (fact "player should start clueless"
-    (-> consts/initial
-        :player
-        :clues) => []))
+ "about the player interaction"
+ (fact "player should start clueless"
+       (-> consts/initial
+           :player
+           :clues) => []))
