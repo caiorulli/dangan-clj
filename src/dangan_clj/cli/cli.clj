@@ -1,7 +1,7 @@
 (ns dangan-clj.cli.cli
-  (:require [dangan-clj.cli.messages :as messages]
-            [dangan-clj.logic.state :as state]
-            [clojure.spec.alpha :as s]))
+  (:require [clojure.spec.alpha :as s]
+            [dangan-clj.cli.messages :as messages]
+            [dangan-clj.logic.state :as state]))
 
 (s/def ::mode #{:interact :dialog})
 (s/def ::current-dialog keyword?)

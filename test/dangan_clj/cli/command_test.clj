@@ -1,11 +1,10 @@
 (ns dangan-clj.cli.command-test
   (:require [clojure.spec.alpha :as s]
+            [dangan-clj.cli.cli :as cli]
             [dangan-clj.cli.command :as command]
             [dangan-clj.input.consts :as consts]
             [dangan-clj.input.test-game :as test-game]
-            [dangan-clj.logic.state :as state]
-            [midje.sweet :refer [=> fact facts]]
-            [dangan-clj.cli.cli :as cli]))
+            [midje.sweet :refer [=> fact facts]]))
 
 (facts "about command validation"
        (fact "should always have type"
