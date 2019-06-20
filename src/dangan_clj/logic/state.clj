@@ -4,19 +4,11 @@
 
 (s/def ::clues vector?)
 (s/def ::player (s/keys :req-un [::clues]))
-
 (s/def ::current-scene keyword?)
-(s/def ::mode #{:interact :dialog})
-
-(s/def ::current-dialog keyword?)
-(s/def ::current-line int?)
 
 (s/def ::state (s/keys :req-un [::game/game
-                                ::mode
                                 ::player
-                                ::current-scene]
-                       :opt-un [::current-dialog
-                                ::current-line]))
+                                ::current-scene]))
 
 (defn- player []
   {:clues []})
@@ -24,16 +16,10 @@
 (defn initial-state [game]
   {:player        (player)
    :game          game
-   :mode          :interact
    :current-scene (:first-scene game)})
 
 (defn current-scene [state]
   ((:current-scene state) (-> state :game :scenes)))
-
-(defn- add-clue [player clue]
-  (if (some (partial = clue) (:clues player))
-    player
-    (assoc player :clues (conj (:clues player) clue))))
 
 (defn- enter-dialog [state dialog-id]
   (merge state {:mode :dialog
@@ -43,6 +29,11 @@
 (defn presence [state character-id]
   (some #(when (= (first %) character-id) %)
         (:presences (current-scene state))))
+
+(defn- add-clue [player clue]
+  (if (some (partial = clue) (:clues player))
+    player
+    (assoc player :clues (conj (:clues player) clue))))
 
 (defn examine [{:keys [player]
                 :as state} element-id]

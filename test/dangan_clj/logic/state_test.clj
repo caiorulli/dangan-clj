@@ -7,7 +7,6 @@
 
 (def valid-player {:clues []})
 (def valid-state {:game test-game/test-game
-                  :mode :interact
                   :player valid-player
                   :current-scene :rodrigos-room})
 
@@ -16,36 +15,17 @@
              (s/valid? ::state/state nil) => false
              (s/valid? ::state/state {}) => false
 
+             (s/valid? ::state/state {:game test-game/test-game}) => false
+             (s/valid? ::state/state {:player valid-player}) => false
              (s/valid? ::state/state {:game test-game/test-game
-                                      :player valid-player}) => false
-             (s/valid? ::state/state {:mode :interact
-                                      :player valid-player}) => false
-             (s/valid? ::state/state {:game test-game/test-game
-                                      :mode :lala
-                                      :player valid-player}) => false
-             (s/valid? ::state/state {:game test-game/test-game
-                                      :mode :interact}) => false
-             (s/valid? ::state/state {:game test-game/test-game
-                                      :mode :interact
                                       :player valid-player}) => false
 
-             (s/valid? ::state/state valid-state) => true)
-
-       (fact "might contain optional fields"
-             (s/valid? ::state/state (merge valid-state {:current-dialog :knife-dialog
-                                                         :current-line 0})) => true
-             (s/valid? ::state/state (merge valid-state {:current-dialog "lala"
-                                                         :current-line []})) => false))
+             (s/valid? ::state/state valid-state) => true))
 
 (facts "about state functions"
        (fact "makes valid initial state"
              (s/valid? ::state/state
                        (state/initial-state test-game/test-game)) => true))
-
-(facts
- "about initial state"
- (fact "should have correct initial configuration"
-       (:mode consts/initial) => :interact))
 
 (facts
     "about the player interaction"
