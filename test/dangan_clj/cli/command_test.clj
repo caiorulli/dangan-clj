@@ -128,7 +128,7 @@
       (command/evaluate-cli {:type :describe}
                             dialog-mode
                             consts/initial)
-      => (cli/next-line dialog-mode consts/initial)))
+      => (cli/next-line dialog-mode test-game/test-game)))
 
   (fact "if in interact mode, any other command will return interact mode"
     (command/evaluate-cli {:type :navigate

@@ -44,11 +44,11 @@
   {:mode :dialog
    :current-dialog dialog-id
    :current-line   0})
-
-(defn next-line [cli state]
+ 
+(defn next-line [cli game]
   (let [dialog-id (:current-dialog cli)
         next-line-number (-> cli :current-line inc)
-        dialog (-> state :game :dialogs dialog-id)]
+        dialog (-> game :dialogs dialog-id)]
     (if (= (count dialog) next-line-number)
       interact-mode
       (merge cli {:current-line next-line-number}))))

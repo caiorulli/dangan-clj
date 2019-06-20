@@ -81,7 +81,7 @@
     (cli/dialog-mode (-> state (state/current-scene) :dialog-id)))
 
 (defmethod evaluate-cli :advance-dialog [command cli state]
-  (cli/next-line cli state))
+  (cli/next-line cli (:game state)))
 
 (defmethod evaluate-cli :default [command cli state]
   cli/interact-mode)

@@ -5,7 +5,8 @@
             [dangan-clj.cli.cli :as cli]
             [dangan-clj.input.consts :as consts]
             [dangan-clj.logic.state :as state]
-            [dangan-clj.cli.messages :as messages]))
+            [dangan-clj.cli.messages :as messages]
+            [dangan-clj.input.test-game :as test-game]))
 
 (facts "about cli state"
   (fact "spec validation"
@@ -46,14 +47,14 @@
 
   (fact "should be able to advance dialog"
     (-> (cli/dialog-mode :schredder-dialog)
-        (cli/next-line consts/initial))
+        (cli/next-line test-game/test-game))
     => {:mode :dialog
         :current-dialog :schredder-dialog
         :current-line   1})
 
   (fact "should return to interact mode when dialog ends"
     (-> (cli/dialog-mode :knife-dialog)
-        (cli/next-line consts/initial))
+        (cli/next-line test-game/test-game))
     => {:mode :interact})
 
   (fact "should validate for dialog mode?"))
