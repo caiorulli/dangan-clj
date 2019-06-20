@@ -40,14 +40,14 @@
        :target (dict/lookup cli-dict (predicate-after 2))})))
 
 (defmulti evaluate-state
-  (fn [command state]
+  (fn [command state game]
     (and (s/valid? ::command command)
          (:type command))))
 
-(defmethod evaluate-state :navigate [command state]
-  (nav/go-to state (:target command)))
+(defmethod evaluate-state :navigate [command state game]
+  (nav/go-to state (:target command) game))
 
-(defmethod evaluate-state :default [command state]
+(defmethod evaluate-state :default [command state game]
   state)
 
 
@@ -61,7 +61,7 @@
   (let [target (:target command)
         target-poi (-> state :game :pois target)
         current-scene-id (-> state :current-scene)
-        character-is-present? (not (nil? (state/presence state target)))
+        character-is-present? (not (nil? (state/presence state target (:game state))))
         target-dialog (or (when (= (get target-poi :scene-id) current-scene-id)
                             (get target-poi :dialog-id))
                           (when character-is-present?
@@ -72,13 +72,13 @@
 
 (defmethod evaluate-cli :talk [command cli state]
   (let [target (:target command)
-        presence (state/presence state target)]
+        presence (state/presence state target (:game state))]
     (if-not (nil? presence)
       (cli/dialog-mode (nth presence 1))
       cli/interact-mode)))
 
 (defmethod evaluate-cli :describe [command cli state]
-    (cli/dialog-mode (-> state (state/current-scene) :dialog-id)))
+    (cli/dialog-mode (-> state (state/current-scene (:game state)) :dialog-id)))
 
 (defmethod evaluate-cli :advance-dialog [command cli state]
   (cli/next-line cli (:game state)))

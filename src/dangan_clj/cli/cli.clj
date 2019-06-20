@@ -10,30 +10,30 @@
 (s/def ::cli (s/keys :req-un [::mode]
                      :opt-un [::current-dialog ::current-line]))
 
-(defn prompt [cli state]
+(defn prompt [cli state game]
   (if (= (:mode cli) :interact)
     (str "("
-         (:display-name (state/current-scene state))
+         (:display-name (state/current-scene state game))
          ") > ")
     "..."))
 
 (defn- is-thought? [speaker-id]
   (= speaker-id :thought))
 
-(defn- dialog-output [cli state]
+(defn- dialog-output [cli game]
   (let [dialog-id (:current-dialog cli)
         line-number (:current-line cli)
-        line (-> state :game :dialogs dialog-id (nth line-number))
+        line (-> game :dialogs dialog-id (nth line-number))
         [speaker-id text] line
-        character-name (-> state :game :characters speaker-id :display-name)]
+        character-name (-> game :characters speaker-id :display-name)]
     (if (is-thought? speaker-id)
       text
       (str character-name ": " text))))
 
-(defn output [cli state command]
+(defn output [cli game command]
   (cond
     (= (:mode cli) :dialog)
-    (dialog-output cli state)
+    (dialog-output cli game)
     (= (:type command) :help)
     messages/help-text))
 

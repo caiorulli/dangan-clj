@@ -32,18 +32,4 @@
   (fact "player should start clueless"
     (-> consts/initial
         :player
-        :clues) => [])
-
-  (fact "player should not be able to add same clue twice"
-    (let [already-interacted-state (state/examine consts/initial :knife)]
-      (-> (state/examine already-interacted-state :knife)
-          :player
-          :clues) => [:bloody-knife]))
-
-  (fact "player should add clues by interacting with poi"
-    (-> (state/examine consts/initial :knife)
-        :player
-        :clues) => [:bloody-knife])
-
-  (fact "player examining non-existing poi should not return different player"
-    (state/examine consts/initial :balloon) => consts/initial))
+        :clues) => []))

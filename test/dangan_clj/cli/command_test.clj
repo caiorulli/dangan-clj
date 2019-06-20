@@ -59,8 +59,8 @@
     (make-command "go to laundry area") => enter-laundry-command
     (make-command "go to Giba's Room") => enter-room-command
     (make-command "go to room") => enter-room-command)))
-
-(def evaluate-init #(command/evaluate-state % consts/initial))
+ 
+(def evaluate-init #(command/evaluate-state % consts/initial test-game/test-game))
 
 (facts "about command state evaluation"
   (fact "examine command should yield same result from examine fn"
@@ -70,14 +70,8 @@
     (evaluate-init {:type :talk
                     :target :giba}) => consts/initial)
 
-  (fact "on dialog mode, nothing should trigger dialog advance"
-    (let [evaluate #(command/evaluate-state % consts/dialog-start)]
-      (evaluate "")  => consts/dialog-start
-      (evaluate nil) => consts/dialog-start
-      (evaluate {})  => consts/dialog-start))
-
   (fact "certain commands should not trigger state changes in interact mode"
-    (let [evaluate #(command/evaluate-state % consts/initial)]
+    (let [evaluate #(command/evaluate-state % consts/initial test-game/test-game)]
       (evaluate nil) => consts/initial
       (evaluate "") => consts/initial
       (evaluate {:type :help}) => consts/initial))
@@ -134,4 +128,3 @@
     (command/evaluate-cli {:type :navigate
                            :target :laundry} cli/interact-mode consts/initial)
     => cli/interact-mode))
-

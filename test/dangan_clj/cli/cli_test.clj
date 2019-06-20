@@ -22,20 +22,20 @@
   (fact "should output formatted dialog"
     (cli/output {:mode :dialog
                  :current-dialog :knife-dialog
-                 :current-line 0} consts/initial {})
+                 :current-line 0} test-game/test-game {})
     =>
     "Giba: That's the knife I used to cut tomatoes."
 
     (cli/output {:mode :dialog
                  :current-dialog :describe-giba
-                 :current-line 0} consts/initial {})
+                 :current-line 0} test-game/test-game {})
     =>
     "A respectable gentleman"
 
-    (cli/output {:mode :interact} consts/initial {})
+    (cli/output {:mode :interact} test-game/test-game {})
     => nil
 
-    (cli/output {:mode :interact} consts/initial {:type :help})
+    (cli/output {:mode :interact} test-game/test-game {:type :help})
     => messages/help-text))
 
 (facts "about cli dialog flow"
@@ -62,7 +62,11 @@
 (facts
  "about prompt generation"
  (fact "returns scene name prompt"
-       (cli/prompt cli/interact-mode consts/initial) => consts/scene-prompt)
+   (cli/prompt cli/interact-mode
+               consts/initial
+               test-game/test-game) => consts/scene-prompt)
 
  (fact "on dialog mode, should display three dots"
-       (cli/prompt (cli/dialog-mode :knife-dialog) consts/initial) => "..."))
+   (cli/prompt (cli/dialog-mode :knife-dialog)
+               consts/initial
+               test-game/test-game) => "..."))

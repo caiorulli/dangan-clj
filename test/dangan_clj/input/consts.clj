@@ -8,6 +8,4 @@
 
 (def initial (state/initial-state test-game/test-game))
 
-(def dialog-start (state/examine initial :knife))
-
-(def entered-scene-two (nav/go-to initial :laundry))
+(def entered-scene-two (nav/go-to initial :laundry test-game/test-game))
