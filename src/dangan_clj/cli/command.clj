@@ -39,11 +39,10 @@
       {:type :talk
        :target (dict/lookup cli-dict (predicate-after 2))})))
 
-(defmulti evaluate-state (fn [command state]
-  (if (= (:mode state) :dialog)
-    :advance-dialog
+(defmulti evaluate-state
+  (fn [command state]
     (and (s/valid? ::command command)
-         (:type command)))))
+         (:type command))))
 
 (defmethod evaluate-state :navigate [command state]
   (nav/go-to state (:target command)))
