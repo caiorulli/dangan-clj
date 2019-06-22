@@ -59,32 +59,11 @@
           (make-command "go to Giba's Room") => enter-room-command
           (make-command "go to room") => enter-room-command)))
 
-(def evaluate-init #(command/evaluate-state % consts/initial test-game/test-game))
-
-(facts "about command state evaluation"
-       (fact "examine command should yield same result from examine fn"
-             (evaluate-init {:type :examine
-                             :target :knife}) => consts/initial
-             (evaluate-init {:type :describe}) => consts/initial
-             (evaluate-init {:type :talk
-                             :target :giba}) => consts/initial)
-
-       (fact "certain commands should not trigger state changes in interact mode"
-             (let [evaluate #(command/evaluate-state % consts/initial test-game/test-game)]
-               (evaluate nil) => consts/initial
-               (evaluate "") => consts/initial
-               (evaluate {:type :help}) => consts/initial))
-
-       (fact "word enter should trigger navigation"
-             (evaluate-init {:type :navigate
-                             :target :laundry}) => consts/entered-scene-two))
-
 (facts "about command cli evaluation"
        (fact "examine should trigger dialog mode"
              (command/evaluate-cli {:type :examine
                                     :target :knife}
                                    consts/initial-cli
-                                   consts/initial
                                    test-game/test-game)
              => (cli/dialog-mode consts/initial-cli :knife-dialog))
 
@@ -92,7 +71,6 @@
              (command/evaluate-cli {:type :examine
                                     :target :washing-machine}
                                    consts/initial-cli
-                                   consts/initial
                                    test-game/test-game)
              => consts/initial-cli)
 
@@ -100,7 +78,6 @@
              (command/evaluate-cli {:type :examine
                                     :target :giba}
                                    consts/initial-cli
-                                   consts/initial
                                    test-game/test-game)
              => (cli/dialog-mode consts/initial-cli :describe-giba))
 
@@ -108,7 +85,6 @@
              (command/evaluate-cli {:type :examine
                                     :target :rodrigo}
                                    consts/initial-cli
-                                   consts/initial
                                    test-game/test-game)
              => consts/initial-cli)
 
@@ -116,7 +92,6 @@
              (command/evaluate-cli {:type :talk
                                     :target :giba}
                                    consts/initial-cli
-                                   consts/initial
                                    test-game/test-game)
              => (cli/dialog-mode consts/initial-cli :giba-talk))
 
@@ -124,14 +99,12 @@
              (command/evaluate-cli {:type :talk
                                     :target :rodrigo}
                                    consts/initial-cli
-                                   consts/initial
                                    test-game/test-game)
              => consts/initial-cli)
 
        (fact "describe command should trigger dialog mode"
          (command/evaluate-cli {:type :describe}
                                consts/initial-cli
-                               consts/initial
                                test-game/test-game)
              => (cli/dialog-mode consts/initial-cli :describe-gibas-room))
 
@@ -139,14 +112,12 @@
              (let [dialog-mode (cli/dialog-mode consts/initial-cli :schredder-dialog)]
                (command/evaluate-cli {:type :describe}
                                      dialog-mode
-                                     consts/initial
                                      test-game/test-game)
                => (cli/next-line dialog-mode test-game/test-game)))
 
        (fact "if in interact mode, any other command will return interact mode"
              (command/evaluate-cli {:type :lala}
                                    consts/initial-cli
-                                   consts/initial
                                    test-game/test-game)
              => consts/initial-cli)
        
@@ -154,7 +125,6 @@
          (command/evaluate-cli {:type :navigate
                                 :target :laundry}
                                 consts/initial-cli
-                                consts/initial
                                 test-game/test-game)
          => {:mode :interact
              :state consts/entered-scene-two}))

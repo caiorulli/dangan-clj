@@ -38,24 +38,13 @@
       {:type :talk
        :target (dict/lookup cli-dict (predicate-after 2))})))
 
-(defmulti evaluate-state
-  (fn [command state game]
-    (and (s/valid? ::command command)
-         (:type command))))
-
-(defmethod evaluate-state :navigate [command state game]
-  (state/go-to state (:target command) game))
-
-(defmethod evaluate-state :default [command state game]
-  state)
-
-(defmulti evaluate-cli (fn [command cli state game]
+(defmulti evaluate-cli (fn [command cli game]
                          (if (= (:mode cli) :dialog)
                            :advance-dialog
                            (and (s/valid? ::command command)
                                 (:type command)))))
 
-(defmethod evaluate-cli :examine [command cli state game]
+(defmethod evaluate-cli :examine [command cli game]
   (let [target (:target command)
         target-poi (-> game :pois target)
         current-scene-id (-> (:state cli) :current-scene)
@@ -68,21 +57,21 @@
       (cli/dialog-mode cli target-dialog)
       (cli/interact-mode cli))))
 
-(defmethod evaluate-cli :talk [command cli state game]
+(defmethod evaluate-cli :talk [command cli game]
   (let [target (:target command)
         presence (state/presence (:state cli) target game)]
     (if-not (nil? presence)
       (cli/dialog-mode cli (nth presence 1))
       (cli/interact-mode cli))))
 
-(defmethod evaluate-cli :describe [command cli state game]
+(defmethod evaluate-cli :describe [command cli game]
   (cli/dialog-mode cli (-> (:state cli) (state/current-scene game) :dialog-id)))
 
-(defmethod evaluate-cli :advance-dialog [command cli state game]
-  (cli/next-line cli game))
-
-(defmethod evaluate-cli :navigate [command cli state game]
+(defmethod evaluate-cli :navigate [command cli game]
   (update cli :state #(state/go-to % (:target command) game)))
 
-(defmethod evaluate-cli :default [command cli state game]
+(defmethod evaluate-cli :advance-dialog [command cli game]
+  (cli/next-line cli game))
+
+(defmethod evaluate-cli :default [command cli game]
   (cli/interact-mode cli))
