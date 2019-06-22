@@ -1,4 +1,4 @@
-(ns dangan-clj.logic.state
+(ns dangan-clj.logic.player
   (:require [clojure.spec.alpha :as s]))
 
 (s/def ::clues vector?)

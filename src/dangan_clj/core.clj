@@ -4,8 +4,7 @@
             [dangan-clj.cli.command :as command]
             [dangan-clj.cli.messages :as messages]
             [dangan-clj.input.example :as example]
-            [dangan-clj.logic.game :as game]
-            [dangan-clj.logic.state :as state]))
+            [dangan-clj.logic.game :as game]))
 
 (defn- game-loop [cli game dict]
   (print (cli/prompt cli game))

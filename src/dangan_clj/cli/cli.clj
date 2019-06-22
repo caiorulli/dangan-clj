@@ -1,19 +1,19 @@
 (ns dangan-clj.cli.cli
   (:require [clojure.spec.alpha :as s]
             [dangan-clj.cli.messages :as messages]
-            [dangan-clj.logic.state :as state]))
+            [dangan-clj.logic.player :as player]))
 
 (s/def ::mode #{:interact :dialog})
 (s/def ::current-dialog keyword?)
 (s/def ::current-line int?)
 
-(s/def ::cli (s/keys :req-un [::mode ::state/state]
+(s/def ::cli (s/keys :req-un [::mode ::player/state]
                      :opt-un [::current-dialog ::current-line]))
 
 (defn prompt [cli game]
   (if (= (:mode cli) :interact)
     (str "("
-         (:display-name (state/current-scene (:state cli) game))
+         (:display-name (player/current-scene (:state cli) game))
          ") > ")
     "..."))
 
@@ -39,7 +39,7 @@
 
 (defn cli [game]
   {:mode :interact
-   :state (state/initial-state game)})
+   :state (player/initial-state game)})
 
 (defn interact-mode [cli]
   (-> cli

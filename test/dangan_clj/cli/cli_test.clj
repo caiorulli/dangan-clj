@@ -1,27 +1,26 @@
 (ns dangan-clj.cli.cli-test
-  (:require [dangan-clj.cli.cli :as cli]
-            [midje.sweet :refer [fact facts =>]]
-            [clojure.spec.alpha :as s]
+  (:require [clojure.spec.alpha :as s]
             [dangan-clj.cli.cli :as cli]
-            [dangan-clj.input.consts :as consts]
-            [dangan-clj.logic.state :as state]
             [dangan-clj.cli.messages :as messages]
-            [dangan-clj.input.test-game :as test-game]))
+            [dangan-clj.input.consts :as consts]
+            [dangan-clj.input.test-game :as test-game]
+            [dangan-clj.logic.player :as player]
+            [midje.sweet :refer [=> fact facts]]))
 
 (facts "about cli state"
        (fact "spec validation"
              (s/valid? ::cli/cli nil) => false
              (s/valid? ::cli/cli {}) => false
-             (s/valid? ::cli/cli {:state (state/initial-state
+             (s/valid? ::cli/cli {:state (player/initial-state
                                           test-game/test-game)}) => false
              (s/valid? ::cli/cli {:mode :lala}) => false
              (s/valid? ::cli/cli {:mode :interact
-                                  :state (state/initial-state
+                                  :state (player/initial-state
                                           test-game/test-game)}) => true
              (s/valid? ::cli/cli {:mode :dialog
                                   :current-dialog :lala
                                   :current-line   0
-                                  :state (state/initial-state
+                                  :state (player/initial-state
                                           test-game/test-game)}) => true)
 
        (fact "cli fn should make valid cli"
