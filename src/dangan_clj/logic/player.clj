@@ -7,21 +7,21 @@
 (s/def ::player (s/keys :req-un [::clues
                                  ::current-scene]))
 
-(defn initial-state [game]
+(defn player [game]
   {:clues []
    :current-scene (:first-scene game)})
 
-(defn current-scene [state game]
-  ((:current-scene state) (:scenes game)))
+(defn current-scene [player game]
+  ((:current-scene player) (:scenes game)))
 
-(defn presence [state character-id game]
+(defn presence [player character-id game]
   (some #(when (= (first %) character-id) %)
-        (:presences (current-scene state game))))
+        (:presences (current-scene player game))))
 
-(defn go-to [state new-scene-id game]
+(defn go-to [player new-scene-id game]
   (let [scenes (:scenes game)
         new-scene (get scenes new-scene-id)]
     (if (nil? new-scene)
-      state
-      (assoc state :current-scene new-scene-id))))
+      player
+      (assoc player :current-scene new-scene-id))))
 

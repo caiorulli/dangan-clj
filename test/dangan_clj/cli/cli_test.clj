@@ -11,16 +11,16 @@
        (fact "spec validation"
              (s/valid? ::cli/cli nil) => false
              (s/valid? ::cli/cli {}) => false
-             (s/valid? ::cli/cli {:player (player/initial-state
+             (s/valid? ::cli/cli {:player (player/player
                                           test-game/test-game)}) => false
              (s/valid? ::cli/cli {:mode :lala}) => false
              (s/valid? ::cli/cli {:mode :interact
-                                  :player (player/initial-state
+                                  :player (player/player
                                           test-game/test-game)}) => true
              (s/valid? ::cli/cli {:mode :dialog
                                   :current-dialog :lala
                                   :current-line   0
-                                  :player (player/initial-state
+                                  :player (player/player
                                           test-game/test-game)}) => true)
 
        (fact "cli fn should make valid cli"
@@ -52,7 +52,7 @@
              => {:mode :dialog
                  :current-dialog :schredder-dialog
                  :current-line   0
-                 :player consts/initial})
+                 :player consts/initial-player})
 
        (fact "should be able to advance dialog"
          (-> consts/initial-cli
@@ -61,14 +61,14 @@
              => {:mode :dialog
                  :current-dialog :schredder-dialog
                  :current-line   1
-                 :player consts/initial})
+                 :player consts/initial-player})
 
        (fact "should return to interact mode when dialog ends"
          (-> consts/initial-cli
           (cli/dialog-mode :knife-dialog)
           (cli/next-line test-game/test-game))
          => {:mode :interact
-             :player consts/initial})
+             :player consts/initial-player})
 
        (fact "should validate for dialog mode?"))
 
@@ -76,7 +76,7 @@
  "about prompt generation"
  (fact "returns scene name prompt"
    (cli/prompt (cli/interact-mode consts/initial-cli)
-                   test-game/test-game) => consts/scene-prompt)
+                   test-game/test-game) => "(Giba's Room) > ")
 
  (fact "on dialog mode, should display three dots"
        (cli/prompt (cli/dialog-mode consts/initial-cli :knife-dialog)

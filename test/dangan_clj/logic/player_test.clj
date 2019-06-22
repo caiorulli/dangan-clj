@@ -20,22 +20,22 @@
 (facts "about player functions"
        (fact "makes valid initial player"
              (s/valid? ::player/player
-                       (player/initial-state test-game/test-game)) => true))
+                       (player/player test-game/test-game)) => true))
 
 (facts
  "about the player interaction"
  (fact "player should start clueless"
-       (-> consts/initial
+       (-> consts/initial-player
            :clues) => []))
 
 (facts
  "about navigation"
  (fact "navigating to nil should just return same player"
-       (player/go-to consts/initial nil test-game/test-game) => consts/initial)
+       (player/go-to consts/initial-player nil test-game/test-game) => consts/initial-player)
 
  (fact "navigating to inexisting symbol should also just return player"
-       (player/go-to consts/initial :rollercoaster test-game/test-game) => consts/initial)
+       (player/go-to consts/initial-player :rollercoaster test-game/test-game) => consts/initial-player)
 
  (fact "navigating to existing scene should change current scene"
-       (-> (player/go-to consts/initial :laundry test-game/test-game)
+       (-> (player/go-to consts/initial-player :laundry test-game/test-game)
            :current-scene) => :laundry))

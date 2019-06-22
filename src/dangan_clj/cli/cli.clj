@@ -1,6 +1,7 @@
 (ns dangan-clj.cli.cli
   (:require [clojure.spec.alpha :as s]
             [dangan-clj.cli.messages :as messages]
+            [dangan-clj.logic.game :refer [is-thought?]]
             [dangan-clj.logic.player :as player]))
 
 (s/def ::mode #{:interact :dialog})
@@ -16,9 +17,6 @@
          (:display-name (player/current-scene (:player cli) game))
          ") > ")
     "..."))
-
-(defn- is-thought? [speaker-id]
-  (= speaker-id :thought))
 
 (defn- dialog-output [cli game]
   (let [dialog-id (:current-dialog cli)
@@ -39,7 +37,7 @@
 
 (defn cli [game]
   {:mode :interact
-   :player (player/initial-state game)})
+   :player (player/player game)})
 
 (defn interact-mode [cli]
   (-> cli

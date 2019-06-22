@@ -40,3 +40,6 @@
 
 (defn explain [game]
   (s/explain-str ::game game))
+
+(defn is-thought? [speaker-id]
+  (= speaker-id :thought))
