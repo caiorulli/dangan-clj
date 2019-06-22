@@ -65,21 +65,21 @@
                           (when character-is-present?
                             (-> game :characters target :dialog-id)))]
     (if target-dialog
-      (cli/dialog-mode target-dialog)
-      cli/interact-mode)))
+      (cli/dialog-mode cli target-dialog)
+      (cli/interact-mode cli))))
 
 (defmethod evaluate-cli :talk [command cli state game]
   (let [target (:target command)
         presence (state/presence state target game)]
     (if-not (nil? presence)
-      (cli/dialog-mode (nth presence 1))
-      cli/interact-mode)))
+      (cli/dialog-mode cli (nth presence 1))
+      (cli/interact-mode cli))))
 
 (defmethod evaluate-cli :describe [command cli state game]
-  (cli/dialog-mode (-> state (state/current-scene game) :dialog-id)))
+  (cli/dialog-mode cli (-> state (state/current-scene game) :dialog-id)))
 
 (defmethod evaluate-cli :advance-dialog [command cli state game]
   (cli/next-line cli game))
 
 (defmethod evaluate-cli :default [command cli state game]
-  cli/interact-mode)
+  (cli/interact-mode cli))

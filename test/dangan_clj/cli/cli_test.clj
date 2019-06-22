@@ -12,11 +12,20 @@
        (fact "spec validation"
              (s/valid? ::cli/cli nil) => false
              (s/valid? ::cli/cli {}) => false
+             (s/valid? ::cli/cli {:state (state/initial-state
+                                          test-game/test-game)}) => false
              (s/valid? ::cli/cli {:mode :lala}) => false
-             (s/valid? ::cli/cli {:mode :interact}) => true
+             (s/valid? ::cli/cli {:mode :interact
+                                  :state (state/initial-state
+                                          test-game/test-game)}) => true
              (s/valid? ::cli/cli {:mode :dialog
                                   :current-dialog :lala
-                                  :current-line   0}) => true))
+                                  :current-line   0
+                                  :state (state/initial-state
+                                          test-game/test-game)}) => true)
+
+       (fact "cli fn should make valid cli"
+         (s/valid? ::cli/cli (cli/cli test-game/test-game))))
 
 (facts "about cli output"
        (fact "should output formatted dialog"
@@ -40,33 +49,36 @@
 
 (facts "about cli dialog flow"
        (fact "should be able to enter dialog flow"
-             (cli/dialog-mode :schredder-dialog)
+             (cli/dialog-mode consts/initial-cli :schredder-dialog)
              => {:mode :dialog
                  :current-dialog :schredder-dialog
-                 :current-line   0})
+                 :current-line   0
+                 :state consts/initial})
 
        (fact "should be able to advance dialog"
-             (-> (cli/dialog-mode :schredder-dialog)
-                 (cli/next-line test-game/test-game))
+         (-> consts/initial-cli
+          (cli/dialog-mode :schredder-dialog)
+          (cli/next-line test-game/test-game))
              => {:mode :dialog
                  :current-dialog :schredder-dialog
-                 :current-line   1})
+                 :current-line   1
+                 :state consts/initial})
 
        (fact "should return to interact mode when dialog ends"
-             (-> (cli/dialog-mode :knife-dialog)
-                 (cli/next-line test-game/test-game))
-             => {:mode :interact})
+         (-> consts/initial-cli
+          (cli/dialog-mode :knife-dialog)
+          (cli/next-line test-game/test-game))
+         => {:mode :interact
+             :state consts/initial})
 
        (fact "should validate for dialog mode?"))
 
 (facts
  "about prompt generation"
  (fact "returns scene name prompt"
-       (cli/prompt cli/interact-mode
-                   consts/initial
+   (cli/prompt (cli/interact-mode consts/initial-cli)
                    test-game/test-game) => consts/scene-prompt)
 
  (fact "on dialog mode, should display three dots"
-       (cli/prompt (cli/dialog-mode :knife-dialog)
-                   consts/initial
+       (cli/prompt (cli/dialog-mode consts/initial-cli :knife-dialog)
                    test-game/test-game) => "..."))

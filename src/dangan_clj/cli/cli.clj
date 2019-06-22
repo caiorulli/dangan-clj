@@ -7,13 +7,13 @@
 (s/def ::current-dialog keyword?)
 (s/def ::current-line int?)
 
-(s/def ::cli (s/keys :req-un [::mode]
+(s/def ::cli (s/keys :req-un [::mode ::state/state]
                      :opt-un [::current-dialog ::current-line]))
 
-(defn prompt [cli state game]
+(defn prompt [cli game]
   (if (= (:mode cli) :interact)
     (str "("
-         (:display-name (state/current-scene state game))
+         (:display-name (state/current-scene (:state cli) game))
          ") > ")
     "..."))
 
@@ -37,18 +37,25 @@
     (= (:type command) :help)
     messages/help-text))
 
-(def interact-mode
-  {:mode :interact})
+(defn cli [game]
+  {:mode :interact
+   :state (state/initial-state game)})
 
-(defn dialog-mode [dialog-id]
-  {:mode :dialog
-   :current-dialog dialog-id
-   :current-line   0})
+(defn interact-mode [cli]
+  (-> cli
+      (merge {:mode :interact})
+      (dissoc :current-dialog)
+      (dissoc :current-line)))
+
+(defn dialog-mode [cli dialog-id]
+  (merge cli {:mode :dialog
+              :current-dialog dialog-id
+              :current-line   0}))
 
 (defn next-line [cli game]
   (let [dialog-id (:current-dialog cli)
         next-line-number (-> cli :current-line inc)
         dialog (-> game :dialogs dialog-id)]
     (if (= (count dialog) next-line-number)
-      interact-mode
+      (interact-mode cli)
       (merge cli {:current-line next-line-number}))))
