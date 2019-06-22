@@ -2,17 +2,13 @@
   (:require [clojure.spec.alpha :as s]))
 
 (s/def ::clues vector?)
-(s/def ::player (s/keys :req-un [::clues]))
 (s/def ::current-scene keyword?)
 
-(s/def ::state (s/keys :req-un [::player
-                                ::current-scene]))
-
-(defn- player []
-  {:clues []})
+(s/def ::player (s/keys :req-un [::clues
+                                 ::current-scene]))
 
 (defn initial-state [game]
-  {:player        (player)
+  {:clues []
    :current-scene (:first-scene game)})
 
 (defn current-scene [state game]

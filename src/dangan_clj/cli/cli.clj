@@ -7,13 +7,13 @@
 (s/def ::current-dialog keyword?)
 (s/def ::current-line int?)
 
-(s/def ::cli (s/keys :req-un [::mode ::player/state]
+(s/def ::cli (s/keys :req-un [::mode ::player/player]
                      :opt-un [::current-dialog ::current-line]))
 
 (defn prompt [cli game]
   (if (= (:mode cli) :interact)
     (str "("
-         (:display-name (player/current-scene (:state cli) game))
+         (:display-name (player/current-scene (:player cli) game))
          ") > ")
     "..."))
 
@@ -39,7 +39,7 @@
 
 (defn cli [game]
   {:mode :interact
-   :state (player/initial-state game)})
+   :player (player/initial-state game)})
 
 (defn interact-mode [cli]
   (-> cli

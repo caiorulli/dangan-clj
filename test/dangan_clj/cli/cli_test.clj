@@ -11,16 +11,16 @@
        (fact "spec validation"
              (s/valid? ::cli/cli nil) => false
              (s/valid? ::cli/cli {}) => false
-             (s/valid? ::cli/cli {:state (player/initial-state
+             (s/valid? ::cli/cli {:player (player/initial-state
                                           test-game/test-game)}) => false
              (s/valid? ::cli/cli {:mode :lala}) => false
              (s/valid? ::cli/cli {:mode :interact
-                                  :state (player/initial-state
+                                  :player (player/initial-state
                                           test-game/test-game)}) => true
              (s/valid? ::cli/cli {:mode :dialog
                                   :current-dialog :lala
                                   :current-line   0
-                                  :state (player/initial-state
+                                  :player (player/initial-state
                                           test-game/test-game)}) => true)
 
        (fact "cli fn should make valid cli"
@@ -52,7 +52,7 @@
              => {:mode :dialog
                  :current-dialog :schredder-dialog
                  :current-line   0
-                 :state consts/initial})
+                 :player consts/initial})
 
        (fact "should be able to advance dialog"
          (-> consts/initial-cli
@@ -61,14 +61,14 @@
              => {:mode :dialog
                  :current-dialog :schredder-dialog
                  :current-line   1
-                 :state consts/initial})
+                 :player consts/initial})
 
        (fact "should return to interact mode when dialog ends"
          (-> consts/initial-cli
           (cli/dialog-mode :knife-dialog)
           (cli/next-line test-game/test-game))
          => {:mode :interact
-             :state consts/initial})
+             :player consts/initial})
 
        (fact "should validate for dialog mode?"))
 

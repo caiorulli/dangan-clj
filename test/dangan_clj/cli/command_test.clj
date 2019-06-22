@@ -127,4 +127,4 @@
                                 consts/initial-cli
                                 test-game/test-game)
          => {:mode :interact
-             :state consts/entered-scene-two}))
+             :player consts/entered-scene-two}))
