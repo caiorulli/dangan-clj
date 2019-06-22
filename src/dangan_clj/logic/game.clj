@@ -43,3 +43,13 @@
 
 (defn is-thought? [speaker-id]
   (= speaker-id :thought))
+
+(defn presence [character-id current-scene]
+  (some #(when (= (first %) character-id) %)
+        (:presences current-scene)))
+
+(defn character-is-present? [character-id scene]
+  (not (nil? (presence character-id scene))))
+
+(defn character-description-dialog-id [character-id game]
+  (-> game :characters character-id :dialog-id))

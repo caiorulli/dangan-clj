@@ -3,6 +3,7 @@
             [clojure.string :as string]
             [dangan-clj.cli.cli :as cli]
             [dangan-clj.cli.dict :as dict]
+            [dangan-clj.logic.game :as game]
             [dangan-clj.logic.player :as player]))
 
 (s/def ::type #{:describe :examine :help :navigate :talk})
@@ -41,31 +42,32 @@
 (defmulti evaluate-cli (fn [command cli game]
                          (if (= (:mode cli) :dialog)
                            :advance-dialog
-                           (and (s/valid? ::command command)
-                                (:type command)))))
+                           (:type command))))
 
 (defmethod evaluate-cli :examine [command cli game]
   (let [target (:target command)
         target-poi (-> game :pois target)
-        current-scene-id (-> (:player cli) :current-scene)
-        character-is-present? (not (nil? (player/presence (:player cli) target game)))
+        current-scene-id (-> cli :player :current-scene)
+        current-scene (player/current-scene (:player cli) game)
+        present? (game/character-is-present? target current-scene)
         target-dialog (or (when (= (get target-poi :scene-id) current-scene-id)
                             (get target-poi :dialog-id))
-                          (when character-is-present?
-                            (-> game :characters target :dialog-id)))]
+                          (when present?
+                            (game/character-description-dialog-id target game)))]
     (if target-dialog
       (cli/dialog-mode cli target-dialog)
       (cli/interact-mode cli))))
 
 (defmethod evaluate-cli :talk [command cli game]
   (let [target (:target command)
-        presence (player/presence (:player cli) target game)]
+        current-scene (-> cli :player (player/current-scene game))
+        presence (game/presence target current-scene)]
     (if-not (nil? presence)
       (cli/dialog-mode cli (nth presence 1))
       (cli/interact-mode cli))))
 
 (defmethod evaluate-cli :describe [command cli game]
-  (cli/dialog-mode cli (-> (:player cli) (player/current-scene game) :dialog-id)))
+  (cli/dialog-mode cli (-> cli :player (player/current-scene game) :dialog-id)))
 
 (defmethod evaluate-cli :navigate [command cli game]
   (update cli :player #(player/go-to % (:target command) game)))
