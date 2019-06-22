@@ -58,8 +58,8 @@
 (defmethod evaluate-cli :examine [command cli state game]
   (let [target (:target command)
         target-poi (-> game :pois target)
-        current-scene-id (-> state :current-scene)
-        character-is-present? (not (nil? (state/presence state target game)))
+        current-scene-id (-> (:state cli) :current-scene)
+        character-is-present? (not (nil? (state/presence (:state cli) target game)))
         target-dialog (or (when (= (get target-poi :scene-id) current-scene-id)
                             (get target-poi :dialog-id))
                           (when character-is-present?
@@ -70,16 +70,19 @@
 
 (defmethod evaluate-cli :talk [command cli state game]
   (let [target (:target command)
-        presence (state/presence state target game)]
+        presence (state/presence (:state cli) target game)]
     (if-not (nil? presence)
       (cli/dialog-mode cli (nth presence 1))
       (cli/interact-mode cli))))
 
 (defmethod evaluate-cli :describe [command cli state game]
-  (cli/dialog-mode cli (-> state (state/current-scene game) :dialog-id)))
+  (cli/dialog-mode cli (-> (:state cli) (state/current-scene game) :dialog-id)))
 
 (defmethod evaluate-cli :advance-dialog [command cli state game]
   (cli/next-line cli game))
+
+(defmethod evaluate-cli :navigate [command cli state game]
+  (update cli :state #(state/go-to % (:target command) game)))
 
 (defmethod evaluate-cli :default [command cli state game]
   (cli/interact-mode cli))

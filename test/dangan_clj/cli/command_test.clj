@@ -144,9 +144,17 @@
                => (cli/next-line dialog-mode test-game/test-game)))
 
        (fact "if in interact mode, any other command will return interact mode"
-             (command/evaluate-cli {:type :navigate
-                                    :target :laundry}
+             (command/evaluate-cli {:type :lala}
                                    consts/initial-cli
                                    consts/initial
                                    test-game/test-game)
-             => consts/initial-cli))
+             => consts/initial-cli)
+       
+       (fact "word enter should trigger navigation"
+         (command/evaluate-cli {:type :navigate
+                                :target :laundry}
+                                consts/initial-cli
+                                consts/initial
+                                test-game/test-game)
+         => {:mode :interact
+             :state consts/entered-scene-two}))
