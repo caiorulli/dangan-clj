@@ -59,7 +59,7 @@
              (s/valid? ::game/dialog [[]]) => false))
 
 (facts "about characters"
-       (fact "should have display-name and description"
+       (fact "should have display-name and dialog-id"
              (s/valid? ::game/character {:display-name "Dr. Gori"}) => false
              (s/valid? ::game/character {:dialog-id :lala}) => false
              (s/valid? ::game/character {:display-name "Dr. Gori"
@@ -67,6 +67,12 @@
              (s/valid? ::game/character nil) => false
              (s/valid? ::game/character "Spectreman") => false
              (s/valid? ::game/character {}) => false))
+
+(facts "about clues"
+  (fact "clues map should only contain clue description"
+    (s/valid? ::game/clues nil) => false
+    (s/valid? ::game/clues {}) => true
+    (s/valid? ::game/clues {:clue1 "the horror"}) => true))
 
 (facts "about wrapper fns"
        (fact "valid? wraps clojure.spec valid? fn"

@@ -6,7 +6,8 @@
 
 (def phone
   {:dialog-id :rodrigos-phone
-   :scene-id :rodrigos-room})
+   :scene-id :rodrigos-room
+   :clue-id :rodrigos-phone})
 
 (def rodrigos-room
   {:display-name "Rodrigo's Room"
@@ -61,6 +62,9 @@
 (def describe-me
   [[:thought "Ignore this for now."]])
 
+(def clues
+  {:rodrigos-phone "He was still holding the phone when he died."})
+
 (def game
   {:first-scene :rodrigos-room
    :scenes      {:rodrigos-room rodrigos-room
@@ -80,7 +84,8 @@
                 :thiago {:display-name "Thiago"
                          :dialog-id :describe-thiago}
                 :caio {:display-name "Me"
-                       :dialog-id :describe-me}}})
+                       :dialog-id :describe-me}}
+   :clues clues})
 
 (def cli-dict
   {:rodrigos-room #{"rodrigo's room" "room"}

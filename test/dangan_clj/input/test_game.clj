@@ -52,6 +52,9 @@
 (def giba-talk
   [[:giba "Have you ever watched Dragon Ball X???"]])
 
+(def clues
+  {:bloody-knife "He says it's tomato sauce, but I don't buy it."})
+
 (def test-game
   {:scenes {:gibas-room gibas-room
             :laundry    laundry}
@@ -73,7 +76,8 @@
                 :thiago {:display-name "Thiago"
                          :dialog-id :describe-thiago}
                 :rodrigo {:display-name "Rodrigo"
-                          :dialog-id :describe-rodrigo}}})
+                          :dialog-id :describe-rodrigo}}
+   :clues clues})
 
 (def cli-dict
   {:gibas-room #{"room" "giba's room"}

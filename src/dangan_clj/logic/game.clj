@@ -17,7 +17,7 @@
 (s/def ::clue-id keyword?)
 (s/def ::scene-id keyword?)
 (s/def ::poi (s/keys :req-un [::dialog-id ::scene-id]
-                     :opt-un [::clue]))
+                     :opt-un [::clue-id]))
 
 (s/def ::poi-id keyword?)
 (s/def ::pois (s/map-of ::poi-id ::poi))
@@ -29,11 +29,14 @@
                        :opt-un [::presences]))
 (s/def ::scenes (s/map-of ::scene-id ::scene))
 
+(s/def ::clues (s/map-of ::clue-id ::description))
+
 (s/def ::game (s/keys :req-un [::first-scene
                                ::scenes
                                ::pois
                                ::dialogs
-                               ::characters]))
+                               ::characters
+                               ::clues]))
 
 (defn valid? [game]
   (s/valid? ::game game))
