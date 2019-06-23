@@ -87,3 +87,13 @@
                (wrapper-fn nil) => (spec-fn nil)
                (wrapper-fn {}) => (spec-fn {}))))
 
+(facts "about search fns"
+  (fact "clue-id-from-poi-id behaviour"
+    (game/clue-id-from-poi-id :washing-machine test-game/test-game)
+    => nil
+
+    (game/clue-id-from-poi-id :lala test-game/test-game)
+    => nil
+    
+    (game/clue-id-from-poi-id :knife test-game/test-game)
+    => :bloody-knife))

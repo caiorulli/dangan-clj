@@ -59,3 +59,6 @@
 
 (defn line [game dialog-id line-number]
   (-> game :dialogs dialog-id (nth line-number)))
+
+(defn clue-id-from-poi-id [poi-id game]
+  (-> game :pois poi-id :clue-id))

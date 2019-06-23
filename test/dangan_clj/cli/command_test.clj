@@ -68,28 +68,7 @@
                                     :target :knife}
                                    consts/initial-cli
                                    test-game/test-game)
-             => (cli/dialog-mode consts/initial-cli :knife-dialog))
-
-       (fact "examine should not trigger dialog mode if target does not exist in scene"
-             (command/evaluate-cli {:type :examine
-                                    :target :washing-machine}
-                                   consts/initial-cli
-                                   test-game/test-game)
-             => consts/initial-cli)
-
-       (fact "examine should work for characters too"
-             (command/evaluate-cli {:type :examine
-                                    :target :giba}
-                                   consts/initial-cli
-                                   test-game/test-game)
-             => (cli/dialog-mode consts/initial-cli :describe-giba))
-
-       (fact "examine should not work for characters that are not present"
-             (command/evaluate-cli {:type :examine
-                                    :target :rodrigo}
-                                   consts/initial-cli
-                                   test-game/test-game)
-             => consts/initial-cli)
+             => (cli/examine consts/initial-cli test-game/test-game :knife))
 
        (fact "talk command should trigger dialog mode"
              (command/evaluate-cli {:type :talk

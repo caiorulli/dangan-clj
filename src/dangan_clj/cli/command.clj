@@ -48,18 +48,7 @@
                            (:type command))))
 
 (defmethod evaluate-cli :examine [command cli game]
-  (let [target (:target command)
-        target-poi (-> game :pois target)
-        current-scene-id (-> cli :player :current-scene)
-        current-scene (player/current-scene (:player cli) game)
-        present? (game/character-is-present? target current-scene)
-        target-dialog (or (when (= (get target-poi :scene-id) current-scene-id)
-                            (get target-poi :dialog-id))
-                          (when present?
-                            (game/character-description-dialog-id target game)))]
-    (if target-dialog
-      (cli/dialog-mode cli target-dialog)
-      (cli/interact-mode cli))))
+  (cli/examine cli game (:target command)))
 
 (defmethod evaluate-cli :talk [command cli game]
   (let [target (:target command)

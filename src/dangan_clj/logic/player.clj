@@ -1,14 +1,15 @@
 (ns dangan-clj.logic.player
-  (:require [clojure.spec.alpha :as s]))
+  (:require [clojure.spec.alpha :as s]
+            [dangan-clj.logic.game :as game]))
 
-(s/def ::clues vector?)
+(s/def ::clues (s/coll-of ::game/clue-id))
 (s/def ::current-scene keyword?)
 
 (s/def ::player (s/keys :req-un [::clues
                                  ::current-scene]))
 
 (defn player [game]
-  {:clues []
+  {:clues #{}
    :current-scene (:first-scene game)})
 
 (defn current-scene [player game]
@@ -21,3 +22,5 @@
       player
       (assoc player :current-scene new-scene-id))))
 
+(defn with-clue [player clue-id]
+  (update player :clues #(conj % clue-id)))

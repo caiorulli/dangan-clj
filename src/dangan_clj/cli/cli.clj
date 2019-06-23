@@ -34,6 +34,26 @@
               :current-dialog dialog-id
               :current-line   0}))
 
+(defn examine [cli game target]
+  (let [target-poi (-> game :pois target)
+        current-scene-id (-> cli :player :current-scene)
+        current-scene (player/current-scene (:player cli) game)
+        poi-in-scene? (= (get target-poi :scene-id) current-scene-id)
+        present? (game/character-is-present? target current-scene)
+        clue-in-poi (game/clue-id-from-poi-id target game)]
+    
+    (cond
+      poi-in-scene?
+      (-> cli
+          (update :player #(player/with-clue % clue-in-poi))
+          (dialog-mode (get target-poi :dialog-id)))
+
+      present?
+      (dialog-mode cli (game/character-description-dialog-id target game))
+
+      :else
+      (interact-mode cli))))
+
 (defn next-line [cli game]
   (let [dialog-id (:current-dialog cli)
         next-line-number (-> cli :current-line inc)

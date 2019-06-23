@@ -99,3 +99,27 @@
  (fact "on dialog mode, should display three dots"
        (cli/prompt (cli/dialog-mode consts/initial-cli :knife-dialog)
                    test-game/test-game) => "..."))
+
+(facts "about cli domain fns"
+  (fact "examine should trigger dialog mode"
+    (let [result (cli/examine consts/initial-cli test-game/test-game :knife)]
+      (:mode result) => :dialog
+      (:current-dialog result) => :knife-dialog
+      (:current-line result) => 0))
+
+       (fact "examine should add clue to player if exists in poi"
+         (-> (cli/examine consts/initial-cli test-game/test-game :knife)
+             :player :clues)
+         => #{:bloody-knife})
+
+       (fact "examine should not trigger dialog mode if target does not exist in scene"
+             (cli/examine consts/initial-cli test-game/test-game :washing-machine)
+             => consts/initial-cli)
+
+       (fact "examine should work for characters too"
+             (cli/examine consts/initial-cli test-game/test-game :giba)
+             => (cli/dialog-mode consts/initial-cli :describe-giba))
+
+       (fact "examine should not work for characters that are not present"
+         (cli/examine consts/initial-cli test-game/test-game :rodrigo)
+             => consts/initial-cli))
