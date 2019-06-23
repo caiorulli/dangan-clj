@@ -53,3 +53,6 @@
 
 (defn character-description-dialog-id [character-id game]
   (-> game :characters character-id :dialog-id))
+
+(defn line [game dialog-id line-number]
+  (-> game :dialogs dialog-id (nth line-number)))

@@ -2,7 +2,8 @@
   (:require [clojure.spec.alpha :as s]
             [dangan-clj.cli.messages :as messages]
             [dangan-clj.logic.game :refer [is-thought?]]
-            [dangan-clj.logic.player :as player]))
+            [dangan-clj.logic.player :as player]
+            [dangan-clj.logic.game :as game]))
 
 (s/def ::mode #{:interact :dialog})
 (s/def ::current-dialog keyword?)
@@ -14,6 +15,33 @@
                               ::current-line
                               ::simple-text]))
 
+(defn cli [game]
+  {:mode :interact
+   :player (player/player game)})
+
+(defn interact-mode [cli]
+  (-> cli
+      (merge {:mode :interact})
+      (dissoc :current-dialog)
+      (dissoc :current-line)
+      (dissoc :simple-text)))
+
+(defn simple-text-mode [cli text-type]
+  (assoc cli :simple-text text-type))
+
+(defn dialog-mode [cli dialog-id]
+  (merge cli {:mode :dialog
+              :current-dialog dialog-id
+              :current-line   0}))
+
+(defn next-line [cli game]
+  (let [dialog-id (:current-dialog cli)
+        next-line-number (-> cli :current-line inc)
+        dialog (-> game :dialogs dialog-id)]
+    (if (= (count dialog) next-line-number)
+      (interact-mode cli)
+      (merge cli {:current-line next-line-number}))))
+
 (defn prompt [cli game]
   (if (= (:mode cli) :interact)
     (str "("
@@ -24,7 +52,7 @@
 (defn- dialog-output [cli game]
   (let [dialog-id (:current-dialog cli)
         line-number (:current-line cli)
-        line (-> game :dialogs dialog-id (nth line-number))
+        line (game/line game dialog-id line-number)
         [speaker-id text] line
         character-name (-> game :characters speaker-id :display-name)]
     (if (is-thought? speaker-id)
@@ -42,30 +70,3 @@
 
     (simple-text-mode? cli)
     (messages/simple-text cli game)))
-
-(defn cli [game]
-  {:mode :interact
-   :player (player/player game)})
-
-(defn interact-mode [cli]
-  (-> cli
-      (merge {:mode :interact})
-      (dissoc :current-dialog)
-      (dissoc :current-line)
-      (dissoc :simple-text)))
-
-(defn dialog-mode [cli dialog-id]
-  (merge cli {:mode :dialog
-              :current-dialog dialog-id
-              :current-line   0}))
-
-(defn next-line [cli game]
-  (let [dialog-id (:current-dialog cli)
-        next-line-number (-> cli :current-line inc)
-        dialog (-> game :dialogs dialog-id)]
-    (if (= (count dialog) next-line-number)
-      (interact-mode cli)
-      (merge cli {:current-line next-line-number}))))
-
-(defn simple-text-mode [cli text-type]
-  (assoc cli :simple-text text-type))
