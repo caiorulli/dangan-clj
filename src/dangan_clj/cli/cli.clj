@@ -41,7 +41,7 @@
         poi-in-scene? (= (get target-poi :scene-id) current-scene-id)
         present? (game/character-is-present? target current-scene)
         clue-in-poi (game/clue-id-from-poi-id target game)]
-    
+
     (cond
       poi-in-scene?
       (-> cli

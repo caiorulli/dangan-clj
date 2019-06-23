@@ -23,21 +23,21 @@
                        (player/player test-game/test-game)) => true))
 
 (facts "about clues"
- (fact "player should start clueless"
-       (-> consts/initial-player
-           :clues) => #{})
+       (fact "player should start clueless"
+             (-> consts/initial-player
+                 :clues) => #{})
 
- (fact "with-clue should add clue to the collection, if it doesn't exist"
-   (-> consts/initial-player
-       (player/with-clue :bloody-knife)
-       :clues)
-   => #{:bloody-knife}
+       (fact "with-clue should add clue to the collection, if it doesn't exist"
+             (-> consts/initial-player
+                 (player/with-clue :bloody-knife)
+                 :clues)
+             => #{:bloody-knife}
 
-   (-> consts/initial-player
-       (player/with-clue :bloody-knife)
-       (player/with-clue :bloody-knife)
-       :clues)
-   => #{:bloody-knife}))
+             (-> consts/initial-player
+                 (player/with-clue :bloody-knife)
+                 (player/with-clue :bloody-knife)
+                 :clues)
+             => #{:bloody-knife}))
 
 (facts
  "about navigation"

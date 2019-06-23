@@ -69,10 +69,10 @@
              (s/valid? ::game/character {}) => false))
 
 (facts "about clues"
-  (fact "clues map should only contain clue description"
-    (s/valid? ::game/clues nil) => false
-    (s/valid? ::game/clues {}) => true
-    (s/valid? ::game/clues {:clue1 "the horror"}) => true))
+       (fact "clues map should only contain clue description"
+             (s/valid? ::game/clues nil) => false
+             (s/valid? ::game/clues {}) => true
+             (s/valid? ::game/clues {:clue1 "the horror"}) => true))
 
 (facts "about wrapper fns"
        (fact "valid? wraps clojure.spec valid? fn"
@@ -88,12 +88,12 @@
                (wrapper-fn {}) => (spec-fn {}))))
 
 (facts "about search fns"
-  (fact "clue-id-from-poi-id behaviour"
-    (game/clue-id-from-poi-id :washing-machine test-game/test-game)
-    => nil
+       (fact "clue-id-from-poi-id behaviour"
+             (game/clue-id-from-poi-id :washing-machine test-game/test-game)
+             => nil
 
-    (game/clue-id-from-poi-id :lala test-game/test-game)
-    => nil
-    
-    (game/clue-id-from-poi-id :knife test-game/test-game)
-    => :bloody-knife))
+             (game/clue-id-from-poi-id :lala test-game/test-game)
+             => nil
+
+             (game/clue-id-from-poi-id :knife test-game/test-game)
+             => :bloody-knife))

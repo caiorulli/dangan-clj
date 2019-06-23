@@ -41,26 +41,26 @@
                                                :target :giba})
 
        (fact "examine synonims should be interpreted as examine commands"
-        (let [examine-schredder-command {:type :examine
-                                         :target :schredder}]
-          (make-command "examine schredder") => examine-schredder-command
-          (make-command "examine black box")  => examine-schredder-command
-          (make-command "examine BOX") => examine-schredder-command))
+             (let [examine-schredder-command {:type :examine
+                                              :target :schredder}]
+               (make-command "examine schredder") => examine-schredder-command
+               (make-command "examine black box")  => examine-schredder-command
+               (make-command "examine BOX") => examine-schredder-command))
 
        (fact "go to synonims should be interpreted as navigate commands"
-        (let [enter-laundry-command {:type :navigate
-                                     :target :laundry}
-              enter-room-command {:type :navigate
-                                  :target :gibas-room}]
-          (make-command "go to Laundry") => enter-laundry-command
-          (make-command "go to laundry") => enter-laundry-command
-          (make-command "go to laundry area") => enter-laundry-command
-          (make-command "go to Giba's Room") => enter-room-command
-          (make-command "go to room") => enter-room-command))
+             (let [enter-laundry-command {:type :navigate
+                                          :target :laundry}
+                   enter-room-command {:type :navigate
+                                       :target :gibas-room}]
+               (make-command "go to Laundry") => enter-laundry-command
+               (make-command "go to laundry") => enter-laundry-command
+               (make-command "go to laundry area") => enter-laundry-command
+               (make-command "go to Giba's Room") => enter-room-command
+               (make-command "go to room") => enter-room-command))
 
        (fact "list clues should be interpreted as list clues command"
-         (make-command "list clues") => {:type :list-clues}
-         (make-command "LisT Clue") => {:type :list-clues}))
+             (make-command "list clues") => {:type :list-clues}
+             (make-command "LisT Clue") => {:type :list-clues}))
 
 (facts "about command cli evaluation"
        (fact "examine should trigger dialog mode"
@@ -85,9 +85,9 @@
              => consts/initial-cli)
 
        (fact "describe command should trigger dialog mode"
-         (command/evaluate-cli {:type :describe}
-                               consts/initial-cli
-                               test-game/test-game)
+             (command/evaluate-cli {:type :describe}
+                                   consts/initial-cli
+                                   test-game/test-game)
              => (cli/dialog-mode consts/initial-cli :describe-gibas-room))
 
        (fact "if in dialog mode, any command will trigger next line"
@@ -102,23 +102,23 @@
                                    consts/initial-cli
                                    test-game/test-game)
              => consts/initial-cli)
-       
+
        (fact "word enter should trigger navigation"
-         (command/evaluate-cli {:type :navigate
-                                :target :laundry}
-                                consts/initial-cli
-                                test-game/test-game)
-         => {:mode :interact
-             :player consts/entered-scene-two})
+             (command/evaluate-cli {:type :navigate
+                                    :target :laundry}
+                                   consts/initial-cli
+                                   test-game/test-game)
+             => {:mode :interact
+                 :player consts/entered-scene-two})
 
        (fact "list clues will trigger simple text interact mode"
-         (command/evaluate-cli {:type :list-clues}
-                               consts/initial-cli
-                               test-game/test-game)
-         => (cli/simple-text-mode consts/initial-cli :list-clues))
+             (command/evaluate-cli {:type :list-clues}
+                                   consts/initial-cli
+                                   test-game/test-game)
+             => (cli/simple-text-mode consts/initial-cli :list-clues))
 
        (fact "help command will trigger simple text mode"
-         (command/evaluate-cli {:type :help}
-                               consts/initial-cli
-                               test-game/test-game)
-         => (cli/simple-text-mode consts/initial-cli :help)))
+             (command/evaluate-cli {:type :help}
+                                   consts/initial-cli
+                                   test-game/test-game)
+             => (cli/simple-text-mode consts/initial-cli :help)))
