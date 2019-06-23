@@ -37,7 +37,10 @@
 
       (string/starts-with? lowered-command-string "talk to")
       {:type :talk
-       :target (dict/lookup cli-dict (predicate-after 2))})))
+       :target (dict/lookup cli-dict (predicate-after 2))}
+
+      (string/starts-with? lowered-command-string "list clue")
+      {:type :list-clues})))
 
 (defmulti evaluate-cli (fn [command cli game]
                          (if (= (:mode cli) :dialog)
@@ -74,6 +77,9 @@
 
 (defmethod evaluate-cli :advance-dialog [command cli game]
   (cli/next-line cli game))
+
+(defmethod evaluate-cli :list-clues [command cli game]
+  (cli/list-clues-mode cli))
 
 (defmethod evaluate-cli :default [command cli game]
   (cli/interact-mode cli))

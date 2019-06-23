@@ -4,7 +4,8 @@
             [dangan-clj.cli.command :as command]
             [dangan-clj.input.consts :as consts]
             [dangan-clj.input.test-game :as test-game]
-            [midje.sweet :refer [=> fact facts]]))
+            [midje.sweet :refer [=> fact facts]]
+            [dangan-clj.cli.messages :as messages]))
 
 (facts "about command validation"
        (fact "should always have type"
@@ -39,16 +40,14 @@
              (make-command "talk to giba") => {:type :talk
                                                :target :giba})
 
-       (fact
-        "examine synonims should be interpreted as examine commands"
+       (fact "examine synonims should be interpreted as examine commands"
         (let [examine-schredder-command {:type :examine
                                          :target :schredder}]
           (make-command "examine schredder") => examine-schredder-command
           (make-command "examine black box")  => examine-schredder-command
           (make-command "examine BOX") => examine-schredder-command))
 
-       (fact
-        "go to synonims should be interpreted as navigate commands"
+       (fact "go to synonims should be interpreted as navigate commands"
         (let [enter-laundry-command {:type :navigate
                                      :target :laundry}
               enter-room-command {:type :navigate
@@ -57,7 +56,11 @@
           (make-command "go to laundry") => enter-laundry-command
           (make-command "go to laundry area") => enter-laundry-command
           (make-command "go to Giba's Room") => enter-room-command
-          (make-command "go to room") => enter-room-command)))
+          (make-command "go to room") => enter-room-command))
+
+       (fact "list clues should be interpreted as list clues command"
+         (make-command "list clues") => {:type :list-clues}
+         (make-command "LisT Clue") => {:type :list-clues}))
 
 (facts "about command cli evaluation"
        (fact "examine should trigger dialog mode"
@@ -127,4 +130,10 @@
                                 consts/initial-cli
                                 test-game/test-game)
          => {:mode :interact
-             :player consts/entered-scene-two}))
+             :player consts/entered-scene-two})
+
+       (fact "list clues will trigger simple text interact mode"
+         (command/evaluate-cli {:type :list-clues}
+                               consts/initial-cli
+                               test-game/test-game)
+         => (cli/list-clues-mode consts/initial-cli)))

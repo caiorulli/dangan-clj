@@ -57,3 +57,6 @@
     (if (= (count dialog) next-line-number)
       (interact-mode cli)
       (merge cli {:current-line next-line-number}))))
+
+(defn list-clues-mode [cli]
+  (assoc cli :simple-text :list-clues))

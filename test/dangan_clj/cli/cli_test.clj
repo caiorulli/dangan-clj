@@ -68,12 +68,16 @@
           (cli/dialog-mode :knife-dialog)
           (cli/next-line test-game/test-game))
          => {:mode :interact
-             :player consts/initial-player})
+             :player consts/initial-player}))
 
-       (fact "should validate for dialog mode?"))
+(facts "about simple text modes"
+  (fact "list clues mode"
+    (cli/list-clues-mode consts/initial-cli)
+    => {:mode :interact
+        :player consts/initial-player
+        :simple-text :list-clues}))
 
-(facts
- "about prompt generation"
+(facts "about prompt generation"
  (fact "returns scene name prompt"
    (cli/prompt (cli/interact-mode consts/initial-cli)
                    test-game/test-game) => "(Giba's Room) > ")
