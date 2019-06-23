@@ -9,10 +9,10 @@
 (defn- game-loop [cli game dict]
   (print (cli/prompt cli game))
   (flush)
-  (let [command-string (read-line)
-        command (command/make command-string dict)
-        next-cli (command/evaluate-cli command cli game)
-        command-output (cli/output next-cli game command)]
+  (let [next-cli (-> (read-line)
+                     (command/make dict)
+                     (command/evaluate-cli cli game))
+        command-output (cli/output next-cli game)]
     (when command-output
       (println command-output))
     (recur next-cli game dict)))

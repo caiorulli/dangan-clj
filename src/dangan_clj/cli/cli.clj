@@ -7,9 +7,12 @@
 (s/def ::mode #{:interact :dialog})
 (s/def ::current-dialog keyword?)
 (s/def ::current-line int?)
+(s/def ::simple-text keyword?)
 
 (s/def ::cli (s/keys :req-un [::mode ::player/player]
-                     :opt-un [::current-dialog ::current-line]))
+                     :opt-un [::current-dialog
+                              ::current-line
+                              ::simple-text]))
 
 (defn prompt [cli game]
   (if (= (:mode cli) :interact)
@@ -28,12 +31,17 @@
       text
       (str character-name ": " text))))
 
-(defn output [cli game command]
+(defn- simple-text-mode? [cli]
+  (and (= (:mode cli) :interact)
+       (not (nil? (:simple-text cli)))))
+
+(defn output [cli game]
   (cond
     (= (:mode cli) :dialog)
     (dialog-output cli game)
-    (= (:type command) :help)
-    messages/help-text))
+
+    (simple-text-mode? cli)
+    (messages/simple-text cli game)))
 
 (defn cli [game]
   {:mode :interact
@@ -43,7 +51,8 @@
   (-> cli
       (merge {:mode :interact})
       (dissoc :current-dialog)
-      (dissoc :current-line)))
+      (dissoc :current-line)
+      (dissoc :simple-text)))
 
 (defn dialog-mode [cli dialog-id]
   (merge cli {:mode :dialog
@@ -58,5 +67,5 @@
       (interact-mode cli)
       (merge cli {:current-line next-line-number}))))
 
-(defn list-clues-mode [cli]
-  (assoc cli :simple-text :list-clues))
+(defn simple-text-mode [cli text-type]
+  (assoc cli :simple-text text-type))

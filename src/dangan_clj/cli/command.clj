@@ -78,8 +78,11 @@
 (defmethod evaluate-cli :advance-dialog [command cli game]
   (cli/next-line cli game))
 
+(defmethod evaluate-cli :help [command cli game]
+  (cli/simple-text-mode cli :help))
+
 (defmethod evaluate-cli :list-clues [command cli game]
-  (cli/list-clues-mode cli))
+  (cli/simple-text-mode cli :list-clues))
 
 (defmethod evaluate-cli :default [command cli game]
   (cli/interact-mode cli))

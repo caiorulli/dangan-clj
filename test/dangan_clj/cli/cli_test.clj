@@ -30,21 +30,18 @@
        (fact "should output formatted dialog"
              (cli/output {:mode :dialog
                           :current-dialog :knife-dialog
-                          :current-line 0} test-game/test-game {})
+                          :current-line 0} test-game/test-game)
              =>
              "Giba: That's the knife I used to cut tomatoes."
 
              (cli/output {:mode :dialog
                           :current-dialog :describe-giba
-                          :current-line 0} test-game/test-game {})
+                          :current-line 0} test-game/test-game)
              =>
              "A respectable gentleman"
 
-             (cli/output {:mode :interact} test-game/test-game {})
-             => nil
-
-             (cli/output {:mode :interact} test-game/test-game {:type :help})
-             => messages/help-text))
+             (cli/output {:mode :interact} test-game/test-game)
+             => nil))
 
 (facts "about cli dialog flow"
        (fact "should be able to enter dialog flow"
@@ -71,11 +68,28 @@
              :player consts/initial-player}))
 
 (facts "about simple text modes"
-  (fact "list clues mode"
-    (cli/list-clues-mode consts/initial-cli)
+  (fact "simple-text-mode should add simple-text entry"
+    (cli/simple-text-mode consts/initial-cli :list-clues)
     => {:mode :interact
         :player consts/initial-player
-        :simple-text :list-clues}))
+        :simple-text :list-clues})
+
+  (fact "empty clues list-clues text type output"
+    (let [cli (cli/simple-text-mode consts/initial-cli :list-clues)]
+      (cli/output cli test-game/test-game)
+      => "Clues in possession:\n\nYou don't have any clues yet.\n"))
+
+  (fact "help text type output"
+    (let [cli (cli/simple-text-mode consts/initial-cli :help)]
+      (cli/output cli test-game/test-game)
+      => messages/help-text))
+
+  (fact "interact mode should clean up simple-text entry"
+    (-> consts/initial-cli
+        (cli/simple-text-mode :help)
+        cli/interact-mode
+        :simple-text)
+    => nil))
 
 (facts "about prompt generation"
  (fact "returns scene name prompt"

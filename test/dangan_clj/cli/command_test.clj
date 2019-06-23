@@ -136,4 +136,10 @@
          (command/evaluate-cli {:type :list-clues}
                                consts/initial-cli
                                test-game/test-game)
-         => (cli/list-clues-mode consts/initial-cli)))
+         => (cli/simple-text-mode consts/initial-cli :list-clues))
+
+       (fact "help command will trigger simple text mode"
+         (command/evaluate-cli {:type :help}
+                               consts/initial-cli
+                               test-game/test-game)
+         => (cli/simple-text-mode consts/initial-cli :help)))
