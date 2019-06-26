@@ -1,9 +1,18 @@
 (ns dangan-clj.cli.messages)
 
-(def list-clues-text
-  "Clues in possession:\n\nYou don't have any clues yet.\n")
+(defn clue-description [clue]
+  (str (:display-name clue) " - "
+       (:description clue) "\n"))
 
-(def help-text
+(defn list-clues-text [cli game]
+  (let [clue-ids (-> cli :player :clues)
+        clues (map #(get (:clues game) %) clue-ids)]
+    (str "Clues in possession:\n\n"
+         (if (empty? clues)
+           "You don't have any clues yet.\n"
+           (apply str (map clue-description clues))))))
+
+(defn help-text [_ _]
   (str "Command list:\n\n"
        "help                 Displays this text.\n"
        "describe             Describes the current scene.\n"
@@ -20,4 +29,4 @@
    :list-clues list-clues-text})
 
 (defn simple-text [cli game]
-  (get text-dictionary (:simple-text cli)))
+  ((get text-dictionary (:simple-text cli)) cli game))

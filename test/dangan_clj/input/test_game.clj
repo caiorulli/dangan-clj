@@ -54,7 +54,9 @@
 
 (def clues
   {:bloody-knife {:display-name "Bloody knife"
-                  :description "He says it's tomato sauce, but I don't buy it."}})
+                  :description "He says it's tomato sauce, but I don't buy it."}
+   :schredder {:display-name "Schredder"
+               :description "Self-explanatory."}})
 
 (def test-game
   {:scenes {:gibas-room gibas-room

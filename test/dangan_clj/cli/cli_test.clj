@@ -78,11 +78,19 @@
              (let [cli (cli/simple-text-mode consts/initial-cli :list-clues)]
                (cli/output cli test-game/test-game)
                => "Clues in possession:\n\nYou don't have any clues yet.\n"))
+       
+       (fact "with clues list-clues text type output"
+         (let [cli (-> consts/initial-cli
+                       (update :player #(player/with-clue % :bloody-knife))
+                       (update :player #(player/with-clue % :schredder))
+                       (cli/simple-text-mode :list-clues))]
+               (cli/output cli test-game/test-game)
+               => "Clues in possession:\n\nBloody knife - He says it's tomato sauce, but I don't buy it.\nSchredder - Self-explanatory.\n"))
 
        (fact "help text type output"
              (let [cli (cli/simple-text-mode consts/initial-cli :help)]
                (cli/output cli test-game/test-game)
-               => messages/help-text))
+               => (messages/help-text cli test-game/test-game)))
 
        (fact "interact mode should clean up simple-text entry"
              (-> consts/initial-cli
@@ -111,6 +119,11 @@
              (-> (cli/examine consts/initial-cli test-game/test-game :knife)
                  :player :clues)
              => #{:bloody-knife})
+
+       (fact "examine should not add clue to player if it does not exist in poi"
+             (-> (cli/examine consts/initial-cli test-game/test-game :schredder)
+                 :player :clues)
+             => #{})
 
        (fact "examine should not trigger dialog mode if target does not exist in scene"
              (cli/examine consts/initial-cli test-game/test-game :washing-machine)

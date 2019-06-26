@@ -1,3 +1,4 @@
+
 (ns dangan-clj.input.example)
 
 (def rodrigo

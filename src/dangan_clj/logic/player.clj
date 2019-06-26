@@ -23,4 +23,6 @@
       (assoc player :current-scene new-scene-id))))
 
 (defn with-clue [player clue-id]
-  (update player :clues #(conj % clue-id)))
+  (if-not (nil? clue-id)
+    (update player :clues #(conj % clue-id))
+    player))
