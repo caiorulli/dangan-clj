@@ -72,7 +72,10 @@
        (fact "clues map should only contain clue description"
              (s/valid? ::game/clues nil) => false
              (s/valid? ::game/clues {}) => true
-             (s/valid? ::game/clues {:clue1 "the horror"}) => true))
+             (s/valid? ::game/clues {:clue1 "the horror"}) => false
+
+             (s/valid? ::game/clues {:clue1 {:description "the horror"
+                                             :display-name "the horror"}}) => true))
 
 (facts "about wrapper fns"
        (fact "valid? wraps clojure.spec valid? fn"

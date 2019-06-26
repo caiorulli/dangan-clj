@@ -53,7 +53,8 @@
   [[:giba "Have you ever watched Dragon Ball X???"]])
 
 (def clues
-  {:bloody-knife "He says it's tomato sauce, but I don't buy it."})
+  {:bloody-knife {:display-name "Bloody knife"
+                  :description "He says it's tomato sauce, but I don't buy it."}})
 
 (def test-game
   {:scenes {:gibas-room gibas-room

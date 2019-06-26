@@ -29,7 +29,8 @@
                        :opt-un [::presences]))
 (s/def ::scenes (s/map-of ::scene-id ::scene))
 
-(s/def ::clues (s/map-of ::clue-id ::description))
+(s/def ::clue (s/keys :req-un [::display-name ::description]))
+(s/def ::clues (s/map-of ::clue-id ::clue))
 
 (s/def ::game (s/keys :req-un [::first-scene
                                ::scenes

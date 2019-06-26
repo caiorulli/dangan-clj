@@ -63,7 +63,8 @@
   [[:thought "Ignore this for now."]])
 
 (def clues
-  {:rodrigos-phone "He was still holding the phone when he died."})
+  {:rodrigos-phone {:display-name "Rodrigo's Phone"
+                    :description "He was still holding the phone when he died."}})
 
 (def game
   {:first-scene :rodrigos-room
