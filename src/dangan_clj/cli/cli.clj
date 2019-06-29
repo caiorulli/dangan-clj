@@ -72,12 +72,22 @@
 (defn- dialog-output [cli game]
   (let [dialog-id (:current-dialog cli)
         line-number (:current-line cli)
-        line (game/line game dialog-id line-number)
-        [speaker-id text] line
-        character-name (-> game :characters speaker-id :display-name)]
-    (if (is-thought? speaker-id)
-      text
-      (str character-name ": " text))))
+        dialog (-> game :dialogs dialog-id)
+        dialog-has-finished? (= (count dialog) line-number)
+        has-effect? (count (:effects dialog))]
+    (cond
+      (not dialog-has-finished?)
+      (let [line (game/line game dialog-id line-number)
+            [speaker-id text] line
+            character-name (-> game :characters speaker-id :display-name)]
+        (if (is-thought? speaker-id)
+          text
+          (str character-name ": " text)))
+
+      has-effect?
+      (str "** "
+           (first (:effects cli))
+           " **"))))
 
 (defn- simple-text-mode? [cli]
   (and (= (:mode cli) :interact)

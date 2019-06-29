@@ -41,7 +41,15 @@
              "A respectable gentleman"
 
              (cli/output {:mode :interact} test-game/test-game)
-             => nil))
+             => nil)
+
+       (fact "dialog may have effects to apply at the end of the dialog"
+         (cli/output {:mode :dialog
+                      :current-dialog :knife-dialog
+                      :current-line 1
+                      :effects ["Obtained clue: Bloody Knife"]} test-game/test-game)
+         =>
+         "** Obtained clue: Bloody Knife **"))
 
 (facts "about cli dialog flow"
        (fact "should be able to enter dialog flow"
