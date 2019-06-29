@@ -57,7 +57,8 @@
              => {:mode :dialog
                  :current-dialog :schredder-dialog
                  :current-line   0
-                 :player consts/initial-player})
+                 :player consts/initial-player
+                 :effects []})
 
        (fact "should be able to advance dialog"
              (-> consts/initial-cli
@@ -66,7 +67,8 @@
              => {:mode :dialog
                  :current-dialog :schredder-dialog
                  :current-line   1
-                 :player consts/initial-player})
+                 :player consts/initial-player
+                 :effects []})
 
        (fact "should return to interact mode when dialog ends"
              (-> consts/initial-cli

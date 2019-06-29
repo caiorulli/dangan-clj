@@ -9,11 +9,13 @@
 (s/def ::current-dialog keyword?)
 (s/def ::current-line int?)
 (s/def ::simple-text keyword?)
+(s/def ::effects (s/coll-of string?))
 
 (s/def ::cli (s/keys :req-un [::mode ::player/player]
                      :opt-un [::current-dialog
                               ::current-line
-                              ::simple-text]))
+                              ::simple-text
+                              ::effects]))
 
 (defn cli [game]
   {:mode :interact
@@ -24,6 +26,7 @@
       (merge {:mode :interact})
       (dissoc :current-dialog)
       (dissoc :current-line)
+      (dissoc :effects)
       (dissoc :simple-text)))
 
 (defn simple-text-mode [cli text-type]
@@ -32,7 +35,8 @@
 (defn dialog-mode [cli dialog-id]
   (merge cli {:mode :dialog
               :current-dialog dialog-id
-              :current-line   0}))
+              :current-line   0
+              :effects []}))
 
 (defn examine [cli game target]
   (let [target-poi (-> game :pois target)
