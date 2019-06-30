@@ -85,7 +85,15 @@
              :current-dialog :knife-dialog
              :current-line 1
              :player consts/initial-player
-             :effects ["i am effect"]}))
+             :effects ["i am effect"]})
+       
+       (fact "should not fail when returning to interact mode"
+         (-> consts/initial-cli
+             (cli/dialog-mode :knife-dialog "i am effect")
+             (cli/next-line test-game/test-game)
+             (cli/next-line test-game/test-game))
+         => {:mode :interact
+             :player consts/initial-player}))
 
 (facts "about simple text modes"
        (fact "simple-text-mode should add simple-text entry"
@@ -139,6 +147,11 @@
              (-> (cli/examine consts/initial-cli test-game/test-game :knife)
                  :player :clues)
              => #{:bloody-knife})
+
+       (fact "examine should add clue effect to cli if clue exists"
+         (-> (cli/examine consts/initial-cli test-game/test-game :knife)
+             :effects)
+         => ["Obtained clue: Bloody knife"])
 
        (fact "examine should not add clue to player if it does not exist in poi"
              (-> (cli/examine consts/initial-cli test-game/test-game :schredder)

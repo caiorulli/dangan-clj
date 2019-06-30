@@ -39,10 +39,12 @@
                :current-line 0
                :effects []}))
   ([cli dialog-id effect]
-   (merge cli {:mode :dialog
-               :current-dialog dialog-id
-               :current-line   0
-               :effects [effect]})))
+   (if (nil? effect)
+     (dialog-mode cli dialog-id)
+     (merge cli {:mode :dialog
+                 :current-dialog dialog-id
+                 :current-line   0
+                 :effects [effect]}))))
 
 (defn examine [cli game target]
   (let [target-poi (-> game :pois target)
@@ -50,13 +52,17 @@
         current-scene (player/current-scene (:player cli) game)
         poi-in-scene? (= (get target-poi :scene-id) current-scene-id)
         present? (game/character-is-present? target current-scene)
-        clue-in-poi (game/clue-id-from-poi-id target game)]
-
+        clue-in-poi (game/clue-id-from-poi-id target game)
+        clue (when clue-in-poi
+               (-> game :clues clue-in-poi))]
     (cond
       poi-in-scene?
       (-> cli
           (update :player #(player/with-clue % clue-in-poi))
-          (dialog-mode (get target-poi :dialog-id)))
+          (dialog-mode (get target-poi :dialog-id)
+                       (when clue
+                         (str "Obtained clue: "
+                              (get clue :display-name)))))
 
       present?
       (dialog-mode cli (game/character-description-dialog-id target game))
@@ -68,17 +74,16 @@
   (let [dialog-id (:current-dialog cli)
         next-line-number (-> cli :current-line inc)
         dialog (-> game :dialogs dialog-id)
-        dialog-will-be-finished? (= (count dialog) next-line-number)
-        dialog-has-finished? (= (count dialog) (cli :current-line))
+        dialog-will-be-finished? (<= (count dialog) next-line-number)
+        dialog-has-finished? (<= (count dialog) (get cli :current-line))
         has-effect? (not (empty? (:effects cli)))]
     (cond
+      dialog-has-finished?
+      (interact-mode cli)
+      
       (or (not dialog-will-be-finished?)
           has-effect?)
       (merge cli {:current-line next-line-number})
-
-      (and dialog-has-finished?
-           has-effect?)
-      (merge cli {:effects (rest (:effects cli))})
       
       :else
       (interact-mode cli))))
