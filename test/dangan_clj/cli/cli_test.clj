@@ -75,7 +75,17 @@
                  (cli/dialog-mode :knife-dialog)
                  (cli/next-line test-game/test-game))
              => {:mode :interact
-                 :player consts/initial-player}))
+                 :player consts/initial-player})
+
+       (fact "should not return to interact mode when dialog ends if has effects"
+         (-> consts/initial-cli
+             (cli/dialog-mode :knife-dialog "i am effect")
+             (cli/next-line test-game/test-game))
+         => {:mode :dialog
+             :current-dialog :knife-dialog
+             :current-line 1
+             :player consts/initial-player
+             :effects ["i am effect"]}))
 
 (facts "about simple text modes"
        (fact "simple-text-mode should add simple-text entry"
