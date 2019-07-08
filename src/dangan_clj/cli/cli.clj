@@ -80,11 +80,11 @@
     (cond
       dialog-has-finished?
       (interact-mode cli)
-      
+
       (or (not dialog-will-be-finished?)
           has-effect?)
       (merge cli {:current-line next-line-number})
-      
+
       :else
       (interact-mode cli))))
 

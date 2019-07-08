@@ -4,9 +4,9 @@
              [dangan-clj.cli.dict :as dict]))
 
 (facts "about the cli dictionary"
-       (fact "should conform to spec"
-             (s/valid? ::dict/cli-dict nil) => false
-             (s/valid? ::dict/cli-dict {}) => true
-             (s/valid? ::dict/cli-dict {"lala" :lala}) => false
-             (s/valid? ::dict/cli-dict {:lala #{"lala" "lalala"}}) => true))
+  (fact "should conform to spec"
+    (s/valid? ::dict/cli-dict nil) => false
+    (s/valid? ::dict/cli-dict {}) => true
+    (s/valid? ::dict/cli-dict {"lala" :lala}) => false
+    (s/valid? ::dict/cli-dict {:lala #{"lala" "lalala"}}) => true))
 
