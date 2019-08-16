@@ -17,9 +17,9 @@
 
 (defn make [command-string cli-dict]
   (let [lowered-command-string (string/lower-case command-string)
-        command-words (string/split lowered-command-string #" ")
-        first-word    (first command-words)
-        predicate-after  (make-predicate command-words)]
+        command-words          (string/split lowered-command-string #" ")
+        first-word             (first command-words)
+        predicate-after        (make-predicate command-words)]
     (cond
       (= first-word "describe")
       {:type :describe}
@@ -28,15 +28,15 @@
       {:type :help}
 
       (= first-word "examine")
-      {:type :examine
+      {:type   :examine
        :target (dict/lookup cli-dict (predicate-after 1))}
 
       (string/starts-with? lowered-command-string "go to")
-      {:type :navigate
+      {:type   :navigate
        :target (dict/lookup cli-dict (predicate-after 2))}
 
       (string/starts-with? lowered-command-string "talk to")
-      {:type :talk
+      {:type   :talk
        :target (dict/lookup cli-dict (predicate-after 2))}
 
       (string/starts-with? lowered-command-string "list clue")
@@ -51,9 +51,9 @@
   (cli/examine cli game (:target command)))
 
 (defmethod evaluate-cli :talk [command cli game]
-  (let [target (:target command)
+  (let [target        (:target command)
         current-scene (-> cli :player (player/current-scene game))
-        presence (game/presence target current-scene)]
+        presence      (game/presence target current-scene)]
     (if-not (nil? presence)
       (cli/dialog-mode cli (nth presence 1))
       (cli/interact-mode cli))))
