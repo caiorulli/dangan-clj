@@ -1,7 +1,7 @@
 (ns dangan-clj.cli.dict-test
-  (:require  [midje.sweet :refer [fact facts =>]]
-             [clojure.spec.alpha :as s]
-             [dangan-clj.cli.dict :as dict]))
+  (:require [midje.sweet :refer [fact facts =>]]
+            [clojure.spec.alpha :as s]
+            [dangan-clj.cli.dict :as dict]))
 
 (facts "about the cli dictionary"
   (fact "should conform to spec"

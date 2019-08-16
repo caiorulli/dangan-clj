@@ -18,7 +18,7 @@
                               ::effects]))
 
 (defn cli [game]
-  {:mode :interact
+  {:mode   :interact
    :player (player/player game)})
 
 (defn interact-mode [cli]
@@ -34,27 +34,27 @@
 
 (defn dialog-mode
   ([cli dialog-id]
-   (merge cli {:mode :dialog
+   (merge cli {:mode           :dialog
                :current-dialog dialog-id
-               :current-line 0
-               :effects []}))
+               :current-line   0
+               :effects        []}))
   ([cli dialog-id effect]
    (if (nil? effect)
      (dialog-mode cli dialog-id)
-     (merge cli {:mode :dialog
+     (merge cli {:mode           :dialog
                  :current-dialog dialog-id
                  :current-line   0
-                 :effects [effect]}))))
+                 :effects        [effect]}))))
 
 (defn examine [cli game target]
-  (let [target-poi (-> game :pois target)
+  (let [target-poi       (-> game :pois target)
         current-scene-id (-> cli :player :current-scene)
-        current-scene (player/current-scene (:player cli) game)
-        poi-in-scene? (= (get target-poi :scene-id) current-scene-id)
-        present? (game/character-is-present? target current-scene)
-        clue-in-poi (game/clue-id-from-poi-id target game)
-        clue (when clue-in-poi
-               (-> game :clues clue-in-poi))]
+        current-scene    (player/current-scene (:player cli) game)
+        poi-in-scene?    (= (get target-poi :scene-id) current-scene-id)
+        present?         (game/character-is-present? target current-scene)
+        clue-in-poi      (game/clue-id-from-poi-id target game)
+        clue             (when clue-in-poi
+                           (-> game :clues clue-in-poi))]
     (cond
       poi-in-scene?
       (-> cli
@@ -71,12 +71,12 @@
       (interact-mode cli))))
 
 (defn next-line [cli game]
-  (let [dialog-id (:current-dialog cli)
-        next-line-number (-> cli :current-line inc)
-        dialog (-> game :dialogs dialog-id)
+  (let [dialog-id                (:current-dialog cli)
+        next-line-number         (-> cli :current-line inc)
+        dialog                   (-> game :dialogs dialog-id)
         dialog-will-be-finished? (<= (count dialog) next-line-number)
-        dialog-has-finished? (<= (count dialog) (get cli :current-line))
-        has-effect? (not (empty? (:effects cli)))]
+        dialog-has-finished?     (<= (count dialog) (get cli :current-line))
+        has-effect?              (not (empty? (:effects cli)))]
     (cond
       dialog-has-finished?
       (interact-mode cli)
@@ -96,14 +96,14 @@
     "..."))
 
 (defn- dialog-output [cli game]
-  (let [dialog-id (:current-dialog cli)
-        line-number (:current-line cli)
-        dialog (-> game :dialogs dialog-id)
+  (let [dialog-id            (:current-dialog cli)
+        line-number          (:current-line cli)
+        dialog               (-> game :dialogs dialog-id)
         dialog-has-finished? (= (count dialog) line-number)
-        has-effect? (count (:effects dialog))]
+        has-effect?          (count (:effects dialog))]
     (cond
       (not dialog-has-finished?)
-      (let [line (game/line game dialog-id line-number)
+      (let [line           (game/line game dialog-id line-number)
             [speaker-id text] line
             character-name (-> game :characters speaker-id :display-name)]
         (if (is-thought? speaker-id)

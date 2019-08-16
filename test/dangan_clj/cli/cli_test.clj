@@ -12,31 +12,31 @@
     (s/valid? ::cli/cli nil) => false
     (s/valid? ::cli/cli {}) => false
     (s/valid? ::cli/cli {:player (player/player
-                                  test-game/test-game)}) => false
+                                   test-game/test-game)}) => false
     (s/valid? ::cli/cli {:mode :lala}) => false
-    (s/valid? ::cli/cli {:mode :interact
+    (s/valid? ::cli/cli {:mode   :interact
                          :player (player/player
-                                  test-game/test-game)}) => true
-    (s/valid? ::cli/cli {:mode :dialog
+                                   test-game/test-game)}) => true
+    (s/valid? ::cli/cli {:mode           :dialog
                          :current-dialog :lala
                          :current-line   0
-                         :player (player/player
-                                  test-game/test-game)}) => true)
+                         :player         (player/player
+                                           test-game/test-game)}) => true)
 
   (fact "cli fn should make valid cli"
     (s/valid? ::cli/cli (cli/cli test-game/test-game))))
 
 (facts "about cli output"
   (fact "should output formatted dialog"
-    (cli/output {:mode :dialog
+    (cli/output {:mode           :dialog
                  :current-dialog :knife-dialog
-                 :current-line 0} test-game/test-game)
+                 :current-line   0} test-game/test-game)
     =>
     "Giba: That's the knife I used to cut tomatoes."
 
-    (cli/output {:mode :dialog
+    (cli/output {:mode           :dialog
                  :current-dialog :describe-giba
-                 :current-line 0} test-game/test-game)
+                 :current-line   0} test-game/test-game)
     =>
     "A respectable gentleman"
 
@@ -44,62 +44,62 @@
     => nil)
 
   (fact "dialog may have effects to apply at the end of the dialog"
-    (cli/output {:mode :dialog
+    (cli/output {:mode           :dialog
                  :current-dialog :knife-dialog
-                 :current-line 1
-                 :effects ["Obtained clue: Bloody Knife"]} test-game/test-game)
+                 :current-line   1
+                 :effects        ["Obtained clue: Bloody Knife"]} test-game/test-game)
     =>
     "** Obtained clue: Bloody Knife **"))
 
 (facts "about cli dialog flow"
   (fact "should be able to enter dialog flow"
     (cli/dialog-mode consts/initial-cli :schredder-dialog)
-    => {:mode :dialog
+    => {:mode           :dialog
         :current-dialog :schredder-dialog
         :current-line   0
-        :player consts/initial-player
-        :effects []})
+        :player         consts/initial-player
+        :effects        []})
 
   (fact "should be able to advance dialog"
     (-> consts/initial-cli
         (cli/dialog-mode :schredder-dialog)
         (cli/next-line test-game/test-game))
-    => {:mode :dialog
+    => {:mode           :dialog
         :current-dialog :schredder-dialog
         :current-line   1
-        :player consts/initial-player
-        :effects []})
+        :player         consts/initial-player
+        :effects        []})
 
   (fact "should return to interact mode when dialog ends"
     (-> consts/initial-cli
         (cli/dialog-mode :knife-dialog)
         (cli/next-line test-game/test-game))
-    => {:mode :interact
+    => {:mode   :interact
         :player consts/initial-player})
 
   (fact "should not return to interact mode when dialog ends if has effects"
     (-> consts/initial-cli
         (cli/dialog-mode :knife-dialog "i am effect")
         (cli/next-line test-game/test-game))
-    => {:mode :dialog
+    => {:mode           :dialog
         :current-dialog :knife-dialog
-        :current-line 1
-        :player consts/initial-player
-        :effects ["i am effect"]})
+        :current-line   1
+        :player         consts/initial-player
+        :effects        ["i am effect"]})
 
   (fact "should not fail when returning to interact mode"
     (-> consts/initial-cli
         (cli/dialog-mode :knife-dialog "i am effect")
         (cli/next-line test-game/test-game)
         (cli/next-line test-game/test-game))
-    => {:mode :interact
+    => {:mode   :interact
         :player consts/initial-player}))
 
 (facts "about simple text modes"
   (fact "simple-text-mode should add simple-text entry"
     (cli/simple-text-mode consts/initial-cli :list-clues)
-    => {:mode :interact
-        :player consts/initial-player
+    => {:mode        :interact
+        :player      consts/initial-player
         :simple-text :list-clues})
 
   (fact "empty clues list-clues text type output"

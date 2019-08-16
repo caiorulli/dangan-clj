@@ -18,9 +18,9 @@
     (s/valid? ::command/command {:type :help}) => true)
 
   (fact "may have a target id"
-    (s/valid? ::command/command {:type :examine
+    (s/valid? ::command/command {:type   :examine
                                  :target :spectreman}) => true
-    (s/valid? ::command/command {:type :examine
+    (s/valid? ::command/command {:type   :examine
                                  :target "conquista"}) => false))
 
 (def make-command #(command/make % test-game/cli-dict))
@@ -37,21 +37,21 @@
     (make-command "help") => {:type :help})
 
   (fact "talk to synonyms should be interpreted as talk commands"
-    (make-command "talk to giba") => {:type :talk
+    (make-command "talk to giba") => {:type   :talk
                                       :target :giba})
 
   (fact "examine synonims should be interpreted as examine commands"
-    (let [examine-schredder-command {:type :examine
+    (let [examine-schredder-command {:type   :examine
                                      :target :schredder}]
       (make-command "examine schredder") => examine-schredder-command
-      (make-command "examine black box")  => examine-schredder-command
+      (make-command "examine black box") => examine-schredder-command
       (make-command "examine BOX") => examine-schredder-command))
 
   (fact "go to synonims should be interpreted as navigate commands"
-    (let [enter-laundry-command {:type :navigate
+    (let [enter-laundry-command {:type   :navigate
                                  :target :laundry}
-          enter-room-command {:type :navigate
-                              :target :gibas-room}]
+          enter-room-command    {:type   :navigate
+                                 :target :gibas-room}]
       (make-command "go to Laundry") => enter-laundry-command
       (make-command "go to laundry") => enter-laundry-command
       (make-command "go to laundry area") => enter-laundry-command
@@ -64,21 +64,21 @@
 
 (facts "about command cli evaluation"
   (fact "examine should trigger dialog mode"
-    (command/evaluate-cli {:type :examine
+    (command/evaluate-cli {:type   :examine
                            :target :knife}
                           consts/initial-cli
                           test-game/test-game)
     => (cli/examine consts/initial-cli test-game/test-game :knife))
 
   (fact "talk command should trigger dialog mode"
-    (command/evaluate-cli {:type :talk
+    (command/evaluate-cli {:type   :talk
                            :target :giba}
                           consts/initial-cli
                           test-game/test-game)
     => (cli/dialog-mode consts/initial-cli :giba-talk))
 
   (fact "talk command should not trigger dialog mode if character not present"
-    (command/evaluate-cli {:type :talk
+    (command/evaluate-cli {:type   :talk
                            :target :rodrigo}
                           consts/initial-cli
                           test-game/test-game)
@@ -104,11 +104,11 @@
     => consts/initial-cli)
 
   (fact "word enter should trigger navigation"
-    (command/evaluate-cli {:type :navigate
+    (command/evaluate-cli {:type   :navigate
                            :target :laundry}
                           consts/initial-cli
                           test-game/test-game)
-    => {:mode :interact
+    => {:mode   :interact
         :player consts/entered-scene-two})
 
   (fact "list clues will trigger simple text interact mode"

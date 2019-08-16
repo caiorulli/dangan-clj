@@ -6,7 +6,7 @@
 
 (defn list-clues-text [cli game]
   (let [clue-ids (-> cli :player :clues)
-        clues (map #(get (:clues game) %) clue-ids)]
+        clues    (map #(get (:clues game) %) clue-ids)]
     (str "Clues in possession:\n\n"
          (if (empty? clues)
            "You don't have any clues yet.\n"
@@ -25,7 +25,7 @@
        "In case of need, type \"help\".\n"))
 
 (def text-dictionary
-  {:help help-text
+  {:help       help-text
    :list-clues list-clues-text})
 
 (defn simple-text [cli game]

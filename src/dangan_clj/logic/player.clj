@@ -9,14 +9,14 @@
                                  ::current-scene]))
 
 (defn player [game]
-  {:clues #{}
+  {:clues         #{}
    :current-scene (:first-scene game)})
 
 (defn current-scene [player game]
   ((:current-scene player) (:scenes game)))
 
 (defn go-to [player new-scene-id game]
-  (let [scenes (:scenes game)
+  (let [scenes    (:scenes game)
         new-scene (get scenes new-scene-id)]
     (if (nil? new-scene)
       player

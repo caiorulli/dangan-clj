@@ -5,7 +5,7 @@
             [dangan-clj.logic.player :as player]
             [midje.sweet :refer [=> fact facts]]))
 
-(def valid-state {:clues []
+(def valid-state {:clues         []
                   :current-scene :rodrigos-room})
 
 (facts "about player validation"
@@ -39,8 +39,7 @@
         :clues)
     => #{:bloody-knife}))
 
-(facts
- "about navigation"
+(facts "about navigation"
   (fact "navigating to nil should just return same player"
     (player/go-to consts/initial-player nil test-game/test-game) => consts/initial-player)
 

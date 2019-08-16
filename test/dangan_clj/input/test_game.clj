@@ -3,32 +3,32 @@
 (def knife
   {:clue-id   :bloody-knife
    :dialog-id :knife-dialog
-   :scene-id :gibas-room})
+   :scene-id  :gibas-room})
 
 (def schredder
   {:dialog-id :schredder-dialog
-   :scene-id :gibas-room})
+   :scene-id  :gibas-room})
 
 (def gibas-room
   {:display-name "Giba's Room"
-   :dialog-id :describe-gibas-room
-   :presences [[:giba :giba-talk]]})
+   :dialog-id    :describe-gibas-room
+   :presences    [[:giba :giba-talk]]})
 
 (def washing-machine
   {:dialog-id :washing-machine-dialog
-   :scene-id :laundry
+   :scene-id  :laundry
    :presences []})
 
 (def laundry
   {:display-name "Laundry"
-   :dialog-id :describe-laundry})
+   :dialog-id    :describe-laundry})
 
 (def knife-dialog
   [[:giba "That's the knife I used to cut tomatoes."]])
 
 (def schredder-dialog
   [[:thiago "What's that big weird machine?"]
-   [:giba   "It's a paper schredder."]
+   [:giba "It's a paper schredder."]
    [:thiago "Why do you even have that here?"]])
 
 (def washing-machine-dialog
@@ -54,39 +54,39 @@
 
 (def clues
   {:bloody-knife {:display-name "Bloody knife"
-                  :description "He says it's tomato sauce, but I don't buy it."}
-   :schredder {:display-name "Schredder"
-               :description "Self-explanatory."}})
+                  :description  "He says it's tomato sauce, but I don't buy it."}
+   :schredder    {:display-name "Schredder"
+                  :description  "Self-explanatory."}})
 
 (def test-game
-  {:scenes {:gibas-room gibas-room
-            :laundry    laundry}
+  {:scenes      {:gibas-room gibas-room
+                 :laundry    laundry}
    :first-scene :gibas-room
-   :pois   {:knife knife
-            :schredder schredder
-            :washing-machine washing-machine}
-   :dialogs {:knife-dialog knife-dialog
-             :schredder-dialog schredder-dialog
-             :washing-machine-dialog washing-machine-dialog
-             :describe-gibas-room describe-gibas-room
-             :describe-laundry describe-laundry
-             :describe-giba describe-giba
-             :describe-thiago describe-thiago
-             :describe-rodrigo describe-rodrigo
-             :giba-talk giba-talk}
-   :characters {:giba {:display-name "Giba"
-                       :dialog-id :describe-giba}
-                :thiago {:display-name "Thiago"
-                         :dialog-id :describe-thiago}
-                :rodrigo {:display-name "Rodrigo"
-                          :dialog-id :describe-rodrigo}}
-   :clues clues})
+   :pois        {:knife           knife
+                 :schredder       schredder
+                 :washing-machine washing-machine}
+   :dialogs     {:knife-dialog           knife-dialog
+                 :schredder-dialog       schredder-dialog
+                 :washing-machine-dialog washing-machine-dialog
+                 :describe-gibas-room    describe-gibas-room
+                 :describe-laundry       describe-laundry
+                 :describe-giba          describe-giba
+                 :describe-thiago        describe-thiago
+                 :describe-rodrigo       describe-rodrigo
+                 :giba-talk              giba-talk}
+   :characters  {:giba    {:display-name "Giba"
+                           :dialog-id    :describe-giba}
+                 :thiago  {:display-name "Thiago"
+                           :dialog-id    :describe-thiago}
+                 :rodrigo {:display-name "Rodrigo"
+                           :dialog-id    :describe-rodrigo}}
+   :clues       clues})
 
 (def cli-dict
-  {:gibas-room #{"room" "giba's room"}
-   :laundry    #{"laundry" "laundry area"}
-   :knife      #{"knife"}
-   :schredder  #{"schredder" "black box" "box"}
+  {:gibas-room      #{"room" "giba's room"}
+   :laundry         #{"laundry" "laundry area"}
+   :knife           #{"knife"}
+   :schredder       #{"schredder" "black box" "box"}
    :washing-machine #{"washing-machine"}
-   :giba      #{"giba" "gilberto" "guilherme"}
-   :thiago    #{"thiago" "thits"}})
+   :giba            #{"giba" "gilberto" "guilherme"}
+   :thiago          #{"thiago" "thits"}})

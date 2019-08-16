@@ -21,11 +21,11 @@
 
   (fact "scenes should have a dialog-id"
     (s/valid? ::game/scene {:display-name "lala"
-                            :presences []}) => false)
+                            :presences    []}) => false)
 
   (fact "scenes can omit a presences list"
     (s/valid? ::game/scene {:display-name "lala"
-                            :dialog-id :lala}) => true)
+                            :dialog-id    :lala}) => true)
 
   (fact "giba's room scene should be valid"
     (s/valid? ::game/scene test-game/gibas-room) => true
@@ -39,7 +39,7 @@
 
   (fact "pois can omit associated clue"
     (s/valid? ::game/poi {:dialog-id :lalala
-                          :scene-id :lala}) => true)
+                          :scene-id  :lala}) => true)
 
   (fact "knife poi should be valid"
     (s/valid? ::game/poi test-game/knife) => true))
@@ -63,7 +63,7 @@
     (s/valid? ::game/character {:display-name "Dr. Gori"}) => false
     (s/valid? ::game/character {:dialog-id :lala}) => false
     (s/valid? ::game/character {:display-name "Dr. Gori"
-                                :dialog-id :lala}) => true
+                                :dialog-id    :lala}) => true
     (s/valid? ::game/character nil) => false
     (s/valid? ::game/character "Spectreman") => false
     (s/valid? ::game/character {}) => false))
@@ -74,19 +74,19 @@
     (s/valid? ::game/clues {}) => true
     (s/valid? ::game/clues {:clue1 "the horror"}) => false
 
-    (s/valid? ::game/clues {:clue1 {:description "the horror"
+    (s/valid? ::game/clues {:clue1 {:description  "the horror"
                                     :display-name "the horror"}}) => true))
 
 (facts "about wrapper fns"
   (fact "valid? wraps clojure.spec valid? fn"
     (let [wrapper-fn #(game/valid? %)
-          spec-fn #(s/valid? ::game/game %)]
+          spec-fn    #(s/valid? ::game/game %)]
       (wrapper-fn nil) => (spec-fn nil)
       (wrapper-fn test-game/test-game) => (spec-fn test-game/test-game)))
 
   (fact "explain wraps clojure.spec explain-str fn"
     (let [wrapper-fn #(game/explain %)
-          spec-fn #(s/explain-str ::game/game %)]
+          spec-fn    #(s/explain-str ::game/game %)]
       (wrapper-fn nil) => (spec-fn nil)
       (wrapper-fn {}) => (spec-fn {}))))
 

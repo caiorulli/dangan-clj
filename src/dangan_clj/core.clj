@@ -9,9 +9,9 @@
 (defn- game-loop [cli game dict]
   (print (cli/prompt cli game))
   (flush)
-  (let [next-cli (-> (read-line)
-                     (command/make dict)
-                     (command/evaluate-cli cli game))
+  (let [next-cli       (-> (read-line)
+                           (command/make dict)
+                           (command/evaluate-cli cli game))
         command-output (cli/output next-cli game)]
     (when command-output
       (println command-output))
@@ -19,7 +19,7 @@
 
 (defn -main
   [& _]
-  (let [game example/game
+  (let [game        example/game
         game-valid? (game/valid? game)]
     (if-not game-valid?
       (println (game/explain game))

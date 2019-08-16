@@ -58,20 +58,20 @@
       (cli/dialog-mode cli (nth presence 1))
       (cli/interact-mode cli))))
 
-(defmethod evaluate-cli :describe [command cli game]
+(defmethod evaluate-cli :describe [_ cli game]
   (cli/dialog-mode cli (-> cli :player (player/current-scene game) :dialog-id)))
 
 (defmethod evaluate-cli :navigate [command cli game]
   (update cli :player #(player/go-to % (:target command) game)))
 
-(defmethod evaluate-cli :advance-dialog [command cli game]
+(defmethod evaluate-cli :advance-dialog [_ cli game]
   (cli/next-line cli game))
 
-(defmethod evaluate-cli :help [command cli game]
+(defmethod evaluate-cli :help [_ cli _]
   (cli/simple-text-mode cli :help))
 
-(defmethod evaluate-cli :list-clues [command cli game]
+(defmethod evaluate-cli :list-clues [_ cli _]
   (cli/simple-text-mode cli :list-clues))
 
-(defmethod evaluate-cli :default [command cli game]
+(defmethod evaluate-cli :default [_ cli _]
   (cli/interact-mode cli))
