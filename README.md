@@ -1,5 +1,7 @@
 # dangan-clj
 
+[![Build Status](https://cloud.drone.io/api/badges/caiorulli/dangan-clj/status.svg)](https://cloud.drone.io/caiorulli/dangan-clj)
+
 > "Y'know, that thing where everyone stands in a circle and talks about the dead body..."
 > - Monokuma
 
