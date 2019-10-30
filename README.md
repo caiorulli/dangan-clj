@@ -3,21 +3,20 @@
 > "Y'know, that thing where everyone stands in a circle and talks about the dead body..."
 > - Monokuma
 
-Dangan-clj is a (work-in-progress/halted) game framework for writing investigative visual novels using Clojure.
+Dangan-clj is a work-in-progress game (lib? framework?) for writing investigative visual novels using Clojure.
 
 It is freely based on the Danganronpa series (and Phoenix Wright: Ace Attorney series as well) narrative structure, in which there are different stages of investigation and trial. Also a very good excuse to learn better Clojure.
 
-It's meant to be an text-based CLI game, but that is subject to change. I have been developing an example game along with it, so I can clearly separate game from library in afterwards.
+It was originally meant to be a CLI game, but I changed my mind and decided to have a go with Clojurescript. :)
 
-## State of development
+## CLI version
 
-Halted. I figured that, as though only vanilla terminal input might work fine for the investigation stage, I would require a more powerful output mechanism for the trial sequences (such as presenting maps and diagrams).
+### To run the example game so far...
 
-That said, I could extract the underlying domain logic to a different library and start the UI over in another project, but more and more I realize there's not really much domain logic involved in either the investigation and trial sections, while there is, in the other hand, a lot of application/UI logic. The extracted library might end up containing five functions or so.
+Just go with `lein run`.
+If you want to run the tests, it's `lein midje`.
 
-So this is on hold until a better UI option presents itself.
-
-## What does the framework support right now?
+### What does the framework support right now?
 
 - Scenes
 - Points of Interests (PoIs)
@@ -26,11 +25,12 @@ So this is on hold until a better UI option presents itself.
 - Clues
 
 To better understand how to create a game with it, check out the `src/dangan-clj/input/example.clj` game. You'll be able to create those entities and setup an investigation sequence. I haven't got to the trial part, though, so there'll be no closure to the story.
+Yes, it should definitely be EDN instead of a source file.
 
-## To run the example game so far...
+## Contributing
 
-Just go with `lein run`.
-If you want to run the tests, it's `lein midje`.
+I am just about to try and make it a Clojurescript app. I am expecting a lot of interface work to make it run.
+If you would like to help, reach me so I can give you the general idea and we might be able to break some tasks to it.
 
 ## License
 

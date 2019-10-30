@@ -76,7 +76,7 @@
         dialog                   (-> game :dialogs dialog-id)
         dialog-will-be-finished? (<= (count dialog) next-line-number)
         dialog-has-finished?     (<= (count dialog) (get cli :current-line))
-        has-effect?              (not (empty? (:effects cli)))]
+        has-effect?              (seq (:effects cli))]
     (cond
       dialog-has-finished?
       (interact-mode cli)

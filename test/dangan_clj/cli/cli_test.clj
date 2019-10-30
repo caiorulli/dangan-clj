@@ -12,16 +12,16 @@
     (s/valid? ::cli/cli nil) => false
     (s/valid? ::cli/cli {}) => false
     (s/valid? ::cli/cli {:player (player/player
-                                   test-game/test-game)}) => false
+                                  test-game/test-game)}) => false
     (s/valid? ::cli/cli {:mode :lala}) => false
     (s/valid? ::cli/cli {:mode   :interact
                          :player (player/player
-                                   test-game/test-game)}) => true
+                                  test-game/test-game)}) => true
     (s/valid? ::cli/cli {:mode           :dialog
                          :current-dialog :lala
                          :current-line   0
                          :player         (player/player
-                                           test-game/test-game)}) => true)
+                                          test-game/test-game)}) => true)
 
   (fact "cli fn should make valid cli"
     (s/valid? ::cli/cli (cli/cli test-game/test-game))))

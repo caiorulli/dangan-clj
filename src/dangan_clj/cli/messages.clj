@@ -1,4 +1,5 @@
-(ns dangan-clj.cli.messages)
+(ns dangan-clj.cli.messages
+  (:require [clojure.string :as s]))
 
 (defn clue-description [clue]
   (str (:display-name clue) " - "
@@ -10,7 +11,7 @@
     (str "Clues in possession:\n\n"
          (if (empty? clues)
            "You don't have any clues yet.\n"
-           (apply str (map clue-description clues))))))
+           (s/join (map clue-description clues))))))
 
 (defn help-text [_ _]
   (str "Command list:\n\n"

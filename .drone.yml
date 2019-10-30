@@ -1,0 +1,19 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: dependencies-check
+    image: clojure:lein-2.8.3
+    commands:
+      - lein ancient
+
+  - name: lint-format
+    image: clojure:lein-2.8.3
+    commands:
+      - lein kibit
+
+  - name: lint-style
+    image: clojure:lein-2.8.3
+    commands:
+      - lein cljfmt check
