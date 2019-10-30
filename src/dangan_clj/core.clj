@@ -1,28 +1,26 @@
 (ns dangan-clj.core
   (:gen-class)
   (:require [dangan-clj.cli.cli :as cli]
-            [dangan-clj.cli.command :as command]
             [dangan-clj.cli.messages :as messages]
+            [dangan-clj.entrypoint :as entrypoint]
             [dangan-clj.input.example :as example]
             [dangan-clj.logic.game :as game]))
 
-(defn- game-loop [cli game dict]
-  (print (cli/prompt cli game))
+(defn- game-loop [game content dict]
+  (print (cli/prompt (:cli game) content))
   (flush)
-  (let [next-cli       (-> (read-line)
-                           (command/make dict)
-                           (command/evaluate-cli cli game))
-        command-output (cli/output next-cli game)]
-    (when command-output
-      (println command-output))
-    (recur next-cli game dict)))
+  (let [input    (read-line)
+        new-game (entrypoint/exec input content dict game)]
+    (when-let [output (:output new-game)]
+      (println (first output)))
+    (recur new-game content dict)))
 
 (defn -main
   [& _]
-  (let [game        example/game
-        game-valid? (game/valid? game)]
+  (let [content     example/game
+        game-valid? (game/valid? content)]
     (if-not game-valid?
-      (println (game/explain game))
-      (let [cli (cli/cli game)]
+      (println (game/explain content))
+      (let [game (entrypoint/init example/game example/cli-dict)]
         (println messages/welcome-text)
-        (game-loop cli game example/cli-dict)))))
+        (game-loop game content example/cli-dict)))))

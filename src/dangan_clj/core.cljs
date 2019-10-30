@@ -1,24 +1,17 @@
 (ns ^:figwheel-hooks dangan-clj.core
-  (:require [dangan-clj.cli.cli :as cli]
-            [dangan-clj.cli.command :as command]
+  (:require [dangan-clj.entrypoint :as entrypoint]
             [dangan-clj.input.example :as example]
             [goog.dom :as gdom]
             [reagent.core :as reagent :refer [atom]]))
 
-(defonce app-state (atom {:input  ""
-                          :output []
-                          :cli    (cli/cli example/game)}))
+(defonce app-state (atom {:input ""
+                          :game  (entrypoint/init example/game example/cli-dict)}))
 
 (defn command-result
-  [state]
-  (let [command (command/make (:input state) example/cli-dict)
-        new-cli (command/evaluate-cli command (:cli state) example/game)
-        output  (cli/output new-cli example/game)]
-    {:input  ""
-     :output (if (seq output)
-               (cons output (:output state))
-               (:output state))
-     :cli    new-cli}))
+  [{:keys [input game]}]
+  (let [new-game (entrypoint/exec input example/game example/cli-dict game)]
+    {:input ""
+     :game  new-game}))
 
 (defn get-app-element []
   (gdom/getElement "app"))
@@ -35,7 +28,7 @@
     "Execute"]
    [:br]
    [:br]
-   (for [line (:output @app-state)]
+   (for [line (-> @app-state :game :output)]
      [:p line])])
 
 (defn mount [el]
