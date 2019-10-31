@@ -9,7 +9,7 @@
 
 (defn command-result
   [{:keys [input game]}]
-  (let [new-game (entrypoint/exec input example/game example/cli-dict game)]
+  (let [new-game (entrypoint/exec input game)]
     {:input ""
      :game  new-game}))
 
@@ -28,7 +28,7 @@
     "Execute"]
    [:br]
    [:br]
-   (for [line (-> @app-state :game :output)]
+   (for [line (-> @app-state :game :game/output)]
      [:p line])])
 
 (defn mount [el]

@@ -5,16 +5,20 @@
             [dangan-clj.cli.cli :as cli]))
 
 (fact "Initial game"
-  (let [{:keys [output cli]} (entrypoint/init example/game example/cli-dict)]
+  (let [{:game/keys [output cli content dictionary]} (entrypoint/init example/game example/cli-dict)]
     output => []
-    cli => (cli/cli example/game)))
+    cli => (cli/cli example/game)
+    content => example/game
+    dictionary => example/cli-dict))
 
 (fact "Input"
   (let [game (entrypoint/init example/game example/cli-dict)
-        {:keys [output cli]} (entrypoint/exec "describe" example/game example/cli-dict game)]
+        {:game/keys [output cli content dictionary]} (entrypoint/exec "describe" game)]
     output => ["Rodrigo laid dead on his bed, pale and cold."]
     cli => {:current-dialog :describe-rodrigos-room
             :current-line   0
             :effects        []
             :mode           :dialog
-            :player         {:clues #{} :current-scene :rodrigos-room}}))
+            :player         {:clues #{} :current-scene :rodrigos-room}}
+    content => example/game
+    dictionary => example/cli-dict))
