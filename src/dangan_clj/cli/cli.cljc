@@ -24,10 +24,10 @@
 (defn interact-mode [cli]
   (-> cli
       (merge {:mode :interact})
-      (dissoc :current-dialog)
-      (dissoc :current-line)
-      (dissoc :effects)
-      (dissoc :simple-text)))
+      (dissoc :current-dialog
+              :current-line
+              :effects
+              :simple-text)))
 
 (defn simple-text-mode [cli text-type]
   (assoc cli :simple-text text-type))
@@ -87,42 +87,3 @@
 
       :else
       (interact-mode cli))))
-
-(defn prompt [cli game]
-  (if (= (:mode cli) :interact)
-    (str "("
-         (:display-name (player/current-scene (:player cli) game))
-         ") > ")
-    "..."))
-
-(defn- dialog-output [cli game]
-  (let [dialog-id            (:current-dialog cli)
-        line-number          (:current-line cli)
-        dialog               (-> game :dialogs dialog-id)
-        dialog-has-finished? (= (count dialog) line-number)
-        has-effect?          (count (:effects dialog))]
-    (cond
-      (not dialog-has-finished?)
-      (let [line           (game/line game dialog-id line-number)
-            [speaker-id text] line
-            character-name (-> game :characters speaker-id :display-name)]
-        (if (is-thought? speaker-id)
-          text
-          (str character-name ": " text)))
-
-      has-effect?
-      (str "** "
-           (first (:effects cli))
-           " **"))))
-
-(defn- simple-text-mode? [cli]
-  (and (= (:mode cli) :interact)
-       (not (nil? (:simple-text cli)))))
-
-(defn output [cli game]
-  (cond
-    (= (:mode cli) :dialog)
-    (dialog-output cli game)
-
-    (simple-text-mode? cli)
-    (messages/simple-text cli game)))

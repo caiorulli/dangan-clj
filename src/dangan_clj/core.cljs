@@ -1,5 +1,6 @@
 (ns ^:figwheel-hooks dangan-clj.core
-  (:require [dangan-clj.entrypoint :as entrypoint]
+  (:require [dangan-clj.components :as components]
+            [dangan-clj.entrypoint :as entrypoint]
             [dangan-clj.input.example :as example]
             [goog.dom :as gdom]
             [reagent.core :as reagent :refer [atom]]))
@@ -17,7 +18,6 @@
   (gdom/getElement "app"))
 
 (defn hello-world []
-  (prn @app-state)
   [:div
    "Hello Dangan-clj!"
    [:input {:type      "text"
@@ -28,8 +28,7 @@
     "Execute"]
    [:br]
    [:br]
-   (for [line (-> @app-state :game :game/output)]
-     [:p line])])
+   [components/text-dialog (:game @app-state)]])
 
 (defn mount [el]
   (reagent/render-component [hello-world] el))
