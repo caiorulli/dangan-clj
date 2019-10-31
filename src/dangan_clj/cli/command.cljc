@@ -42,30 +42,30 @@
       (string/starts-with? lowered-command-string "list clue")
       {:type :list-clues})))
 
-(defmulti evaluate-cli (fn [command cli game]
+(defmulti evaluate-cli (fn [command cli _]
                          (if (= (:mode cli) :dialog)
                            :advance-dialog
                            (:type command))))
 
-(defmethod evaluate-cli :examine [command cli game]
-  (cli/examine cli game (:target command)))
+(defmethod evaluate-cli :examine [command cli content]
+  (cli/examine cli content (:target command)))
 
-(defmethod evaluate-cli :talk [command cli game]
+(defmethod evaluate-cli :talk [command cli content]
   (let [target        (:target command)
-        current-scene (-> cli :player (player/current-scene game))
+        current-scene (-> cli :player (player/current-scene content))
         presence      (game/presence target current-scene)]
     (if-not (nil? presence)
       (cli/dialog-mode cli (nth presence 1))
       (cli/interact-mode cli))))
 
-(defmethod evaluate-cli :describe [_ cli game]
-  (cli/dialog-mode cli (-> cli :player (player/current-scene game) :dialog-id)))
+(defmethod evaluate-cli :describe [_ cli content]
+  (cli/dialog-mode cli (-> cli :player (player/current-scene content) :dialog-id)))
 
-(defmethod evaluate-cli :navigate [command cli game]
-  (update cli :player #(player/go-to % (:target command) game)))
+(defmethod evaluate-cli :navigate [command cli content]
+  (update cli :player #(player/go-to % (:target command) content)))
 
-(defmethod evaluate-cli :advance-dialog [_ cli game]
-  (cli/next-line cli game))
+(defmethod evaluate-cli :advance-dialog [_ cli content]
+  (cli/next-line cli content))
 
 (defmethod evaluate-cli :help [_ cli _]
   (cli/simple-text-mode cli :help))
@@ -75,3 +75,9 @@
 
 (defmethod evaluate-cli :default [_ cli _]
   (cli/interact-mode cli))
+
+(defn new-game
+  [{:game/keys [cli content dictionary] :as game} input]
+  (assoc game
+         :game/cli
+         (evaluate-cli (make input dictionary) cli content)))

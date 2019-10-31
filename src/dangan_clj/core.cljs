@@ -10,7 +10,7 @@
 
 (defn command-result
   [{:keys [input game]}]
-  (let [new-game (entrypoint/exec input game)]
+  (let [new-game (entrypoint/exec game input)]
     {:input ""
      :game  new-game}))
 

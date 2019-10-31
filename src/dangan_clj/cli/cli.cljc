@@ -1,6 +1,5 @@
 (ns dangan-clj.cli.cli
   (:require [clojure.spec.alpha :as s]
-            [dangan-clj.cli.messages :as messages]
             [dangan-clj.logic.game :refer [is-thought?]]
             [dangan-clj.logic.player :as player]
             [dangan-clj.logic.game :as game]))

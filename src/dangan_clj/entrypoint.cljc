@@ -19,13 +19,10 @@
                 :text    line-text}))))
 
 (defn exec
-  [input {:game/keys [log cli content dictionary] :as game}]
-  (let [command    (command/make input dictionary)
-        new-cli    (command/evaluate-cli command cli content)]
-    (assoc game
-           :game/log (if (seq (line {:game/cli     new-cli
-                                     :game/content content}))
-                       (cons (line {:game/cli     new-cli
-                                    :game/content content}) log)
-                       log)
-           :game/cli new-cli)))
+  [{:game/keys [log] :as game} input]
+  (let [new-game (command/new-game game input)]
+    (assoc new-game
+           :game/log
+           (if (seq (line new-game))
+             (cons (line new-game) log)
+             log))))

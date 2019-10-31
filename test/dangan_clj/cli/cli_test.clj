@@ -1,30 +1,9 @@
 (ns dangan-clj.cli.cli-test
   (:require [clojure.spec.alpha :as s]
             [dangan-clj.cli.cli :as cli]
-            [dangan-clj.cli.messages :as messages]
             [dangan-clj.input.consts :as consts]
             [dangan-clj.input.test-game :as test-game]
-            [dangan-clj.logic.player :as player]
             [midje.sweet :refer [=> fact facts]]))
-
-(facts "about cli state"
-  (fact "spec validation"
-    (s/valid? ::cli/cli nil) => false
-    (s/valid? ::cli/cli {}) => false
-    (s/valid? ::cli/cli {:player (player/player
-                                  test-game/test-game)}) => false
-    (s/valid? ::cli/cli {:mode :lala}) => false
-    (s/valid? ::cli/cli {:mode   :interact
-                         :player (player/player
-                                  test-game/test-game)}) => true
-    (s/valid? ::cli/cli {:mode           :dialog
-                         :current-dialog :lala
-                         :current-line   0
-                         :player         (player/player
-                                          test-game/test-game)}) => true)
-
-  (fact "cli fn should make valid cli"
-    (s/valid? ::cli/cli (cli/cli test-game/test-game))))
 
 (facts "about cli dialog flow"
   (fact "should be able to enter dialog flow"

@@ -13,7 +13,7 @@
 
 (fact "Input"
   (let [game (entrypoint/init test-game/test-game test-game/cli-dict)
-        {:game/keys [log cli content dictionary]} (entrypoint/exec "describe" game)]
+        {:game/keys [log cli content dictionary]} (entrypoint/exec game "describe")]
     log => [#:line {:speaker nil
                     :text    "Giba's hauntingly neat and organized room."}]
     cli => {:current-dialog :describe-gibas-room

@@ -5,18 +5,6 @@
             [dangan-clj.logic.player :as player]
             [midje.sweet :refer [=> fact facts]]))
 
-(def valid-state {:clues         []
-                  :current-scene :rodrigos-room})
-
-(facts "about player validation"
-  (fact "should contain required fields"
-    (s/valid? ::player/player nil) => false
-    (s/valid? ::player/player {}) => false
-
-    (s/valid? ::player/player {:clues []}) => false
-
-    (s/valid? ::player/player valid-state) => true))
-
 (facts "about player functions"
   (fact "makes valid initial player"
     (s/valid? ::player/player

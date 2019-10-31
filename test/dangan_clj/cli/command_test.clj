@@ -4,24 +4,7 @@
             [dangan-clj.cli.command :as command]
             [dangan-clj.input.consts :as consts]
             [dangan-clj.input.test-game :as test-game]
-            [midje.sweet :refer [=> fact facts]]
-            [dangan-clj.cli.messages :as messages]))
-
-(facts "about command validation"
-  (fact "should always have type"
-    (s/valid? ::command/command nil) => false
-    (s/valid? ::command/command {}) => false
-    (s/valid? ::command/command {:type :lala}) => false
-
-    (s/valid? ::command/command {:type :describe}) => true
-    (s/valid? ::command/command {:type :examine}) => true
-    (s/valid? ::command/command {:type :help}) => true)
-
-  (fact "may have a target id"
-    (s/valid? ::command/command {:type   :examine
-                                 :target :spectreman}) => true
-    (s/valid? ::command/command {:type   :examine
-                                 :target "conquista"}) => false))
+            [midje.sweet :refer [=> fact facts]]))
 
 (def make-command #(command/make % test-game/cli-dict))
 
