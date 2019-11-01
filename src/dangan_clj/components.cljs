@@ -1,10 +1,9 @@
 (ns dangan-clj.components
-  (:require [dangan-clj.entrypoint :as entrypoint]))
+  (:require [dangan-clj.entrypoint :as entrypoint]
+            [re-frame.core :as rf]))
 
-(defn text-dialog [game]
-  (let [{:line/keys [speaker text] :as line} (entrypoint/line game)]
+(defn text-dialog []
+  (let [line @(rf/subscribe [:line])]
     [:div
-     (when (seq line)
-       [:p (or (and speaker
-                    (str speaker ": " text))
-               text)])]))
+     (or line
+         [:p line])]))
