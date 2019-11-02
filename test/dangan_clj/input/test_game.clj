@@ -81,12 +81,3 @@
                  :rodrigo {:display-name "Rodrigo"
                            :dialog-id    :describe-rodrigo}}
    :clues       clues})
-
-(def cli-dict
-  {:gibas-room      #{"room" "giba's room"}
-   :laundry         #{"laundry" "laundry area"}
-   :knife           #{"knife"}
-   :schredder       #{"schredder" "black box" "box"}
-   :washing-machine #{"washing-machine"}
-   :giba            #{"giba" "gilberto" "guilherme"}
-   :thiago          #{"thiago" "thits"}})

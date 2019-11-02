@@ -87,11 +87,3 @@
                  :caio   {:display-name "Me"
                           :dialog-id    :describe-me}}
    :clues       clues})
-
-(def cli-dict
-  {:rodrigos-room #{"rodrigo's room" "room"}
-   :pool          #{"pool" "pool area"}
-   :rodrigo       #{"rodrigo" "batata"}
-   :phone         #{"phone" "cell phone" "cell"}
-   :giba          #{"giba" "gilberto" "guilherme"}
-   :thiago        #{"thiago" "thits"}})

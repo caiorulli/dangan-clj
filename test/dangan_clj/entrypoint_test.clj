@@ -5,24 +5,10 @@
             [dangan-clj.cli.cli :as cli]))
 
 (fact "Initial game"
-  (let [{:game/keys [log cli content dictionary]} (entrypoint/init test-game/test-game test-game/cli-dict)]
+  (let [{:game/keys [log cli content]} (entrypoint/init test-game/test-game)]
     log => []
     cli => (cli/cli test-game/test-game)
-    content => test-game/test-game
-    dictionary => test-game/cli-dict))
-
-(fact "Input"
-  (let [game (entrypoint/init test-game/test-game test-game/cli-dict)
-        {:game/keys [log cli content dictionary]} (entrypoint/exec game "describe")]
-    log => [#:line {:speaker nil
-                    :text    "Giba's hauntingly neat and organized room."}]
-    cli => {:current-dialog :describe-gibas-room
-            :current-line   0
-            :effects        []
-            :mode           :dialog
-            :player         {:clues #{} :current-scene :gibas-room}}
-    content => test-game/test-game
-    dictionary => test-game/cli-dict))
+    content => test-game/test-game))
 
 (facts "Line query"
   (fact "No current-dialog and current-line properties"

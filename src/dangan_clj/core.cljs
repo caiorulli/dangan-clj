@@ -12,13 +12,9 @@
 (defn hello-world []
   [:div
    "Hello Dangan-clj!"
-   [:input {:type      "text"
-            :value     @(rf/subscribe [:input])
-            :on-change #(rf/dispatch [:change-input (-> % .-target .-value)])}]
-   [:button {:type     "button"
-             :on-click #(rf/dispatch [:execute-input])} "Execute"]
    [:br]
    [:br]
+   [views/action-dialog]
    [views/text-dialog]])
 
 (defn mount [el]

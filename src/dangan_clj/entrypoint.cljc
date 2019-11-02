@@ -1,13 +1,11 @@
 (ns dangan-clj.entrypoint
-  (:require [dangan-clj.cli.cli :as cli]
-            [dangan-clj.cli.command :as command]))
+  (:require [dangan-clj.cli.cli :as cli]))
 
 (defn init
-  [content dictionary]
+  [content]
   #:game {:log        []
-          :cli        (cli/cli content)
-          :content    content
-          :dictionary dictionary})
+          :cli        nil
+          :content    content})
 
 (defn line
   [{:game/keys [cli content]}]
@@ -17,12 +15,3 @@
             char-name (-> content :characters char-id :display-name)]
         #:line {:speaker char-name
                 :text    line-text}))))
-
-(defn exec
-  [{:game/keys [log] :as game} input]
-  (let [new-game (command/new-game game input)]
-    (assoc new-game
-           :game/log
-           (if (seq (line new-game))
-             (cons (line new-game) log)
-             log))))

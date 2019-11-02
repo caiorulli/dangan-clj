@@ -11,24 +11,6 @@ It is freely based on the Danganronpa series (and Phoenix Wright: Ace Attorney s
 
 It was originally meant to be a CLI game, but I changed my mind and decided to have a go with Clojurescript. :)
 
-## CLI version
-
-### To run the example game so far...
-
-Just go with `lein run`.
-If you want to run the tests, it's `lein midje`.
-
-### What does the framework support right now?
-
-- Scenes
-- Points of Interests (PoIs)
-- Characters
-- Dialogs
-- Clues
-
-To better understand how to create a game with it, check out the `src/dangan-clj/input/example.clj` game. You'll be able to create those entities and setup an investigation sequence. I haven't got to the trial part, though, so there'll be no closure to the story.
-Yes, it should definitely be EDN instead of a source file.
-
 ## Contributing
 
 I am just about to try and make it a Clojurescript app. I am expecting a lot of interface work to make it run.
