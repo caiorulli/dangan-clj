@@ -1,0 +1,35 @@
+{:scenes      {:gibas-room {:display-name "Giba's Room"
+                            :dialog-id    :describe-gibas-room
+                            :presences    [[:giba :giba-talk]]}
+               :laundry    {:display-name "Laundry"
+                            :dialog-id    :describe-laundry}}
+ :first-scene :gibas-room
+ :pois        {:knife           {:clue-id   :bloody-knife
+                                 :dialog-id :knife-dialog
+                                 :scene-id  :gibas-room}
+               :schredder       {:dialog-id :schredder-dialog
+                                 :scene-id  :gibas-room}
+               :washing-machine {:dialog-id :washing-machine-dialog
+                                 :scene-id  :laundry
+                                 :presences []}}
+ :dialogs     {:knife-dialog           [[:giba "That's the knife I used to cut tomatoes."]]
+               :schredder-dialog       [[:thiago "What's that big weird machine?"]
+                                        [:giba "It's a paper schredder."]
+                                        [:thiago "Why do you even have that here?"]]
+               :washing-machine-dialog [[:thiago "So here's where you hide the bodies."]]
+               :describe-gibas-room    [[:thought "Giba's hauntingly neat and organized room."]]
+               :describe-laundry       [[:thought "So this is where Giba disposes of blood-soaked clothes..."]]
+               :describe-giba          [[:thought "A respectable gentleman"]]
+               :describe-thiago        [[:thought "A very tall gentleman"]]
+               :describe-rodrigo       [[:thought "A somewhat slow-paced gentleman"]]
+               :giba-talk              [[:giba "Have you ever watched Dragon Ball X???"]]}
+ :characters  {:giba    {:display-name "Giba"
+                         :dialog-id    :describe-giba}
+               :thiago  {:display-name "Thiago"
+                         :dialog-id    :describe-thiago}
+               :rodrigo {:display-name "Rodrigo"
+                         :dialog-id    :describe-rodrigo}}
+ :clues       {:bloody-knife {:display-name "Bloody knife"
+                              :description  "He says it's tomato sauce, but I don't buy it."}
+               :schredder    {:display-name "Schredder"
+                              :description  "Self-explanatory."}}}
