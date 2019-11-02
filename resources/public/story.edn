@@ -1,43 +1,25 @@
-{:first-scene :rodrigos-room
- :scenes      {:rodrigos-room {:display-name "Rodrigo's Room"
-                               :dialog-id    :describe-rodrigos-room
-                               :presences    [[:giba :talk-to-giba]
-                                              [:thiago :describe-thiago]]}
-               :pool          {:display-name "Pool"
-                               :dialog-id    :describe-pool
-                               :presences    []}}
- :pois        {:rodrigo {:dialog-id :rodrigos-dead
-                         :scene-id  :rodrigos-room}
-               :phone   {:dialog-id :rodrigos-phone
-                         :scene-id  :rodrigos-room
-                         :clue-id   :rodrigos-phone}}
- :dialogs     {:rodrigos-dead          [[:giba "What the hell? Rodrigo's dead?"]
-                                        [:caio "Now what, we call the police?"]
-                                        [:thiago "We're still cut off from last night's storm. No phone signal, no internet."]
-                                        [:giba "Yeah, even if we tried to get back to the city, the road's been blocked by falling trees. I guess we're stuck in Cesar's farmhouse."]]
-               :rodrigos-phone         [[:caio "The phone still has its screen unlocked. What could be so damn important that he would still hold on after dying...?"]
-                                        [:giba "Oh, it's that series he's been watching, in which a woman goes back in time."]
-                                        [:caio "So, whatever happened, might have happened while he was watching it?"]]
-               :describe-rodrigos-room [[:thought "Rodrigo laid dead on his bed, pale and cold."]
-                                        [:thought "No visible wound. He's still holding his phone."]
-                                        [:thought "Me, Thiago and Giba stood around him, breathless, with no clue of how this came to happen."]
-                                        [:thought "The others were still asleep, elsewhere."]]
-               :describe-pool          [[:thought "We're next to the pool, nice"]]
-               :describe-giba          [[:thought "A friend from college."]
-                                        [:thought "He works for a man called \"The Little Fish\"."]]
-               :describe-thiago        [[:thought "Very tall guy."]
-                                        [:thought "They say if you tell him that, he'll give you a card."]]
-               :describe-me            [[:thought "Ignore this for now."]]
-               :talk-to-giba           [[:giba "What's the cause of death? He looks normal."]
-                                        [:caio "Hell if I know."]
-                                        [:giba "Maybe he just watched too much anime for a lifetime."]
-                                        [:giba "There's a very good anime film in theaters now..."]
-                                        [:giba "It's about a guy who learns as he fights."]]}
- :characters  {:giba   {:display-name "Giba"
-                        :dialog-id    :describe-giba}
-               :thiago {:display-name "Thiago"
-                        :dialog-id    :describe-thiago}
-               :caio   {:display-name "Me"
-                        :dialog-id    :describe-me}}
- :clues       {:rodrigos-phone {:display-name "Rodrigo's Phone"
-                                :description  "He was still holding the phone when he died."}}}
+[{:display-name "Rodrigo's Room"
+  :dialog       [[:thought "Rodrigo laid dead on his bed, pale and cold."]
+                 [:thought "No visible wound. He's still holding his phone."]
+                 [:thought "Me, Thiago and Giba stood around him, breathless, with no clue of how this came to happen."]
+                 [:thought "The others were still asleep, elsewhere."]]
+  :presences    {:giba   [[:giba "What's the cause of death? He looks normal."]
+                          [:caio "Hell if I know."]
+                          [:giba "Maybe he just watched too much anime for a lifetime."]
+                          [:giba "There's a very good anime film in theaters now..."]
+                          [:giba "It's about a guy who learns as he fights."]]
+                 :thiago [[:thought "Very tall guy."]
+                          [:thought "They say if you tell him that, he'll give you a card."]]}
+  :pois         [{:dialog [[:giba "What the hell? Rodrigo's dead?"]
+                           [:caio "Now what, we call the police?"]
+                           [:thiago "We're still cut off from last night's storm. No phone signal, no internet."]
+                           [:giba "Yeah, even if we tried to get back to the city, the road's been blocked by falling trees. I guess we're stuck in Cesar's farmhouse."]]}
+                 {:dialog [[:caio "The phone still has its screen unlocked. What could be so damn important that he would still hold on after dying...?"]
+                           [:giba "Oh, it's that series he's been watching, in which a woman goes back in time."]
+                           [:caio "So, whatever happened, might have happened while he was watching it?"]]
+                  :clue   {:display-name "Rodrigo's Phone"
+                           :description  "He was still holding the phone when he died."}}]}
+ {:display-name "Pool"
+  :dialog       [[:thought "We're next to the pool, nice"]]
+  :presences    {}
+  :pois         []}]
