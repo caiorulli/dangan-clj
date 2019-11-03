@@ -1,12 +1,12 @@
-[{:display-name "Giba's Room"
-  :dialog       [[:thought "Giba's hauntingly neat and organized room."]]
-  :presences    {:giba [[:giba "Have you ever watched Dragon Ball X???"]]}
-  :pois         [{:dialog [[:thiago "What's that big weird machine?"]
-                           [:giba "It's a paper schredder."]
-                           [:thiago "Why do you even have that here?"]]}
-                 {:dialog [[:giba "That's the knife I used to cut tomatoes."]]
-                  :clue   {:display-name "Bloody knife"
-                           :description  "He says it's tomato sauce, but I don't buy it."}}
-                 {:dialog [[:thiago "So here's where you hide the bodies."]]
-                  :clue   {:display-name "Schredder"
-                           :description  "Self-explanatory."}}]}]
+{:name "Giba's Room"
+ :dialogue     [[:thought "Giba's hauntingly neat and organized room."]]
+ :presences    {:giba [[:giba "Have you ever watched Dragon Ball X???"]]}
+ :pois         [{:dialogue [[:thiago "What's that big weird machine?"]
+                            [:giba "It's a paper schredder."]
+                            [:thiago "Why do you even have that here?"]]}
+                {:dialogue [[:giba "That's the knife I used to cut tomatoes."]]
+                 :clue     {:display-name "Bloody knife"
+                            :description  "He says it's tomato sauce, but I don't buy it."}}
+                {:dialogue [[:thiago "So here's where you hide the bodies."]]
+                 :clue     {:display-name "Schredder"
+                            :description  "Self-explanatory."}}]}

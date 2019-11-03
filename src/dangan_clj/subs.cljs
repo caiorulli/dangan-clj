@@ -10,3 +10,8 @@
  :actions
  (fn [_ _]
    ["talk to rodrigo" "describe" "go to pool"]))
+
+(rf/reg-sub
+  :log
+  (fn [db _]
+    db))

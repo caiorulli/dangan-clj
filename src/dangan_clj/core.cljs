@@ -15,7 +15,8 @@
    [:br]
    [:br]
    [views/action-dialog]
-   [views/text-dialog]])
+   [views/text-dialog]
+   [:div (str @(rf/subscribe [:log]))]])
 
 (defn mount [el]
   (reagent/render-component [hello-world] el))

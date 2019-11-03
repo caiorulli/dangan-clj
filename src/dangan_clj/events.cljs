@@ -1,7 +1,8 @@
 (ns dangan-clj.events
-  (:require [re-frame.core :as rf]))
+  (:require [dangan-clj.commands.story :as commands.story]
+            [re-frame.core :as rf]))
 
 (rf/reg-event-db
  :initialize
  (fn [_ _]
-   {}))
+   (commands.story/load-story)))
