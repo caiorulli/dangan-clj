@@ -1,21 +1,12 @@
-{:name      "Rodrigo's Room"
- :dialogue  [[:thought "Rodrigo laid dead on his bed, pale and cold."]
-             [:thought "No visible wound. He's still holding his phone."]
-             [:thought "Me, Thiago and Giba stood around him, breathless, with no clue of how this came to happen."]
-             [:thought "The others were still asleep, elsewhere."]]
- :presences {:giba   [[:giba "What's the cause of death? He looks normal."]
-                      [:caio "Hell if I know."]
-                      [:giba "Maybe he just watched too much anime for a lifetime."]
-                      [:giba "There's a very good anime film in theaters now..."]
-                      [:giba "It's about a guy who learns as he fights."]]
-             :thiago [[:thought "Very tall guy."]
-                      [:thought "They say if you tell him that, he'll give you a card."]]}
- :pois      [:dialogue {[[:giba "What the hell? Rodrigo's dead?"]
-                         [:caio "Now what, we call the police?"]
-                         [:thiago "We're still cut off from last night's storm. No phone signal, no internet."]
-                         [:giba "Yeah, even if we tried to get back to the city, the road's been blocked by falling trees. I guess we're stuck in Cesar's farmhouse."]]}
-             {:dialogue [[:caio "The phone still has its screen unlocked. What could be so damn important that he would still hold on after dying...?"]
-                         [:giba "Oh, it's that series he's been watching, in which a woman goes back in time."]
-                         [:caio "So, whatever happened, might have happened while he was watching it?"]]
-              :clue     {:display-name "Rodrigo's Phone"
-                         :description  "He was still holding the phone when he died."}}]}
+{:name "Giba's Room"
+ :dialogue     [[:thought "Giba's hauntingly neat and organized room."]]
+ :presences    {:giba [[:giba "Have you ever watched Dragon Ball X???"]]}
+ :pois         [{:dialogue [[:thiago "What's that big weird machine?"]
+                            [:giba "It's a paper schredder."]
+                            [:thiago "Why do you even have that here?"]]}
+                {:dialogue [[:giba "That's the knife I used to cut tomatoes."]]
+                 :clue     {:display-name "Bloody knife"
+                            :description  "He says it's tomato sauce, but I don't buy it."}}
+                {:dialogue [[:thiago "So here's where you hide the bodies."]]
+                 :clue     {:display-name "Schredder"
+                            :description  "Self-explanatory."}}]}

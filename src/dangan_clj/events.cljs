@@ -5,4 +5,4 @@
 (rf/reg-event-db
  :initialize
  (fn [_ _]
-   (commands.story/load-story)))
+   (commands.story/initialize)))

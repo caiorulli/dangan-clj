@@ -4,8 +4,11 @@
        :cljs [[cljs.reader :refer [read-string]]]))
   #?(:cljs (:require-macros [dangan-clj.java.macros :refer [inline-resource]])))
 
-(defn load-story
-  "Loads story available in resources"
+(defn- load-story
   []
-  #?(:clj  (read-string (slurp (io/resource "test/story.edn")))
-     :cljs (read-string (inline-resource "test/story.edn"))))
+  #?(:clj  (read-string (slurp (io/resource "dev/story.edn")))
+     :cljs (read-string (inline-resource "dev/story.edn"))))
+
+(defn initialize
+  []
+  {:scene (load-story)})
