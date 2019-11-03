@@ -8,11 +8,6 @@ steps:
     commands:
       - lein ancient
 
-  - name: lint-format
-    image: clojure:lein-2.8.3
-    commands:
-      - lein kibit
-
   - name: lint-style
     image: clojure:lein-2.8.3
     commands:

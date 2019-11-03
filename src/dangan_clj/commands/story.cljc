@@ -1,7 +1,7 @@
 (ns dangan-clj.commands.story
   (:require
-    #?@(:clj  [[clojure.java.io :as io]]
-        :cljs [[cljs.reader :refer [read-string]]]))
+   #?@(:clj  [[clojure.java.io :as io]]
+       :cljs [[cljs.reader :refer [read-string]]]))
   #?(:cljs (:require-macros [dangan-clj.java.macros :refer [inline-resource]])))
 
 (defn load-story

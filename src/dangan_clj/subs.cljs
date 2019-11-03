@@ -12,6 +12,6 @@
    ["talk to rodrigo" "describe" "go to pool"]))
 
 (rf/reg-sub
-  :log
-  (fn [db _]
-    db))
+ :log
+ (fn [db _]
+   db))
