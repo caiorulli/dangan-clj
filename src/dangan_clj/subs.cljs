@@ -3,11 +3,11 @@
             [re-frame.core :as rf]))
 
 (rf/reg-sub
-  :line
-  (fn [_ _]
-    "Under construction!"))
+ :line
+ (fn [_ _]
+   "Under construction!"))
 
 (rf/reg-sub
-  :actions
-  (fn [_ _]
-    ["talk to rodrigo" "describe" "go to pool"]))
+ :actions
+ (fn [_ _]
+   ["talk to rodrigo" "describe" "go to pool"]))

@@ -4,6 +4,6 @@
             [dangan-clj.input.example :as example]))
 
 (rf/reg-event-db
-  :initialize
-  (fn [_ _]
-    (entrypoint/init example/game)))
+ :initialize
+ (fn [_ _]
+   (entrypoint/init example/game)))
