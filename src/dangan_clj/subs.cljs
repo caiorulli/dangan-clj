@@ -1,6 +1,5 @@
 (ns dangan-clj.subs
-  (:require [dangan-clj.entrypoint :as entrypoint]
-            [re-frame.core :as rf]))
+  (:require [re-frame.core :as rf]))
 
 (rf/reg-sub
  :line
