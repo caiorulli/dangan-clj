@@ -9,17 +9,17 @@
 (defn get-app-element []
   (gdom/getElement "app"))
 
-(defn hello-world []
+(defn app []
   [:div
-   "Hello Dangan-clj!"
-   [:br]
    [:br]
    [views/action-dialog]
+   [:br]
    [views/text-dialog]
+   [:br]
    [:div (str @(rf/subscribe [:log]))]])
 
 (defn mount [el]
-  (reagent/render-component [hello-world] el))
+  (reagent/render-component [app] el))
 
 (defn mount-app-element []
   (when-let [el (get-app-element)]

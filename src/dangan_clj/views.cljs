@@ -1,10 +1,15 @@
 (ns dangan-clj.views
   (:require [re-frame.core :as rf]))
 
+(def actions
+  #{:action/talk :action/examine})
+
 (defn- action-label
   [action]
-  (get {:action/talk    "Talk"
-        :action/examine "Examine"} action "error"))
+  (if (contains? actions action)
+    (get {:action/talk    "Talk"
+          :action/examine "Examine"} action "error")
+    action))
 
 (defn action-dialog []
   (let [actions @(rf/subscribe [:actions])]

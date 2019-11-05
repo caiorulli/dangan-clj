@@ -11,5 +11,5 @@
 
 (defn initialize
   []
-  {:scene (load-story)
-   :context #{}})
+  {:scene   (load-story)
+   :context {}})
