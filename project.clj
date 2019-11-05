@@ -13,7 +13,8 @@
 
   :aliases {"fig"       ["trampoline" "run" "-m" "figwheel.main"]
             "fig:build" ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]
-            "fig:min"   ["run" "-m" "figwheel.main" "-O" "advanced" "-bo" "dev"]}
+            "fig:min"   ["run" "-m" "figwheel.main" "-O" "advanced" "-bo" "dev"]
+            "lint"      ["do" "ancient," "cljfmt" "fix"]}
 
   :target-path "target/%s"
   :profiles {:dev {:dependencies [[midje "1.9.9"]

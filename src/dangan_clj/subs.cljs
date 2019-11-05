@@ -1,5 +1,6 @@
 (ns dangan-clj.subs
-  (:require [re-frame.core :as rf]))
+  (:require [dangan-clj.queries.context :as queries.context]
+            [re-frame.core :as rf]))
 
 (rf/reg-sub
  :line
@@ -8,8 +9,8 @@
 
 (rf/reg-sub
  :actions
- (fn [_ _]
-   ["talk to rodrigo" "describe" "go to pool"]))
+ (fn [db _]
+   (queries.context/actions db)))
 
 (rf/reg-sub
  :log

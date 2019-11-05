@@ -1,0 +1,8 @@
+#!/bin/sh
+
+lein lint
+exitCodeTest=$?
+if [ "$exitCodeTest" -ne 0 ]; then
+    echo "Dependencies to update!"
+    exit 1;
+fi
