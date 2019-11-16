@@ -9,12 +9,11 @@ Dangan-clj is a work-in-progress game (lib? framework?) for writing investigativ
 
 It is freely based on the Danganronpa series (and Phoenix Wright: Ace Attorney series as well) narrative structure, in which there are different stages of investigation and trial. Also a very good excuse to learn better Clojure.
 
-It was originally meant to be a CLI game, but I changed my mind and decided to have a go with Clojurescript. :)
+## State of Development
 
-## Contributing
-
-I am just about to try and make it a Clojurescript app. I am expecting a lot of interface work to make it run.
-If you would like to help, reach me so I can give you the general idea and we might be able to break some tasks to it.
+I was trying to make up my mind of what could this become; it started out as a CLI, then I tried writing a CLJS app...
+In the end, I think I'd be better off trying not to build everything from scratch. There are lots of amazing engines out there such as [renpy](https://github.com/renpy/renpy). If needed be, extending existing projects would be a better choice.
+Therefore, I've archived this.
 
 ## License
 
